@@ -1,0 +1,8 @@
+*.o
+*.a
+*.exe
+Makefile
+Makefile.Debug
+Makefile.Release
+moc_MainForm.cpp
+InteriorRedactor.pro.user
