@@ -17,10 +17,10 @@
    <widget class="QGroupBox" name="grbxSceneRedactor">
     <property name="geometry">
      <rect>
-      <x>20</x>
-      <y>40</y>
-      <width>671</width>
-      <height>411</height>
+      <x>10</x>
+      <y>0</y>
+      <width>661</width>
+      <height>701</height>
      </rect>
     </property>
     <property name="title">
@@ -29,25 +29,51 @@
     <widget class="QTreeWidget" name="trwdgCatalog">
      <property name="geometry">
       <rect>
-       <x>20</x>
-       <y>60</y>
-       <width>256</width>
-       <height>192</height>
+       <x>10</x>
+       <y>20</y>
+       <width>161</width>
+       <height>671</height>
       </rect>
+     </property>
+     <property name="headerHidden">
+      <bool>false</bool>
      </property>
      <column>
       <property name="text">
-       <string notr="true">1</string>
+       <string notr="true">Каталог</string>
       </property>
      </column>
     </widget>
-    <widget class="QLabel" name="lblSchemeRedactor">
+    <widget class="QGraphicsView" name="grvwScheme">
      <property name="geometry">
       <rect>
-       <x>320</x>
-       <y>40</y>
-       <width>221</width>
-       <height>191</height>
+       <x>180</x>
+       <y>20</y>
+       <width>470</width>
+       <height>470</height>
+      </rect>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QGroupBox" name="grbxSceneViewer">
+    <property name="geometry">
+     <rect>
+      <x>680</x>
+      <y>0</y>
+      <width>681</width>
+      <height>701</height>
+     </rect>
+    </property>
+    <property name="title">
+     <string>Обозреватель сцены</string>
+    </property>
+    <widget class="QLabel" name="lblScene">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>20</y>
+       <width>662</width>
+       <height>521</height>
       </rect>
      </property>
      <property name="frameShape">
@@ -56,6 +82,220 @@
      <property name="text">
       <string/>
      </property>
+    </widget>
+    <widget class="QGroupBox" name="grbxCamera">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>540</y>
+       <width>661</width>
+       <height>151</height>
+      </rect>
+     </property>
+     <property name="title">
+      <string>Управление камерой</string>
+     </property>
+     <widget class="QGroupBox" name="grbxCameraShift">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>15</y>
+        <width>231</width>
+        <height>131</height>
+       </rect>
+      </property>
+      <property name="title">
+       <string>Сдвиг</string>
+      </property>
+      <widget class="QWidget" name="">
+       <property name="geometry">
+        <rect>
+         <x>128</x>
+         <y>20</y>
+         <width>52</width>
+         <height>48</height>
+        </rect>
+       </property>
+       <layout class="QVBoxLayout" name="verticalLayout_3">
+        <item>
+         <widget class="QLineEdit" name="ledtCameraShiftForward"/>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="ledtCameraShiftBackward"/>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>20</y>
+         <width>54</width>
+         <height>101</height>
+        </rect>
+       </property>
+       <layout class="QVBoxLayout" name="verticalLayout">
+        <item>
+         <widget class="QLineEdit" name="ledtCameraShiftUp"/>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="ledtCameraShiftDown"/>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="ledtCameraShiftLeft"/>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="ledtCameraShiftRight"/>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="">
+       <property name="geometry">
+        <rect>
+         <x>70</x>
+         <y>20</y>
+         <width>38</width>
+         <height>101</height>
+        </rect>
+       </property>
+       <layout class="QVBoxLayout" name="verticalLayout_2">
+        <item>
+         <widget class="QLabel" name="lblCameraShiftUp">
+          <property name="text">
+           <string>Вверх</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="lblCameraShiftDown">
+          <property name="text">
+           <string>Вниз</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="lblCameraShiftLeft">
+          <property name="text">
+           <string>Влево</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="lblCameraShiftRight">
+          <property name="text">
+           <string>Вправо</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="">
+       <property name="geometry">
+        <rect>
+         <x>184</x>
+         <y>20</y>
+         <width>39</width>
+         <height>51</height>
+        </rect>
+       </property>
+       <layout class="QVBoxLayout" name="verticalLayout_4">
+        <item>
+         <widget class="QLabel" name="lblCameraShiftForward">
+          <property name="text">
+           <string>Вперёд</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="lblCameraShiftForward_2">
+          <property name="text">
+           <string>Назад</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+     </widget>
+     <widget class="QGroupBox" name="grbxCameraRotate">
+      <property name="geometry">
+       <rect>
+        <x>248</x>
+        <y>15</y>
+        <width>151</width>
+        <height>101</height>
+       </rect>
+      </property>
+      <property name="title">
+       <string>Поворот</string>
+      </property>
+      <widget class="QWidget" name="">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>20</y>
+         <width>52</width>
+         <height>74</height>
+        </rect>
+       </property>
+       <layout class="QVBoxLayout" name="verticalLayout_5">
+        <item>
+         <widget class="QLineEdit" name="ledtCameraRotateOX"/>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="ledtCameraRotateOY"/>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="ledtCameraRotateOZ"/>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="">
+       <property name="geometry">
+        <rect>
+         <x>68</x>
+         <y>22</y>
+         <width>74</width>
+         <height>71</height>
+        </rect>
+       </property>
+       <layout class="QVBoxLayout" name="verticalLayout_6">
+        <item>
+         <widget class="QLabel" name="lblCameraRotateOX">
+          <property name="text">
+           <string>Вокруг оси OX</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="lblCameraRotateOX_2">
+          <property name="text">
+           <string>Вокруг оси OY</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="lblCameraRotateOX_3">
+          <property name="text">
+           <string>Вокруг оси OZ</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+     </widget>
+     <widget class="QPushButton" name="btnCameraApply">
+      <property name="geometry">
+       <rect>
+        <x>280</x>
+        <y>120</y>
+        <width>75</width>
+        <height>23</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Применить</string>
+      </property>
+     </widget>
     </widget>
    </widget>
   </widget>
@@ -89,21 +329,37 @@
    <attribute name="toolBarBreak">
     <bool>false</bool>
    </attribute>
+   <addaction name="menuBtnCreateNewScene"/>
+   <addaction name="menuBtnOpenScene"/>
+   <addaction name="separator"/>
+   <addaction name="menuBtnSaveScene"/>
+   <addaction name="menuBtnSaveAsScene"/>
+   <addaction name="separator"/>
+   <addaction name="menuBtnCloseScene"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <action name="menuBtnCreateNewScene">
    <property name="text">
     <string>Создать сцену</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+N</string>
+   </property>
   </action>
   <action name="menuBtnOpenScene">
    <property name="text">
     <string>Открыть сцену</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+O</string>
+   </property>
   </action>
   <action name="menuBtnSaveScene">
    <property name="text">
     <string>Сохранить</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+S</string>
    </property>
   </action>
   <action name="menuBtnSaveAsScene">
@@ -114,6 +370,9 @@
   <action name="menuBtnCloseScene">
    <property name="text">
     <string>Закрыть</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+W</string>
    </property>
   </action>
  </widget>
