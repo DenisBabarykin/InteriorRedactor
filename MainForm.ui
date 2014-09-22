@@ -67,7 +67,7 @@
     <property name="title">
      <string>Обозреватель сцены</string>
     </property>
-    <widget class="QLabel" name="lblScene">
+    <widget class="LabelScene" name="lblScene">
      <property name="geometry">
       <rect>
        <x>10</x>
@@ -107,7 +107,7 @@
       <property name="title">
        <string>Сдвиг</string>
       </property>
-      <widget class="QWidget" name="">
+      <widget class="QWidget" name="layoutWidget">
        <property name="geometry">
         <rect>
          <x>128</x>
@@ -125,7 +125,7 @@
         </item>
        </layout>
       </widget>
-      <widget class="QWidget" name="">
+      <widget class="QWidget" name="layoutWidget">
        <property name="geometry">
         <rect>
          <x>10</x>
@@ -149,7 +149,7 @@
         </item>
        </layout>
       </widget>
-      <widget class="QWidget" name="">
+      <widget class="QWidget" name="layoutWidget">
        <property name="geometry">
         <rect>
          <x>70</x>
@@ -189,7 +189,7 @@
         </item>
        </layout>
       </widget>
-      <widget class="QWidget" name="">
+      <widget class="QWidget" name="layoutWidget">
        <property name="geometry">
         <rect>
          <x>184</x>
@@ -228,7 +228,7 @@
       <property name="title">
        <string>Поворот</string>
       </property>
-      <widget class="QWidget" name="">
+      <widget class="QWidget" name="layoutWidget">
        <property name="geometry">
         <rect>
          <x>10</x>
@@ -249,7 +249,7 @@
         </item>
        </layout>
       </widget>
-      <widget class="QWidget" name="">
+      <widget class="QWidget" name="layoutWidget">
        <property name="geometry">
         <rect>
          <x>68</x>
@@ -377,6 +377,13 @@
   </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
+ <customwidgets>
+  <customwidget>
+   <class>LabelScene</class>
+   <extends>QLabel</extends>
+   <header>LabelScene/LabelScene.h</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

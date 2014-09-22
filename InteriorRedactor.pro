@@ -13,8 +13,10 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp\
-        MainForm.cpp
+        MainForm.cpp \
+    LabelScene/LabelScene.cpp
 
-HEADERS  += MainForm.h
+HEADERS  += MainForm.h \
+    LabelScene/LabelScene.h
 
 FORMS    += MainForm.ui
