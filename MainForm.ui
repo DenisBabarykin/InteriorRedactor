@@ -43,6 +43,126 @@
        <string notr="true">Каталог</string>
       </property>
      </column>
+     <item>
+      <property name="text">
+       <string>Шкафы</string>
+      </property>
+      <item>
+       <property name="text">
+        <string>Шкаф_1</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Шкаф_2</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Шкаф_3</string>
+       </property>
+      </item>
+     </item>
+     <item>
+      <property name="text">
+       <string>Кровати</string>
+      </property>
+      <item>
+       <property name="text">
+        <string>Кровать_1</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Кровать_2</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Кровать_3</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Кровать_4</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Кровать_5</string>
+       </property>
+      </item>
+     </item>
+     <item>
+      <property name="text">
+       <string>Журнальные столики</string>
+      </property>
+      <item>
+       <property name="text">
+        <string>Журнальный столик 1</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Журнальный столик 2</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Журнальный столик 3</string>
+       </property>
+      </item>
+     </item>
+     <item>
+      <property name="text">
+       <string>Обеденные столы</string>
+      </property>
+      <item>
+       <property name="text">
+        <string>Обеденный стол 1</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Обеденный стол 2</string>
+       </property>
+      </item>
+     </item>
+     <item>
+      <property name="text">
+       <string>Стулья</string>
+      </property>
+      <item>
+       <property name="text">
+        <string>Стул_1</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Стул_2</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Стул_3</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Стул_4</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Стул_5</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Стул_6</string>
+       </property>
+      </item>
+     </item>
     </widget>
     <widget class="QGraphicsView" name="grvwScheme">
      <property name="geometry">

@@ -6,3 +6,5 @@ Makefile.Debug
 Makefile.Release
 moc_MainForm.cpp
 InteriorRedactor.pro.user
+debug/
+release/
