@@ -14,9 +14,17 @@ TEMPLATE = app
 
 SOURCES += main.cpp\
         MainForm.cpp \
-    LabelScene/LabelScene.cpp
+    LabelScene/LabelScene.cpp \
+    ObjLoader/list.cpp \
+    ObjLoader/obj_parser.cpp \
+    ObjLoader/objLoader.cpp \
+    ObjLoader/string_extra.cpp
 
 HEADERS  += MainForm.h \
-    LabelScene/LabelScene.h
+    LabelScene/LabelScene.h \
+    ObjLoader/list.h \
+    ObjLoader/obj_parser.h \
+    ObjLoader/objLoader.h \
+    ObjLoader/string_extra.h
 
 FORMS    += MainForm.ui
