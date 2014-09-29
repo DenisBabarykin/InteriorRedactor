@@ -1,0 +1,14 @@
+INPUT(
+./debug/main.o
+./debug/MainForm.o
+./debug/LabelScene.o
+./debug/list.o
+./debug/obj_parser.o
+./debug/string_extra.o
+./debug/ObjModel.o
+./debug/Points.o
+./debug/ObjLoader.o
+./debug/moc_MainForm.o
+./debug/moc_LabelScene.o
+./debug/moc_ObjModel.o
+);

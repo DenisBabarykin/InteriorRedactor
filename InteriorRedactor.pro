@@ -17,14 +17,18 @@ SOURCES += main.cpp\
     LabelScene/LabelScene.cpp \
     ObjLoader/list.cpp \
     ObjLoader/obj_parser.cpp \
-    ObjLoader/objLoader.cpp \
-    ObjLoader/string_extra.cpp
+    ObjLoader/string_extra.cpp \
+    ObjModel/ObjModel.cpp \
+    ObjModel/Points.cpp \
+    ObjLoader/ObjLoader.cpp
 
 HEADERS  += MainForm.h \
     LabelScene/LabelScene.h \
     ObjLoader/list.h \
     ObjLoader/obj_parser.h \
-    ObjLoader/objLoader.h \
-    ObjLoader/string_extra.h
+    ObjLoader/string_extra.h \
+    ObjModel/ObjModel.h \
+    ObjLoader/ObjLoader.h \
+    ObjModel/Points.h
 
 FORMS    += MainForm.ui

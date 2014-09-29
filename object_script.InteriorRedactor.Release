@@ -1,0 +1,14 @@
+INPUT(
+./release/main.o
+./release/MainForm.o
+./release/LabelScene.o
+./release/list.o
+./release/obj_parser.o
+./release/string_extra.o
+./release/ObjModel.o
+./release/Points.o
+./release/ObjLoader.o
+./release/moc_MainForm.o
+./release/moc_LabelScene.o
+./release/moc_ObjModel.o
+);
