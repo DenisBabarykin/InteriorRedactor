@@ -5,6 +5,7 @@
 #include <QMessageBox>
 #include <QString>
 #include <QFileDialog>
+#include "ObjModel/Camera.h"
 
 ObjModel *pObjModel = NULL;
 
@@ -37,7 +38,27 @@ void MainForm::OpenScene()
     catch(const char *exMsg)
     {
         QMessageBox::warning(this, "Exception", QString(exMsg));
+        pObjModel = NULL;
     }
+
+    Draw();
+}
+
+void MainForm::Draw()
+{
+    QPixmap pic(QSize(ui->lblScene->width(), ui->lblScene->height()));
+    QPainter painter(&pic);
+    painter.setPen(QPen(Qt::black, 1, Qt::SolidLine));
+    painter.setBrush(QBrush(Qt::white, Qt::SolidPattern));
+    painter.fillRect(0, 0, ui->lblScene->width(), ui->lblScene->height(), Qt::white);
+
+    //painter.translate(0, ui->lblScene->height());
+    painter.translate(ui->lblScene->width() / 2, ui->lblScene->height() / 2);
+    painter.scale(1, -1);
+
+    pObjModel->DrawModel(painter);
+
+    ui->lblScene->setPixmap(pic);
 }
 
 MainForm::~MainForm()

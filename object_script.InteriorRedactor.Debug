@@ -8,6 +8,7 @@ INPUT(
 ./debug/ObjModel.o
 ./debug/Points.o
 ./debug/ObjLoader.o
+./debug/Camera.o
 ./debug/moc_MainForm.o
 ./debug/moc_LabelScene.o
 ./debug/moc_ObjModel.o

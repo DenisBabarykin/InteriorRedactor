@@ -20,7 +20,8 @@ SOURCES += main.cpp\
     ObjLoader/string_extra.cpp \
     ObjModel/ObjModel.cpp \
     ObjModel/Points.cpp \
-    ObjLoader/ObjLoader.cpp
+    ObjLoader/ObjLoader.cpp \
+    ObjModel/Camera.cpp
 
 HEADERS  += MainForm.h \
     LabelScene/LabelScene.h \
@@ -29,6 +30,7 @@ HEADERS  += MainForm.h \
     ObjLoader/string_extra.h \
     ObjModel/ObjModel.h \
     ObjLoader/ObjLoader.h \
-    ObjModel/Points.h
+    ObjModel/Points.h \
+    ObjModel/Camera.h
 
 FORMS    += MainForm.ui

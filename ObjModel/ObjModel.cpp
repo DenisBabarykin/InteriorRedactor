@@ -2,10 +2,11 @@
 
 ObjModel::ObjModel(ObjLoader &objLoader)
 {
-    fillDataFromObjLoader(objLoader);
+    FillDataFromObjLoader(objLoader);
+    Center();
 }
 
-void ObjModel::fillDataFromObjLoader(ObjLoader &objLoader)
+void ObjModel::FillDataFromObjLoader(ObjLoader &objLoader)
 {
     vecPnts3D.resize(objLoader.vertexCount);
     vecIndx.resize(objLoader.faceCount);
@@ -21,5 +22,75 @@ void ObjModel::fillDataFromObjLoader(ObjLoader &objLoader)
 
         vecIndx[i] = FaceIndexes(objLoader.faceList[i]->vertex_index[0],
                 objLoader.faceList[i]->vertex_index[1], objLoader.faceList[i]->vertex_index[2]);
+    }
+}
+
+Point3D ObjModel::MaxPoint()
+{
+    Point3D maxPoint = vecPnts3D[0];
+
+    for (int i = 0; i < vecPnts3D.count(); ++i)
+    {
+        if (vecPnts3D[i].x > maxPoint.x)
+            maxPoint.x = vecPnts3D[i].x;
+
+        if (vecPnts3D[i].y > maxPoint.y)
+            maxPoint.y = vecPnts3D[i].y;
+
+        if (vecPnts3D[i].z > maxPoint.z)
+            maxPoint.z = vecPnts3D[i].z;
+    }
+
+    return maxPoint;
+}
+
+Point3D ObjModel::MinPoint()
+{
+    Point3D MinPoint = vecPnts3D[0];
+
+    for (int i = 0; i < vecPnts3D.count(); ++i)
+    {
+        if (vecPnts3D[i].x < MinPoint.x)
+            MinPoint.x = vecPnts3D[i].x;
+
+        if (vecPnts3D[i].y < MinPoint.y)
+            MinPoint.y = vecPnts3D[i].y;
+
+        if (vecPnts3D[i].z < MinPoint.z)
+            MinPoint.z = vecPnts3D[i].z;
+    }
+
+    return MinPoint;
+}
+
+void ObjModel::Center()
+{
+    Point3D maxPoint = MaxPoint();
+    Point3D minPoint = MinPoint();
+
+    double dx = - (maxPoint.x + minPoint.x) / 2;
+    double dy = - (maxPoint.y + minPoint.y) / 2;
+    double dz = - (maxPoint.z + minPoint.z) / 2;
+
+    for (int i = 0; i < vecPnts3D.count(); ++i)
+    {
+        vecPnts3D[i].x += dx;
+        vecPnts3D[i].y += dy;
+        vecPnts3D[i].z += dz;
+    }
+}
+
+void ObjModel::DrawModel(QPainter &painter)
+{
+    for (int i = 0; i < vecIndx.count(); ++i)
+    {
+        painter.drawLine(vecPnts3D[vecIndx[i].v1].x, vecPnts3D[vecIndx[i].v1].y, vecPnts3D[vecIndx[i].v2].x,
+                vecPnts3D[vecIndx[i].v2].y);
+
+        painter.drawLine(vecPnts3D[vecIndx[i].v1].x, vecPnts3D[vecIndx[i].v1].y, vecPnts3D[vecIndx[i].v3].x,
+                vecPnts3D[vecIndx[i].v3].y);
+
+        painter.drawLine(vecPnts3D[vecIndx[i].v2].x, vecPnts3D[vecIndx[i].v2].y, vecPnts3D[vecIndx[i].v3].x,
+                vecPnts3D[vecIndx[i].v3].y);
     }
 }

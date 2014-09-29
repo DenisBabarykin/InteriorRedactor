@@ -91,14 +91,18 @@ public:
         MainForm->resize(1366, 768);
         menuBtnCreateNewScene = new QAction(MainForm);
         menuBtnCreateNewScene->setObjectName(QStringLiteral("menuBtnCreateNewScene"));
+        menuBtnCreateNewScene->setEnabled(false);
         menuBtnOpenScene = new QAction(MainForm);
         menuBtnOpenScene->setObjectName(QStringLiteral("menuBtnOpenScene"));
         menuBtnSaveScene = new QAction(MainForm);
         menuBtnSaveScene->setObjectName(QStringLiteral("menuBtnSaveScene"));
+        menuBtnSaveScene->setEnabled(false);
         menuBtnSaveAsScene = new QAction(MainForm);
         menuBtnSaveAsScene->setObjectName(QStringLiteral("menuBtnSaveAsScene"));
+        menuBtnSaveAsScene->setEnabled(false);
         menuBtnCloseScene = new QAction(MainForm);
         menuBtnCloseScene->setObjectName(QStringLiteral("menuBtnCloseScene"));
+        menuBtnCloseScene->setEnabled(false);
         centralWidget = new QWidget(MainForm);
         centralWidget->setObjectName(QStringLiteral("centralWidget"));
         grbxSceneRedactor = new QGroupBox(centralWidget);
@@ -294,6 +298,7 @@ public:
 
         btnCameraApply = new QPushButton(grbxCamera);
         btnCameraApply->setObjectName(QStringLiteral("btnCameraApply"));
+        btnCameraApply->setEnabled(false);
         btnCameraApply->setGeometry(QRect(280, 120, 75, 23));
         MainForm->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(MainForm);

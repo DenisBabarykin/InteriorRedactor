@@ -18,6 +18,9 @@ public:
 private:
     Ui::MainForm *ui;
 
+private:
+    void Draw();
+
 public slots:
     void OpenScene();
 

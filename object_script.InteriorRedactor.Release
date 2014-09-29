@@ -8,6 +8,7 @@ INPUT(
 ./release/ObjModel.o
 ./release/Points.o
 ./release/ObjLoader.o
+./release/Camera.o
 ./release/moc_MainForm.o
 ./release/moc_LabelScene.o
 ./release/moc_ObjModel.o

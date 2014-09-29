@@ -404,6 +404,9 @@
       </widget>
      </widget>
      <widget class="QPushButton" name="btnCameraApply">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
       <property name="geometry">
        <rect>
         <x>280</x>
@@ -459,6 +462,9 @@
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <action name="menuBtnCreateNewScene">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>Создать сцену</string>
    </property>
@@ -475,6 +481,9 @@
    </property>
   </action>
   <action name="menuBtnSaveScene">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>Сохранить</string>
    </property>
@@ -483,11 +492,17 @@
    </property>
   </action>
   <action name="menuBtnSaveAsScene">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>Сохранить как...</string>
    </property>
   </action>
   <action name="menuBtnCloseScene">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>Закрыть</string>
    </property>
