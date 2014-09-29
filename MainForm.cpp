@@ -6,18 +6,33 @@
 #include <QString>
 #include <QFileDialog>
 
+ObjModel *pObjModel = NULL;
+
 MainForm::MainForm(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainForm)
 {
     ui->setupUi(this);
 
+    connect(ui->menuBtnOpenScene, SIGNAL(triggered()), this, SLOT(OpenScene()));
+}
+
+void MainForm::OpenScene()
+{
+    QString fileName = QFileDialog::getOpenFileName(this, "Введите имя файла", "", "Files (*.obj)");
+
+    if (fileName == "")
+        return;
+
+    if (pObjModel)
+        delete pObjModel;
+
     ObjLoader objLoader;
-    objLoader.load("office_chair.obj");
+    objLoader.load(fileName.toStdString().c_str());
 
     try
     {
-        ObjModel objModel(objLoader);
+        pObjModel = new ObjModel(objLoader);
     }
     catch(const char *exMsg)
     {

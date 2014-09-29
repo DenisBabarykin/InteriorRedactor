@@ -17,6 +17,10 @@ public:
 
 private:
     Ui::MainForm *ui;
+
+public slots:
+    void OpenScene();
+
 };
 
 #endif // MAINFORM_H
