@@ -1,19 +1,19 @@
 #ifndef OBJMODEL_H
 #define OBJMODEL_H
 
-#include <QObject>
 #include "ObjLoader/ObjLoader.h"
 #include "Points.h"
 #include <QVector>
 #include <QPainter>
 
-class ObjModel : public QObject
+class ObjModel
 {
-    Q_OBJECT
 public:
     explicit ObjModel(ObjLoader &objLoader);
 
     void DrawModel(QPainter &painter);
+    void RotateOX(double angle);
+    void RotateOY(double angle);
 
 private:
     QVector<Point3D> vecPnts3D;

@@ -1,4 +1,7 @@
 #include "ObjModel.h"
+#include <QtMath>
+
+const double Pi = 3.14159265;
 
 ObjModel::ObjModel(ObjLoader &objLoader)
 {
@@ -92,5 +95,29 @@ void ObjModel::DrawModel(QPainter &painter)
 
         painter.drawLine(vecPnts3D[vecIndx[i].v2].x, vecPnts3D[vecIndx[i].v2].y, vecPnts3D[vecIndx[i].v3].x,
                 vecPnts3D[vecIndx[i].v3].y);
+    }
+}
+
+void ObjModel::RotateOX(double angle)
+{
+    angle *= Pi / 180;
+    for (int i = 0; i < vecPnts3D.count(); ++i)
+    {
+        int y = vecPnts3D[i].y * cos(angle) - vecPnts3D[i].z * sin(angle);
+        int z = vecPnts3D[i].y * sin(angle) + vecPnts3D[i].z * cos(angle);
+        vecPnts3D[i].y = y;
+        vecPnts3D[i].z = z;
+    }
+}
+
+void ObjModel::RotateOY(double angle)
+{
+    angle *= Pi / 180;
+    for (int i = 0; i < vecPnts3D.count(); ++i)
+    {
+        int x = vecPnts3D[i].x * cos(angle) + vecPnts3D[i].z * sin(angle);
+        int z = - vecPnts3D[i].x * sin(angle) + vecPnts3D[i].z * cos(angle);
+        vecPnts3D[i].x = x;
+        vecPnts3D[i].z = z;
     }
 }

@@ -2,6 +2,7 @@
 #define MAINFORM_H
 
 #include <QMainWindow>
+#include "ObjModel/ObjModel.h"
 
 namespace Ui {
 class MainForm;
@@ -19,10 +20,13 @@ private:
     Ui::MainForm *ui;
 
 private:
-    void Draw();
+    void Draw(ObjModel &objModel);
 
 public slots:
     void OpenScene();
+    void MousePress();
+    void MouseRelease();
+    void MouseMove(int x, int y);
 
 };
 

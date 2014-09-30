@@ -8,6 +8,7 @@
 #include "ObjModel/Camera.h"
 
 ObjModel *pObjModel = NULL;
+bool mousePressed = false;
 
 MainForm::MainForm(QWidget *parent) :
     QMainWindow(parent),
@@ -16,6 +17,9 @@ MainForm::MainForm(QWidget *parent) :
     ui->setupUi(this);
 
     connect(ui->menuBtnOpenScene, SIGNAL(triggered()), this, SLOT(OpenScene()));
+    connect(ui->lblScene, SIGNAL(mousePressedSignal()), this, SLOT(MousePress()));
+    connect(ui->lblScene, SIGNAL(mouseReleasedSignal()), this, SLOT(MouseRelease()));
+    connect(ui->lblScene, SIGNAL(mouseMoveSignal(int,int)), this, SLOT(MouseMove(int,int)));
 }
 
 void MainForm::OpenScene()
@@ -41,10 +45,10 @@ void MainForm::OpenScene()
         pObjModel = NULL;
     }
 
-    Draw();
+    Draw(*pObjModel);
 }
 
-void MainForm::Draw()
+void MainForm::Draw(ObjModel &objModel)
 {
     QPixmap pic(QSize(ui->lblScene->width(), ui->lblScene->height()));
     QPainter painter(&pic);
@@ -52,13 +56,41 @@ void MainForm::Draw()
     painter.setBrush(QBrush(Qt::white, Qt::SolidPattern));
     painter.fillRect(0, 0, ui->lblScene->width(), ui->lblScene->height(), Qt::white);
 
-    //painter.translate(0, ui->lblScene->height());
     painter.translate(ui->lblScene->width() / 2, ui->lblScene->height() / 2);
     painter.scale(1, -1);
 
-    pObjModel->DrawModel(painter);
+    objModel.DrawModel(painter);
 
     ui->lblScene->setPixmap(pic);
+}
+
+void MainForm::MouseMove(int x, int y)
+{
+    static int prevX = x, prevY = y;
+    static int sumX = 0, sumY = 0;
+
+    if (mousePressed && pObjModel)
+    {
+        ObjModel tempModel = *pObjModel;
+        sumX -= x - prevX;
+        sumY -= y - prevY;
+        tempModel.RotateOY(sumX);
+        tempModel.RotateOX(sumY);
+        Draw(tempModel);
+    }
+
+    prevX = x;
+    prevY = y;
+}
+
+void MainForm::MousePress()
+{
+    mousePressed = true;
+}
+
+void MainForm::MouseRelease()
+{
+    mousePressed = false;
 }
 
 MainForm::~MainForm()
