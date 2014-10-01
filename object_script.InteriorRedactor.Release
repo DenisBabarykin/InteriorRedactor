@@ -11,5 +11,4 @@ INPUT(
 ./release/Camera.o
 ./release/moc_MainForm.o
 ./release/moc_LabelScene.o
-./release/moc_ObjModel.o
 );

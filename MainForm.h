@@ -24,9 +24,7 @@ private:
 
 public slots:
     void OpenScene();
-    void MousePress();
-    void MouseRelease();
-    void MouseMove(int x, int y);
+    void MouseMove(int dx, int dy);
 
 };
 

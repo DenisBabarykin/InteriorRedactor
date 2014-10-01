@@ -9,17 +9,19 @@ class LabelScene : public QLabel
 {
     Q_OBJECT
 public:
-    explicit LabelScene(QWidget *parent = 0) : QLabel(parent) {}
+    explicit LabelScene(QWidget *parent = 0) : QLabel(parent) { mousePressed = false;}
     ~LabelScene() {}
 
     void mousePressEvent(QMouseEvent *ev);
     void mouseReleaseEvent(QMouseEvent *ev);
     void mouseMoveEvent(QMouseEvent *ev);
 
+private:
+    int prevX, prevY;
+    bool mousePressed;
+
 signals:
-    void mousePressedSignal();
-    void mouseReleasedSignal();
-    void mouseMoveSignal(int x, int y);
+    void mouseMoveSignal(int dx, int dy);
 
 };
 

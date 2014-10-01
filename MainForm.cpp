@@ -17,8 +17,6 @@ MainForm::MainForm(QWidget *parent) :
     ui->setupUi(this);
 
     connect(ui->menuBtnOpenScene, SIGNAL(triggered()), this, SLOT(OpenScene()));
-    connect(ui->lblScene, SIGNAL(mousePressedSignal()), this, SLOT(MousePress()));
-    connect(ui->lblScene, SIGNAL(mouseReleasedSignal()), this, SLOT(MouseRelease()));
     connect(ui->lblScene, SIGNAL(mouseMoveSignal(int,int)), this, SLOT(MouseMove(int,int)));
 }
 
@@ -64,34 +62,21 @@ void MainForm::Draw(ObjModel &objModel)
     ui->lblScene->setPixmap(pic);
 }
 
-void MainForm::MouseMove(int x, int y)
+void MainForm::MouseMove(int dx, int dy)
 {
-    static int prevX = x, prevY = y;
     static int sumX = 0, sumY = 0;
 
-    if (mousePressed && pObjModel)
+    if (pObjModel)
     {
         ObjModel tempModel = *pObjModel;
-        sumX -= x - prevX;
-        sumY -= y - prevY;
+        sumX -= dx;
+        sumY -= dy;
         tempModel.RotateOY(sumX);
         tempModel.RotateOX(sumY);
         Draw(tempModel);
     }
-
-    prevX = x;
-    prevY = y;
 }
 
-void MainForm::MousePress()
-{
-    mousePressed = true;
-}
-
-void MainForm::MouseRelease()
-{
-    mousePressed = false;
-}
 
 MainForm::~MainForm()
 {

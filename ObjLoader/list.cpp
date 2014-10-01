@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-// internal helper functions
+// Вспомогательные функции
 char list_is_full(list *listo)
 {
 	return(listo->item_count == listo->current_max_size);
@@ -161,11 +161,11 @@ void list_delete_index(list *listo, int indx)
 {
 	int j;
 	
-	//remove item
+    // удаление
 	if(listo->names[indx] != NULL)
 		free(listo->names[indx]);
 			
-	//restructure
+    // реструктуризация
 	for(j=indx; j < listo->item_count-1; j++)
 	{
 		listo->names[j] = listo->names[j+1];

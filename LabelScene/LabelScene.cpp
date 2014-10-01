@@ -2,15 +2,22 @@
 
 void LabelScene::mousePressEvent(QMouseEvent *ev)
 {
-    emit mousePressedSignal();
+    mousePressed = true;
+    prevX = ev->x();
+    prevY = ev->y();
 }
 
 void LabelScene::mouseReleaseEvent(QMouseEvent *ev)
 {
-    emit mouseReleasedSignal();
+    mousePressed = false;
+    prevX = ev->x();
+    prevY = ev->y();
 }
 
 void LabelScene::mouseMoveEvent(QMouseEvent *ev)
 {
-    emit mouseMoveSignal(ev->x(), ev->y());
+    if (mousePressed)
+        emit mouseMoveSignal(ev->x() - prevX, ev->y() - prevY);
+    prevX = ev->x();
+    prevY = ev->y();
 }

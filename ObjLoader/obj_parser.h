@@ -6,7 +6,7 @@
 #define OBJ_FILENAME_LENGTH 500
 #define MATERIAL_NAME_SIZE 255
 #define OBJ_LINE_SIZE 500
-#define MAX_VERTEX_COUNT 4 //can only handle quads or triangles
+#define MAX_VERTEX_COUNT 4 // Треугольники или прямоугольники
 
 typedef struct obj_face
 {
