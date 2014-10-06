@@ -21,7 +21,9 @@ SOURCES += main.cpp\
     ObjModel/ObjModel.cpp \
     ObjModel/Points.cpp \
     ObjLoader/ObjLoader.cpp \
-    ObjModel/Camera.cpp
+    ObjModel/Camera.cpp \
+    Exception/Exception.cpp \
+    Exception/UnknownCommandException.cpp
 
 HEADERS  += MainForm.h \
     LabelScene/LabelScene.h \
@@ -31,6 +33,8 @@ HEADERS  += MainForm.h \
     ObjModel/ObjModel.h \
     ObjLoader/ObjLoader.h \
     ObjModel/Points.h \
-    ObjModel/Camera.h
+    ObjModel/Camera.h \
+    Exception/Exception.h \
+    Exception/UnknownCommandException.h
 
 FORMS    += MainForm.ui

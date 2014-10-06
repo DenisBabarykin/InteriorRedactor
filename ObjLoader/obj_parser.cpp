@@ -4,6 +4,8 @@
 #include "obj_parser.h"
 #include "list.h"
 #include "string_extra.h"
+#include <Exception/UnknownCommandException.h>
+#include <QString>
 
 #define WHITESPACE " \t\n\r"
 
@@ -11,6 +13,7 @@ void obj_free_half_list(list *listo)
 {
 	list_delete_all(listo);
 	free(listo->names);
+
 }
 
 int obj_convert_to_list_index(int current_max, int index)
@@ -190,7 +193,7 @@ int obj_parse_mtl_file(char *filename, list *material_list)
 	mtl_file_stream = fopen( filename, "r");
 	if(mtl_file_stream == 0)
 	{
-		fprintf(stderr, "Error reading file: %s\n", filename);
+        //fprintf(stderr, "Error reading file: %s\n", filename);
 		return 0;
 	}
 		
@@ -240,21 +243,21 @@ int obj_parse_mtl_file(char *filename, list *material_list)
         // яркость
 		else if( strequal(current_token, "Ns") && material_open)
 		{
-			current_mtl->shiny = atof( strtok(NULL, " \t"));
+            current_mtl->shiny = atof(strtok(NULL, " \t"));
 		}
         // прозрачность
 		else if( strequal(current_token, "d") && material_open)
 		{
-			current_mtl->trans = atof( strtok(NULL, " \t"));
+            current_mtl->trans = atof(strtok(NULL, " \t"));
 		}
         // отражение
 		else if( strequal(current_token, "r") && material_open)
 		{
-			current_mtl->reflect = atof( strtok(NULL, " \t"));
+            current_mtl->reflect = atof(strtok(NULL, " \t"));
 		}
 		else if( strequal(current_token, "sharpness") && material_open)
 		{
-			current_mtl->glossy = atof( strtok(NULL, " \t"));
+            current_mtl->glossy = atof(strtok(NULL, " \t"));
 		}
 		else if( strequal(current_token, "Ni") && material_open)
 		{
@@ -269,8 +272,8 @@ int obj_parse_mtl_file(char *filename, list *material_list)
 		}
 		else
 		{
-			fprintf(stderr, "Unknown command '%s' in material file %s at line %i:\n\t%s\n",
-					current_token, filename, line_number, current_line);
+            /*fprintf(stderr, "Unknown command '%s' in material file %s at line %i:\n\t%s\n",
+                    current_token, filename, line_number, current_line);*/
 			//return 0;
 		}
 	}
@@ -288,11 +291,11 @@ int obj_parse_obj_file(obj_growable_scene_data *growable_data, const char *filen
 	char *current_token = NULL;
 	char current_line[OBJ_LINE_SIZE];
 	int line_number = 0;
-	// open scene
+    // открытие сцены
 	obj_file_stream = fopen( filename, "r");
 	if(obj_file_stream == 0)
 	{
-		fprintf(stderr, "Error reading file: %s\n", filename);
+        //fprintf(stderr, "Error reading file: %s\n", filename);
 		return 0;
 	}
 
@@ -305,95 +308,99 @@ int obj_parse_obj_file(obj_growable_scene_data *growable_data, const char *filen
 		if( current_token == NULL || current_token[0] == '#')
 			continue;
 
-        else if( strequal(current_token, "v") ) // vertex
+        else if(strequal(current_token, "v")) // vertex
 		{
 			list_add_item(&growable_data->vertex_list,  obj_parse_vector(), NULL);
 		}
-		
-        else if( strequal(current_token, "vn") ) //vertex normal
+        else if(strequal(current_token, "vn")) //vertex normal
 		{
 			list_add_item(&growable_data->vertex_normal_list,  obj_parse_vector(), NULL);
 		}
-		
-        else if( strequal(current_token, "vt") ) //vertex texture
+        else if(strequal(current_token, "vt")) //vertex texture
 		{
 			list_add_item(&growable_data->vertex_texture_list,  obj_parse_vector(), NULL);
 		}
-		
-        else if( strequal(current_token, "f") ) //face - полигон
+        else if(strequal(current_token, "f")) //face - полигон
 		{
 			obj_face *face = obj_parse_face(growable_data);
 			face->material_index = current_material;
 			list_add_item(&growable_data->face_list, face, NULL);
 		}
-		
-        else if( strequal(current_token, "sp") ) // sphere
+        else if(strequal(current_token, "sp")) // sphere
 		{
 			obj_sphere *sphr = obj_parse_sphere(growable_data);
 			sphr->material_index = current_material;
 			list_add_item(&growable_data->sphere_list, sphr, NULL);
 		}
-		
-        else if( strequal(current_token, "pl") ) // plane
+        else if(strequal(current_token, "pl")) // plane
 		{
 			obj_plane *pl = obj_parse_plane(growable_data);
 			pl->material_index = current_material;
 			list_add_item(&growable_data->plane_list, pl, NULL);
 		}
-		
-        else if( strequal(current_token, "p") ) // point
+        else if(strequal(current_token, "p")) // point
 		{
 		}
-		else if( strequal(current_token, "lp") ) //light point source
+        else if(strequal(current_token, "lp")) //light point source
 		{
 			obj_light_point *o = obj_parse_light_point(growable_data);
 			o->material_index = current_material;
 			list_add_item(&growable_data->light_point_list, o, NULL);
 		}
 		
-        else if( strequal(current_token, "ld") ) // light disc
+        else if(strequal(current_token, "ld")) // light disc
 		{
 			obj_light_disc *o = obj_parse_light_disc(growable_data);
 			o->material_index = current_material;
 			list_add_item(&growable_data->light_disc_list, o, NULL);
 		}
 		
-        else if( strequal(current_token, "lq") ) // light quad
+        else if(strequal(current_token, "lq")) // light quad
 		{
 			obj_light_quad *o = obj_parse_light_quad(growable_data);
 			o->material_index = current_material;
 			list_add_item(&growable_data->light_quad_list, o, NULL);
 		}
 		
-        else if( strequal(current_token, "c") ) // camera
+        else if(strequal(current_token, "c")) // camera
 		{
 			growable_data->camera = (obj_camera*) malloc(sizeof(obj_camera));
 			obj_parse_camera(growable_data, growable_data->camera);
 		}
 		
-		else if( strequal(current_token, "usemtl") ) // usemtl
+        else if(strequal(current_token, "usemtl")) // usemtl
 		{
 			current_material = list_find(&growable_data->material_list, strtok(NULL, WHITESPACE));
 		}
 		
-		else if( strequal(current_token, "mtllib") ) // mtllib
+        else if(strequal(current_token, "mtllib")) // mtllib
 		{
 			strncpy(growable_data->material_filename, strtok(NULL, WHITESPACE), OBJ_FILENAME_LENGTH);
 			obj_parse_mtl_file(growable_data->material_filename, &growable_data->material_list);
 			continue;
 		}
-		
 		else if( strequal(current_token, "o") ) //object name
 		{ }
 		else if( strequal(current_token, "s") ) //smoothing
 		{ }
 		else if( strequal(current_token, "g") ) // group
 		{ }		
-
 		else
 		{
-			printf("Unknown command '%s' in scene code at line %i: \"%s\".\n",
-					current_token, line_number, current_line);
+            /* printf("Unknown command '%s' in scene code at line %i: \"%s\".\n",
+                    current_token, line_number, current_line);
+            char er_buf[300];
+            int ok_mem = sprintf(er_buf, "Unknown command '%s' in scene code at line %i: \"%s\".\n",
+                    current_token, line_number, current_line);
+            if (ok_mem <= 0)
+                throw std::string("");*/
+
+            UnknownCommandException ex;
+            ex.SetMessage("Unknown command " + QString(current_token) + " in scene code at line " +
+                          QString::number(line_number) + ": " + current_line + ". ");
+            ex.SetSourceFilename(__FILE__);
+            ex.SetSourceLine(__LINE__);
+            //ex.raise();
 		}
 	}
 
