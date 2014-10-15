@@ -23,7 +23,8 @@ SOURCES += main.cpp\
     ObjLoader/ObjLoader.cpp \
     ObjModel/Camera.cpp \
     Exception/Exception.cpp \
-    Exception/UnknownCommandException.cpp
+    Exception/UnknownCommandException.cpp \
+    SceneRedactorForm.cpp
 
 HEADERS  += MainForm.h \
     LabelScene/LabelScene.h \
@@ -35,6 +36,8 @@ HEADERS  += MainForm.h \
     ObjModel/Points.h \
     ObjModel/Camera.h \
     Exception/Exception.h \
-    Exception/UnknownCommandException.h
+    Exception/UnknownCommandException.h \
+    SceneRedactorForm.h
 
-FORMS    += MainForm.ui
+FORMS    += MainForm.ui \
+    SceneRedactorForm.ui

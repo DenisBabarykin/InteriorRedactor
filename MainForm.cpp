@@ -16,6 +16,7 @@ MainForm::MainForm(QWidget *parent) :
     ui(new Ui::MainForm)
 {
     ui->setupUi(this);
+    sceneRedactorForm = new SceneRedactorForm(this);
 
     connect(ui->menuBtnOpenScene, SIGNAL(triggered()), this, SLOT(OpenScene()));
     connect(ui->lblScene, SIGNAL(mouseMoveSignal(int,int)), this, SLOT(MouseMove(int,int)));
@@ -96,4 +97,9 @@ void MainForm::MouseMove(int dx, int dy)
 MainForm::~MainForm()
 {
     delete ui;
+}
+
+void MainForm::on_menuBtnEditScene_triggered()
+{
+    sceneRedactorForm->show();
 }

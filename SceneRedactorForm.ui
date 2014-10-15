@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>SceneRedactorForm</class>
+ <widget class="QMainWindow" name="SceneRedactorForm">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>947</width>
+    <height>708</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Редактор сцены</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QGraphicsView" name="grvwScheme">
+    <property name="geometry">
+     <rect>
+      <x>180</x>
+      <y>10</y>
+      <width>751</width>
+      <height>621</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QTreeWidget" name="trwdgCatalog">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>10</y>
+      <width>161</width>
+      <height>621</height>
+     </rect>
+    </property>
+    <property name="headerHidden">
+     <bool>false</bool>
+    </property>
+    <column>
+     <property name="text">
+      <string notr="true">Каталог</string>
+     </property>
+    </column>
+    <item>
+     <property name="text">
+      <string>Шкафы</string>
+     </property>
+     <item>
+      <property name="text">
+       <string>Шкаф_1</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Шкаф_2</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Шкаф_3</string>
+      </property>
+     </item>
+    </item>
+    <item>
+     <property name="text">
+      <string>Кровати</string>
+     </property>
+     <item>
+      <property name="text">
+       <string>Кровать_1</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Кровать_2</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Кровать_3</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Кровать_4</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Кровать_5</string>
+      </property>
+     </item>
+    </item>
+    <item>
+     <property name="text">
+      <string>Журнальные столики</string>
+     </property>
+     <item>
+      <property name="text">
+       <string>Журнальный столик 1</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Журнальный столик 2</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Журнальный столик 3</string>
+      </property>
+     </item>
+    </item>
+    <item>
+     <property name="text">
+      <string>Обеденные столы</string>
+     </property>
+     <item>
+      <property name="text">
+       <string>Обеденный стол 1</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Обеденный стол 2</string>
+      </property>
+     </item>
+    </item>
+    <item>
+     <property name="text">
+      <string>Стулья</string>
+     </property>
+     <item>
+      <property name="text">
+       <string>Стул_1</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Стул_2</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Стул_3</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Стул_4</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Стул_5</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Стул_6</string>
+      </property>
+     </item>
+    </item>
+   </widget>
+   <widget class="QPushButton" name="btnOk">
+    <property name="geometry">
+     <rect>
+      <x>767</x>
+      <y>640</y>
+      <width>75</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>ОК</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="btnCancel">
+    <property name="geometry">
+     <rect>
+      <x>857</x>
+      <y>640</y>
+      <width>75</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Отмена</string>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>947</width>
+     <height>21</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
