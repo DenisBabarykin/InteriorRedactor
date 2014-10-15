@@ -1,6 +1,7 @@
 *.o
 *.a
 *.exe
+*.obj
 Makefile
 Makefile.Debug
 Makefile.Release
@@ -8,3 +9,6 @@ moc_MainForm.cpp
 InteriorRedactor.pro.user
 debug/
 release/
+object_script.InteriorRedactor.Debug
+object_script.InteriorRedactor.Release
+ui_MainForm.h
