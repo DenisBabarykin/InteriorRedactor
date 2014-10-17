@@ -6,7 +6,7 @@ const double Pi = 3.14159265;
 ObjModel::ObjModel(ObjLoader &objLoader)
 {
     FillDataFromObjLoader(objLoader);
-    Center();
+    //Center();
 }
 
 void ObjModel::FillDataFromObjLoader(ObjLoader &objLoader)

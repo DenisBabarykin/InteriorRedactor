@@ -15,6 +15,9 @@ public:
     void RotateOX(double angle);
     void RotateOY(double angle);
 
+    Point3D MaxPoint();
+    Point3D MinPoint();
+
 private:
     QVector<Point3D> vecPnts3D;
     QVector<FaceIndexes> vecIndx;
@@ -22,8 +25,6 @@ private:
 private:
     void FillDataFromObjLoader(ObjLoader &objLoader);
     void Center();
-    Point3D MaxPoint();
-    Point3D MinPoint();
 
 };
 

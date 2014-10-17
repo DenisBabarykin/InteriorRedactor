@@ -24,7 +24,8 @@ SOURCES += main.cpp\
     ObjModel/Camera.cpp \
     Exception/Exception.cpp \
     Exception/UnknownCommandException.cpp \
-    SceneRedactorForm.cpp
+    SceneRedactorForm.cpp \
+    ObjModel/FigureMetaData.cpp
 
 HEADERS  += MainForm.h \
     LabelScene/LabelScene.h \
@@ -37,7 +38,8 @@ HEADERS  += MainForm.h \
     ObjModel/Camera.h \
     Exception/Exception.h \
     Exception/UnknownCommandException.h \
-    SceneRedactorForm.h
+    SceneRedactorForm.h \
+    ObjModel/FigureMetaData.h
 
 FORMS    += MainForm.ui \
     SceneRedactorForm.ui

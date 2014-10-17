@@ -35,7 +35,8 @@ void MainForm::OpenScene()
     ObjLoader objLoader;
     try
     {
-        objLoader.load(fileName.toStdString().c_str());
+        //objLoader.load(fileName.toStdString().c_str());
+        objLoader.load(fileName.toLocal8Bit().constData());
     }
     catch(UnknownCommandException &ex)
     {
