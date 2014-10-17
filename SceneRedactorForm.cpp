@@ -22,7 +22,9 @@ SceneRedactorForm::~SceneRedactorForm()
 
 void SceneRedactorForm::on_trwdgCatalog_itemDoubleClicked(QTreeWidgetItem *item, int column)
 {
-
+    if (reinterpret_cast<QTreeWidget *>(item->parent()) != ui->trwdgCatalog);
+        vecExObj.append(mapCatalog[item->parent()->text(0)][item->parent()->indexOfChild(item)]);
+    RefreshObjectList();
 }
 
 QStringList SceneRedactorForm::Folders()
@@ -83,4 +85,18 @@ void SceneRedactorForm::RefreshCatalog()
             child->setText(0, it.value()[i].GetName());
         }
     }
+}
+
+void SceneRedactorForm::RefreshObjectList()
+{
+    ui->lswdgExistingObjects->clear();
+    for (int i = 0; i < vecExObj.size(); ++i)
+        new QListWidgetItem(vecExObj[i].GetName(), ui->lswdgExistingObjects);
+}
+
+void SceneRedactorForm::on_btnRemoveItem_clicked()
+{
+    if (ui->lswdgExistingObjects->currentItem() && !vecExObj.isEmpty())
+        vecExObj.remove(ui->lswdgExistingObjects->row(ui->lswdgExistingObjects->currentItem()));
+    RefreshObjectList();
 }

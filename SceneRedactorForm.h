@@ -16,11 +16,13 @@ class SceneRedactorForm : public QMainWindow
 
 private:
     QMap<QString, QVector<FigureMetaData> > mapCatalog;
+    QVector<FigureMetaData> vecExObj;
 
 public:
     explicit SceneRedactorForm(QWidget *parent = 0);
     ~SceneRedactorForm();
     void RefreshCatalog();
+    void RefreshObjectList();
 
 private:
     Ui::SceneRedactorForm *ui;
@@ -31,6 +33,7 @@ private:
 private slots:
     void closeEvent(QCloseEvent *);
     void on_trwdgCatalog_itemDoubleClicked(QTreeWidgetItem *item, int column);
+    void on_btnRemoveItem_clicked();
 };
 
 #endif // SCENEREDACTORFORM_H
