@@ -7,6 +7,7 @@ SceneRedactorForm::SceneRedactorForm(QWidget *parent) :
     ui(new Ui::SceneRedactorForm)
 {
     ui->setupUi(this);
+    connect(this, SIGNAL(vecExObjChanged()), SLOT(RefreshObjectList()));
     RefreshCatalog();
 }
 
@@ -98,5 +99,6 @@ void SceneRedactorForm::on_btnRemoveItem_clicked()
 {
     if (ui->lswdgExistingObjects->currentItem() && !vecExObj.isEmpty())
         vecExObj.remove(ui->lswdgExistingObjects->row(ui->lswdgExistingObjects->currentItem()));
-    RefreshObjectList();
+
+    emit vecExObjChanged();
 }

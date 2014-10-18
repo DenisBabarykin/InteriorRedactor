@@ -16,6 +16,7 @@ class MainForm : public QMainWindow
 public:
     explicit MainForm(QWidget *parent = 0);
     ~MainForm();
+    void MoveFrameToCenter();
 
 private:
     Ui::MainForm *ui;

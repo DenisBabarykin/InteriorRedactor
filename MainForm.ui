@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1366</width>
-    <height>768</height>
+    <width>1300</width>
+    <height>700</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -270,7 +270,6 @@
    </layout>
    <zorder>lblScene</zorder>
    <zorder>grbxCamera</zorder>
-   <zorder>grbxCamera</zorder>
    <zorder>verticalSpacer</zorder>
   </widget>
   <widget class="QMenuBar" name="menuBar">
@@ -278,7 +277,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1366</width>
+     <width>1300</width>
      <height>21</height>
     </rect>
    </property>

@@ -7,6 +7,7 @@
 #include <QFileDialog>
 #include "ObjModel/Camera.h"
 #include "Exception/UnknownCommandException.h"
+#include <QDesktopWidget>
 
 ObjModel *pObjModel = NULL;
 bool mousePressed = false;
@@ -20,6 +21,8 @@ MainForm::MainForm(QWidget *parent) :
 
     connect(ui->menuBtnOpenScene, SIGNAL(triggered()), this, SLOT(OpenScene()));
     connect(ui->lblScene, SIGNAL(mouseMoveSignal(int,int)), this, SLOT(MouseMove(int,int)));
+
+    MoveFrameToCenter();
 }
 
 void MainForm::OpenScene()
@@ -103,4 +106,11 @@ MainForm::~MainForm()
 void MainForm::on_menuBtnEditScene_triggered()
 {
     sceneRedactorForm->show();
+}
+
+void MainForm::MoveFrameToCenter()
+{
+    QRect frect = frameGeometry();
+    frect.moveCenter(QDesktopWidget().availableGeometry().center());
+    move(frect.topLeft());
 }

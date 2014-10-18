@@ -21,19 +21,23 @@ private:
 public:
     explicit SceneRedactorForm(QWidget *parent = 0);
     ~SceneRedactorForm();
-    void RefreshCatalog();
-    void RefreshObjectList();
+
 
 private:
     Ui::SceneRedactorForm *ui;
 
     QStringList Folders(); // Список папок
-    void RefreshMapCatalog();
 
 private slots:
+    void RefreshMapCatalog();
+    void RefreshCatalog();
+    void RefreshObjectList();
     void closeEvent(QCloseEvent *);
     void on_trwdgCatalog_itemDoubleClicked(QTreeWidgetItem *item, int column);
     void on_btnRemoveItem_clicked();
+
+ signals:
+    void vecExObjChanged();
 };
 
 #endif // SCENEREDACTORFORM_H

@@ -25,7 +25,8 @@ SOURCES += main.cpp\
     Exception/Exception.cpp \
     Exception/UnknownCommandException.cpp \
     SceneRedactorForm.cpp \
-    ObjModel/FigureMetaData.cpp
+    ObjModel/FigureMetaData.cpp \
+    SceneSizesInput.cpp
 
 HEADERS  += MainForm.h \
     LabelScene/LabelScene.h \
@@ -39,7 +40,9 @@ HEADERS  += MainForm.h \
     Exception/Exception.h \
     Exception/UnknownCommandException.h \
     SceneRedactorForm.h \
-    ObjModel/FigureMetaData.h
+    ObjModel/FigureMetaData.h \
+    SceneSizesInput.h
 
 FORMS    += MainForm.ui \
-    SceneRedactorForm.ui
+    SceneRedactorForm.ui \
+    SceneSizesInput.ui
