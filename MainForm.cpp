@@ -8,6 +8,7 @@
 #include "ObjModel/Camera.h"
 #include "Exception/UnknownCommandException.h"
 #include <QDesktopWidget>
+#include "SceneSizesInput.h"
 
 ObjModel *pObjModel = NULL;
 bool mousePressed = false;
@@ -17,12 +18,11 @@ MainForm::MainForm(QWidget *parent) :
     ui(new Ui::MainForm)
 {
     ui->setupUi(this);
-    sceneRedactorForm = new SceneRedactorForm(this);
+
+    sceneRedactorForm = NULL;
 
     connect(ui->menuBtnOpenScene, SIGNAL(triggered()), this, SLOT(OpenScene()));
     connect(ui->lblScene, SIGNAL(mouseMoveSignal(int,int)), this, SLOT(MouseMove(int,int)));
-
-    MoveFrameToCenter();
 }
 
 void MainForm::OpenScene()
@@ -105,7 +105,8 @@ MainForm::~MainForm()
 
 void MainForm::on_menuBtnEditScene_triggered()
 {
-    sceneRedactorForm->show();
+    if (sceneRedactorForm)
+        sceneRedactorForm->show();
 }
 
 void MainForm::MoveFrameToCenter()
@@ -113,4 +114,20 @@ void MainForm::MoveFrameToCenter()
     QRect frect = frameGeometry();
     frect.moveCenter(QDesktopWidget().availableGeometry().center());
     move(frect.topLeft());
+}
+
+void MainForm::on_menuBtnCreateNewScene_triggered()
+{
+    SceneSizesInput *sceneSizesInput = new SceneSizesInput(this);
+    connect(sceneSizesInput, SIGNAL(SceneCreated(int,int)), this, SLOT(CreateNewSceneRedactor(int,int)));
+    sceneSizesInput->show();
+}
+
+void MainForm::CreateNewSceneRedactor(int sceneLength, int sceneWidth)
+{
+    if (sceneRedactorForm)
+        delete sceneRedactorForm;
+
+    sceneRedactorForm = new SceneRedactorForm(this);
+    sceneRedactorForm->show();
 }

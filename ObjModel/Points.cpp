@@ -5,7 +5,7 @@ Point3D::Point3D()
     x = y = z = 0;
 }
 
-Point3D::Point3D(double x, double y, double z)
+Point3D::Point3D(qreal x, qreal y, qreal z)
 {
     this->x = x;
     this->y = y;
@@ -17,7 +17,7 @@ Point2D::Point2D()
     x = y = 0;
 }
 
-Point2D::Point2D(double x, double y)
+Point2D::Point2D(qreal x, qreal y)
 {
     this->x = x;
     this->y = y;

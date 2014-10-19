@@ -11,6 +11,7 @@ FigureMetaData::FigureMetaData(QString name, QString category)
     angle = 0;
     this->name = name;
     this->category = category;
+    pos = QPointF(0, 0);
 
     LoadAndCalcMinMax();
 }
@@ -56,6 +57,22 @@ int FigureMetaData::AddAngle(int addingAngle)
         angle %= 360;
 
     return angle;
+}
+
+void FigureMetaData::SetPos(QPointF pos)
+{
+    this->pos = pos;
+}
+
+void FigureMetaData::SetPos(qreal posX, qreal posY)
+{
+    pos.setX(posX);
+    pos.setY(posY);
+}
+
+QPointF FigureMetaData::GetPos() const
+{
+    return pos;
 }
 
 void FigureMetaData::LoadAndCalcMinMax()

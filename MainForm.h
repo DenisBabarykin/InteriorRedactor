@@ -31,6 +31,10 @@ public slots:
 
 private slots:
     void on_menuBtnEditScene_triggered();
+    void on_menuBtnCreateNewScene_triggered();
+
+    void CreateNewSceneRedactor(int sceneLength, int sceneWidth);
+
 };
 
 #endif // MAINFORM_H

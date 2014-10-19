@@ -15,6 +15,8 @@ private:
 
     int angle;
 
+    QPointF pos;
+
 public:
     FigureMetaData();
     FigureMetaData(QString name, QString category);
@@ -29,6 +31,11 @@ public:
     QPointF GetPntMax() const;
 
     int AddAngle(int addingAngle);
+
+    void SetPos(QPointF pos);
+    void SetPos(qreal posX, qreal posY);
+
+    QPointF GetPos() const;
 
     void LoadAndCalcMinMax();
 };
