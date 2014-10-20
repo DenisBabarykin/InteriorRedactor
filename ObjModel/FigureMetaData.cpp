@@ -4,6 +4,8 @@
 FigureMetaData::FigureMetaData()
 {
     angle = 0;
+    pos = QPointF(0, 0);
+    hasPreview = false;
 }
 
 FigureMetaData::FigureMetaData(QString name, QString category)
@@ -12,6 +14,7 @@ FigureMetaData::FigureMetaData(QString name, QString category)
     this->name = name;
     this->category = category;
     pos = QPointF(0, 0);
+    hasPreview = false;
 
     LoadAndCalcMinMax();
 }
@@ -73,6 +76,16 @@ void FigureMetaData::SetPos(qreal posX, qreal posY)
 QPointF FigureMetaData::GetPos() const
 {
     return pos;
+}
+
+bool FigureMetaData::HasPreview() const
+{
+    return hasPreview;
+}
+
+void FigureMetaData::SetPreviewStatus(bool hasPreview)
+{
+    this->hasPreview = hasPreview;
 }
 
 void FigureMetaData::LoadAndCalcMinMax()

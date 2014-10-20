@@ -17,6 +17,8 @@ private:
 
     QPointF pos;
 
+    bool hasPreview; // Наличие файла картинки предпросмотра
+
 public:
     FigureMetaData();
     FigureMetaData(QString name, QString category);
@@ -36,6 +38,9 @@ public:
     void SetPos(qreal posX, qreal posY);
 
     QPointF GetPos() const;
+
+    bool HasPreview() const;
+    void SetPreviewStatus(bool hasPreview);
 
     void LoadAndCalcMinMax();
 };

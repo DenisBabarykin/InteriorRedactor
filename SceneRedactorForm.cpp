@@ -53,15 +53,21 @@ void SceneRedactorForm::RefreshMapCatalog()
     for (int i = 0; i < folders.size(); ++i)
     {
         QDir dir("models/" + folders.at(i));
-        QStringList files = dir.entryList(QStringList("*.obj"));
+        QStringList objFiles = dir.entryList(QStringList("*.obj"));
+        QStringList previewFiles = dir.entryList(QStringList("*.png"));
         QVector<FigureMetaData> vec;
 
-        for (int j = 0; j < files.size(); ++j)
+        for (int j = 0; j < objFiles.size(); ++j)
         {
             FigureMetaData figMetaData;
-            figMetaData.SetName(files.at(j));
+            figMetaData.SetName(objFiles.at(j));
             figMetaData.SetCategory(folders.at(i));
             figMetaData.LoadAndCalcMinMax();
+
+            QString experienceStr = objFiles.at(j);
+            experienceStr.replace(".obj", ".png");
+            if (previewFiles.contains(experienceStr))
+                figMetaData.SetPreviewStatus(true);
 
             vec.append(figMetaData);
         }
@@ -84,6 +90,13 @@ void SceneRedactorForm::RefreshCatalog()
         {
             QTreeWidgetItem *child = new QTreeWidgetItem(root);
             child->setText(0, it.value()[i].GetName());
+            if (it.value()[i].HasPreview())
+            {
+                QString experienceStr = it.value()[i].GetName();
+                experienceStr.replace(".obj", ".png");
+                child->setToolTip(0, "<html><img src=\"models/" + it.value()[i].GetCategory() +
+                                  "/" + experienceStr + "\"/></html>");
+            }
         }
     }
 }
@@ -92,7 +105,16 @@ void SceneRedactorForm::RefreshObjectList()
 {
     ui->lswdgExistingObjects->clear();
     for (int i = 0; i < vecExObj.size(); ++i)
-        new QListWidgetItem(vecExObj[i].GetName(), ui->lswdgExistingObjects);
+    {
+        QListWidgetItem *item = new QListWidgetItem(vecExObj[i].GetName(), ui->lswdgExistingObjects);
+        if (vecExObj[i].HasPreview())
+        {
+            QString experienceStr = vecExObj[i].GetName();
+            experienceStr.replace(".obj", ".png");
+            item->setToolTip("<html><img src=\"models/" + vecExObj[i].GetCategory() +
+                              "/" + experienceStr + "\"/></html>");
+        }
+    }
 }
 
 void SceneRedactorForm::on_btnRemoveItem_clicked()
