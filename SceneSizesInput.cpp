@@ -40,7 +40,7 @@ void SceneSizesInput::on_btnOk_clicked()
         QMessageBox::warning(this, "Ошибка", "Недопустимое значение размеров сцены");
     else
     {
-        emit SceneCreated(ui->ledtLength->text().toInt(), ui->lblWidth->text().toInt());
+        emit SceneCreated(ui->ledtLength->text().toInt(), ui->ledtWidth->text().toInt());
         accept();
     }
 }

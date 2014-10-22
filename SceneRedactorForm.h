@@ -5,6 +5,8 @@
 #include <QMap>
 #include "ObjModel/FigureMetaData.h"
 #include <QTreeWidgetItem>
+#include <QGraphicsScene>
+#include <QListWidgetItem>
 
 namespace Ui {
 class SceneRedactorForm;
@@ -18,8 +20,10 @@ private:
     QMap<QString, QVector<FigureMetaData> > mapCatalog;
     QVector<FigureMetaData> vecExObj;
 
+    QGraphicsScene graphicsScene;
+
 public:
-    explicit SceneRedactorForm(QWidget *parent = 0);
+    explicit SceneRedactorForm(qreal width, qreal height, QWidget *parent = 0);
     ~SceneRedactorForm();
 
 
@@ -36,7 +40,9 @@ private slots:
     void on_trwdgCatalog_itemDoubleClicked(QTreeWidgetItem *item, int column);
     void on_btnRemoveItem_clicked();
 
- signals:
+    void on_lswdgExistingObjects_itemClicked(QListWidgetItem *item);
+
+signals:
     void vecExObjChanged();
 };
 

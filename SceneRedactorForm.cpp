@@ -1,14 +1,26 @@
 #include "SceneRedactorForm.h"
 #include "ui_SceneRedactorForm.h"
 #include <QDir>
+#include "SceneRedactorGraphics/GraphicsFurnitureItem.h"
 
-SceneRedactorForm::SceneRedactorForm(QWidget *parent) :
+SceneRedactorForm::SceneRedactorForm(qreal width, qreal height, QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::SceneRedactorForm)
 {
     ui->setupUi(this);
     connect(this, SIGNAL(vecExObjChanged()), SLOT(RefreshObjectList()));
     RefreshCatalog();
+    graphicsScene.setSceneRect(0, 0, width, height);
+    ui->grvwScheme->setScene(&graphicsScene);
+
+    //QBrush blueBrush(Qt::gray);
+    QPen outlinePen(Qt::blue);
+    outlinePen.setWidth(10);
+
+    QGraphicsRectItem *floorItem = new QGraphicsRectItem(0, 0, width, height);
+    floorItem->setPen(outlinePen);
+    floorItem->setBrush(QBrush(Qt::lightGray));
+    graphicsScene.addItem(floorItem);
 }
 
 void SceneRedactorForm::closeEvent(QCloseEvent *)
@@ -24,8 +36,15 @@ SceneRedactorForm::~SceneRedactorForm()
 void SceneRedactorForm::on_trwdgCatalog_itemDoubleClicked(QTreeWidgetItem *item, int column)
 {
     if (reinterpret_cast<QTreeWidget *>(item->parent()) != ui->trwdgCatalog);
+    {
         vecExObj.append(mapCatalog[item->parent()->text(0)][item->parent()->indexOfChild(item)]);
-    RefreshObjectList();
+
+        GraphicsFurnitureItem *graphicsFurnitureItem = new GraphicsFurnitureItem(vecExObj.data() + vecExObj.size() - 1);
+        graphicsFurnitureItem->setFlag(QGraphicsItem::ItemIsMovable);
+        graphicsScene.addItem(graphicsFurnitureItem);
+
+        RefreshObjectList();
+    }
 }
 
 QStringList SceneRedactorForm::Folders()
@@ -123,4 +142,9 @@ void SceneRedactorForm::on_btnRemoveItem_clicked()
         vecExObj.remove(ui->lswdgExistingObjects->row(ui->lswdgExistingObjects->currentItem()));
 
     emit vecExObjChanged();
+}
+
+void SceneRedactorForm::on_lswdgExistingObjects_itemClicked(QListWidgetItem *item)
+{
+
 }

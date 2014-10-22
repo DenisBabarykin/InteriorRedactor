@@ -22,6 +22,18 @@ private:
 public:
     FigureMetaData();
     FigureMetaData(QString name, QString category);
+    FigureMetaData(const FigureMetaData &obj)
+    {
+        name = obj.name;
+        category = obj.category;
+        pntMin = obj.pntMin;
+        pntMax = obj.pntMax;
+        angle = obj.angle;
+        pos = obj.pos;
+        hasPreview = obj.hasPreview;
+    }
+
+    ~FigureMetaData() {}
 
     QString GetName() const;
     void SetName(QString name);

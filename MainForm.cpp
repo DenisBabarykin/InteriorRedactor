@@ -128,6 +128,6 @@ void MainForm::CreateNewSceneRedactor(int sceneLength, int sceneWidth)
     if (sceneRedactorForm)
         delete sceneRedactorForm;
 
-    sceneRedactorForm = new SceneRedactorForm(this);
+    sceneRedactorForm = new SceneRedactorForm(sceneLength, sceneWidth, this);
     sceneRedactorForm->show();
 }

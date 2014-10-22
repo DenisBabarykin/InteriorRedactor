@@ -6,6 +6,7 @@
         <file alias="coffee_table">images/coffee_table.png</file>
         <file alias="table">images/table.png</file>
         <file alias="up_arrow">images/up_arrow.png</file>
+        <file alias="question">images/question.png</file>
     </qresource>
     <qresource prefix="/menu_icons">
         <file>images/edit.png</file>

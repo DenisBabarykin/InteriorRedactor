@@ -3,19 +3,24 @@
 
 #include <QGraphicsItem>
 #include "ObjModel/FigureMetaData.h"
+#include <QVector>
 
 class GraphicsFurnitureItem : public QGraphicsItem
 {
 public:
-    explicit GraphicsFurnitureItem(QGraphicsItem *parent = 0);
+    //explicit GraphicsFurnitureItem(QGraphicsItem *parent = 0);
+    GraphicsFurnitureItem(FigureMetaData *it, QGraphicsItem *parent = 0);
+    ~GraphicsFurnitureItem() {}
 
-    //QRectF boundingRect() const;
-    //void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0);
+    QRectF boundingRect() const;
+    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0);
 
 private:
-    FigureMetaData *figureMetaData;
+    FigureMetaData *itFigureMetaData;
 
-
+private:
+    qreal GetWidth() const;
+    qreal GetHeight() const;
 
 };
 

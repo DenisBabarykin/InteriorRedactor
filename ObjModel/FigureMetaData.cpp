@@ -4,7 +4,7 @@
 FigureMetaData::FigureMetaData()
 {
     angle = 0;
-    pos = QPointF(0, 0);
+    pos = QPointF(0.0, 0.0);
     hasPreview = false;
 }
 
@@ -13,7 +13,7 @@ FigureMetaData::FigureMetaData(QString name, QString category)
     angle = 0;
     this->name = name;
     this->category = category;
-    pos = QPointF(0, 0);
+    pos = QPointF(0.0, 0.0);
     hasPreview = false;
 
     LoadAndCalcMinMax();
