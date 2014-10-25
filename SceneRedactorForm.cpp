@@ -35,11 +35,11 @@ SceneRedactorForm::~SceneRedactorForm()
 
 void SceneRedactorForm::on_trwdgCatalog_itemDoubleClicked(QTreeWidgetItem *item, int column)
 {
-    if (reinterpret_cast<QTreeWidget *>(item->parent()) != ui->trwdgCatalog);
+    if (item->parent())
     {
         vecExObj.append(mapCatalog[item->parent()->text(0)][item->parent()->indexOfChild(item)]);
 
-        GraphicsFurnitureItem *graphicsFurnitureItem = new GraphicsFurnitureItem(vecExObj.data() + vecExObj.size() - 1);
+        GraphicsFurnitureItem *graphicsFurnitureItem = new GraphicsFurnitureItem(&vecExObj[vecExObj.size() - 1]);
         graphicsFurnitureItem->setFlag(QGraphicsItem::ItemIsMovable);
         graphicsScene.addItem(graphicsFurnitureItem);
 
