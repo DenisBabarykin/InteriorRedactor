@@ -6,8 +6,9 @@ GraphicsFurnitureItem::GraphicsFurnitureItem(FigureMetaData *it,
       QGraphicsItem *parent) : QGraphicsItem(parent), itFigureMetaData(it)
 {
     itFigureMetaData = it;
-    if (it->GetPos() == QPointF(0.0, 0.0))
-        it->SetPos(it->GetPntMax() - it->GetPntMin() + QPointF(1, 1));
+    /*if (it->GetPos() == QPointF(0.0, 0.0))
+        it->SetPos(it->GetPntMax() - it->GetPntMin() + QPointF(1, 1));*/
+    it->SetPos(66, 66);
     this->setPos(it->GetPos());
 }
 
@@ -25,12 +26,11 @@ void GraphicsFurnitureItem::paint(QPainter *painter, const QStyleOptionGraphicsI
     painter->drawRect(-32, -32, 32, 32);
     */
 
-    QPixmap *pixmap;
+    //qDebug() << itFigureMetaData;
+    //qDebug() << itFigureMetaData->GetPos();
+    QPixmap *pixmap;// = new QPixmap(":/bed");
     if (itFigureMetaData->GetCategory() == "Журнальные столики")
-    {
         pixmap = new QPixmap(":/coffee_table");
-        qDebug() << itFigureMetaData;
-    }
     else if (itFigureMetaData->GetCategory() == "Кровати")
         pixmap = new QPixmap(":/bed");
     else if (itFigureMetaData->GetCategory() == "Обеденные столы")
@@ -41,6 +41,7 @@ void GraphicsFurnitureItem::paint(QPainter *painter, const QStyleOptionGraphicsI
         pixmap = new QPixmap(":/cabinet");
     else
         pixmap = new QPixmap(":/question");
+
 
     painter->drawPixmap(QRectF(0, 0, 64, 64), *pixmap, QRectF(0, 0, 64, 64));
 

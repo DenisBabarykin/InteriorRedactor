@@ -37,9 +37,9 @@ void SceneRedactorForm::on_trwdgCatalog_itemDoubleClicked(QTreeWidgetItem *item,
 {
     if (item->parent())
     {
-        vecExObj.append(mapCatalog[item->parent()->text(0)][item->parent()->indexOfChild(item)]);
+        listExObj.append(mapCatalog[item->parent()->text(0)][item->parent()->indexOfChild(item)]);
 
-        GraphicsFurnitureItem *graphicsFurnitureItem = new GraphicsFurnitureItem(&vecExObj[vecExObj.size() - 1]);
+        GraphicsFurnitureItem *graphicsFurnitureItem = new GraphicsFurnitureItem(&listExObj[listExObj.size() - 1]);
         graphicsFurnitureItem->setFlag(QGraphicsItem::ItemIsMovable);
         graphicsScene.addItem(graphicsFurnitureItem);
 
@@ -123,14 +123,14 @@ void SceneRedactorForm::RefreshCatalog()
 void SceneRedactorForm::RefreshObjectList()
 {
     ui->lswdgExistingObjects->clear();
-    for (int i = 0; i < vecExObj.size(); ++i)
+    for (int i = 0; i < listExObj.size(); ++i)
     {
-        QListWidgetItem *item = new QListWidgetItem(vecExObj[i].GetName(), ui->lswdgExistingObjects);
-        if (vecExObj[i].HasPreview())
+        QListWidgetItem *item = new QListWidgetItem(listExObj[i].GetName(), ui->lswdgExistingObjects);
+        if (listExObj[i].HasPreview())
         {
-            QString experienceStr = vecExObj[i].GetName();
+            QString experienceStr = listExObj[i].GetName();
             experienceStr.replace(".obj", ".png");
-            item->setToolTip("<html><img src=\"models/" + vecExObj[i].GetCategory() +
+            item->setToolTip("<html><img src=\"models/" + listExObj[i].GetCategory() +
                               "/" + experienceStr + "\"/></html>");
         }
     }
@@ -138,8 +138,8 @@ void SceneRedactorForm::RefreshObjectList()
 
 void SceneRedactorForm::on_btnRemoveItem_clicked()
 {
-    if (ui->lswdgExistingObjects->currentItem() && !vecExObj.isEmpty())
-        vecExObj.remove(ui->lswdgExistingObjects->row(ui->lswdgExistingObjects->currentItem()));
+    if (ui->lswdgExistingObjects->currentItem() && !listExObj.isEmpty())
+        listExObj.removeAt(ui->lswdgExistingObjects->row(ui->lswdgExistingObjects->currentItem()));
 
     emit vecExObjChanged();
 }
