@@ -12,15 +12,16 @@ public:
     GraphicsFurnitureItem(FigureMetaData *it, QGraphicsItem *parent = 0);
     ~GraphicsFurnitureItem() {}
 
-    QRectF boundingRect() const;
-    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0);
-
 private:
     FigureMetaData *itFigureMetaData;
 
 private:
     qreal GetWidth() const;
     qreal GetHeight() const;
+
+    QRectF boundingRect() const;
+    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0);
+    QVariant itemChange(GraphicsItemChange change, const QVariant &value);
 
 };
 
