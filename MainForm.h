@@ -28,6 +28,7 @@ private:
 public slots:
     void OpenScene();
     void MouseMove(int dx, int dy);
+    void CreateScene(SceneMetaData sceneMetaData);
 
 private slots:
     void on_menuBtnEditScene_triggered();

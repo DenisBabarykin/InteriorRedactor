@@ -9,7 +9,6 @@ SceneRedactorForm::SceneRedactorForm(qreal width, qreal height, QWidget *parent)
 {
     ui->setupUi(this);
     connect(this, SIGNAL(vecExObjChanged()), SLOT(RefreshObjectList()));
-    //connect(graphicsScene, SIGNAL(selectionChanged())) graphicsScene.cl
     RefreshCatalog();
     graphicsScene.setSceneRect(0, 0, width, height);
     ui->grvwScheme->setScene(&graphicsScene);
@@ -26,7 +25,7 @@ SceneRedactorForm::SceneRedactorForm(qreal width, qreal height, QWidget *parent)
 
 void SceneRedactorForm::closeEvent(QCloseEvent *)
 {
-    this->hide();
+    hide();
 }
 
 SceneRedactorForm::~SceneRedactorForm()
@@ -176,4 +175,10 @@ void SceneRedactorForm::on_lswdgExistingObjects_itemClicked(QListWidgetItem *ite
                 break;
             }
     }
+}
+
+void SceneRedactorForm::on_btnOk_clicked()
+{
+    emit sceneEditedSignal(SceneMetaData(graphicsScene.width(), graphicsScene.height(), listExObj));
+    hide();
 }

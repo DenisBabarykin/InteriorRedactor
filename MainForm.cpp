@@ -8,6 +8,8 @@
 #include "Exception/UnknownCommandException.h"
 #include <QDesktopWidget>
 #include "SceneSizesInput.h"
+#include <QDebug>
+
 
 ObjModel *pObjModel = NULL;
 bool mousePressed = false;
@@ -96,6 +98,13 @@ void MainForm::MouseMove(int dx, int dy)
     }
 }
 
+void MainForm::CreateScene(SceneMetaData sceneMetaData)
+{
+    qDebug() << "Файл сцены успешно получен";
+    qDebug() << "OX:" << sceneMetaData.getSceneLengthOX() << " OY:" << sceneMetaData.getSceneLengthOZ();
+    qDebug() << "Объектов на сцене:" << sceneMetaData.getListFig().size();
+}
+
 
 MainForm::~MainForm()
 {
@@ -128,5 +137,6 @@ void MainForm::CreateNewSceneRedactor(int sceneLength, int sceneWidth)
         delete sceneRedactorForm;
 
     sceneRedactorForm = new SceneRedactorForm(sceneLength, sceneWidth, this);
+    connect(sceneRedactorForm, SIGNAL(sceneEditedSignal(SceneMetaData)), this, SLOT(CreateScene(SceneMetaData)));
     sceneRedactorForm->show();
 }

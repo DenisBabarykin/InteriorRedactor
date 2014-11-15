@@ -7,6 +7,7 @@
 #include <QTreeWidgetItem>
 #include <QGraphicsScene>
 #include <QListWidgetItem>
+#include "Scene/SceneMetaData.h"
 
 namespace Ui {
 class SceneRedactorForm;
@@ -42,8 +43,11 @@ private slots:
 
     void on_lswdgExistingObjects_itemClicked(QListWidgetItem *item);
 
+    void on_btnOk_clicked();
+
 signals:
     void vecExObjChanged();
+    void sceneEditedSignal(SceneMetaData sceneMetaData);
 };
 
 #endif // SCENEREDACTORFORM_H
