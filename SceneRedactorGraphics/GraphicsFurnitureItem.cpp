@@ -106,8 +106,12 @@ QVariant GraphicsFurnitureItem::itemChange(GraphicsItemChange change, const QVar
         {
             newPos.setX(qMin(rect.right() - GetWidth()/2 - 4, qMax(newPos.x(), rect.left() + GetWidth()/2 + 4)));
             newPos.setY(qMin(rect.bottom() - GetHeight()/2 - 5, qMax(newPos.y(), rect.top() + GetHeight()/2 + 5)));
+
+            figureMetaData->SetPos(newPos);
             return newPos;
         }
+        else
+            figureMetaData->SetPos(value.toPointF());
     }
     return QGraphicsItem::itemChange(change, value);
 }
