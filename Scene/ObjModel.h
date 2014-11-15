@@ -2,7 +2,7 @@
 #define OBJMODEL_H
 
 #include "ObjLoader/ObjLoader.h"
-#include "Points.h"
+#include "./Points/Points.h"
 #include <QVector>
 #include <QPainter>
 

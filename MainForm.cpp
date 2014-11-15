@@ -1,11 +1,10 @@
 #include "MainForm.h"
 #include "ui_MainForm.h"
 #include "ObjLoader/ObjLoader.h"
-#include "ObjModel/ObjModel.h"
+#include "Scene/ObjModel.h"
 #include <QMessageBox>
 #include <QString>
 #include <QFileDialog>
-#include "ObjModel/Camera.h"
 #include "Exception/UnknownCommandException.h"
 #include <QDesktopWidget>
 #include "SceneSizesInput.h"

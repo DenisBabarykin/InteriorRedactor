@@ -3,7 +3,7 @@
 
 #include <QMainWindow>
 #include <QMap>
-#include "ObjModel/FigureMetaData.h"
+#include "Scene/FigureMetaData.h"
 #include <QTreeWidgetItem>
 #include <QGraphicsScene>
 #include <QListWidgetItem>

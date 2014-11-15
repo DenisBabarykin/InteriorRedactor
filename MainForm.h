@@ -2,7 +2,7 @@
 #define MAINFORM_H
 
 #include <QMainWindow>
-#include "ObjModel/ObjModel.h"
+#include "Scene/ObjModel.h"
 #include "SceneRedactorForm.h"
 
 namespace Ui {

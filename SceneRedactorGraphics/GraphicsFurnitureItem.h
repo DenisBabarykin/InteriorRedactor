@@ -2,7 +2,7 @@
 #define GRAPHICSFURNITUREITEM_H
 
 #include <QGraphicsItem>
-#include "ObjModel/FigureMetaData.h"
+#include "Scene/FigureMetaData.h"
 #include <QVector>
 
 class GraphicsFurnitureItem : public QGraphicsItem
