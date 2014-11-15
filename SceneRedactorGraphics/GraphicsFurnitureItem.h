@@ -9,11 +9,13 @@ class GraphicsFurnitureItem : public QGraphicsItem
 {
 public:
     //explicit GraphicsFurnitureItem(QGraphicsItem *parent = 0);
-    GraphicsFurnitureItem(FigureMetaData *it, QGraphicsItem *parent = 0);
+    GraphicsFurnitureItem(FigureMetaData *fig, QGraphicsItem *parent = 0);
     ~GraphicsFurnitureItem() {}
 
+    bool isContain(const FigureMetaData *fig) const;
+
 private:
-    FigureMetaData *itFigureMetaData;
+    FigureMetaData *figureMetaData;
 
 private:
     qreal GetWidth() const;

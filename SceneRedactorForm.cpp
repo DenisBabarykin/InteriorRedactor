@@ -9,6 +9,7 @@ SceneRedactorForm::SceneRedactorForm(qreal width, qreal height, QWidget *parent)
 {
     ui->setupUi(this);
     connect(this, SIGNAL(vecExObjChanged()), SLOT(RefreshObjectList()));
+    //connect(graphicsScene, SIGNAL(selectionChanged())) graphicsScene.cl
     RefreshCatalog();
     graphicsScene.setSceneRect(0, 0, width, height);
     ui->grvwScheme->setScene(&graphicsScene);
@@ -41,6 +42,8 @@ void SceneRedactorForm::on_trwdgCatalog_itemDoubleClicked(QTreeWidgetItem *item,
 
         GraphicsFurnitureItem *graphicsFurnitureItem = new GraphicsFurnitureItem(&listExObj[listExObj.size() - 1]);
         graphicsFurnitureItem->setFlag(QGraphicsItem::ItemIsMovable);
+        graphicsScene.clearSelection();
+        graphicsFurnitureItem->setSelected(true);
         graphicsScene.addItem(graphicsFurnitureItem);
 
         RefreshObjectList();
@@ -139,12 +142,38 @@ void SceneRedactorForm::RefreshObjectList()
 void SceneRedactorForm::on_btnRemoveItem_clicked()
 {
     if (ui->lswdgExistingObjects->currentItem() && !listExObj.isEmpty())
-        listExObj.removeAt(ui->lswdgExistingObjects->row(ui->lswdgExistingObjects->currentItem()));
+    {
+        int ind = ui->lswdgExistingObjects->row(ui->lswdgExistingObjects->currentItem());
 
-    emit vecExObjChanged();
+        QList<QGraphicsItem *> listItems = graphicsScene.items();
+        for (int i = 0; i < listItems.size(); ++i)
+            if (dynamic_cast<GraphicsFurnitureItem *>(listItems[i])->isContain(&listExObj[ind]))
+            {
+                graphicsScene.removeItem(listItems[i]);
+                break;
+            }
+
+        listExObj.removeAt(ind);
+
+        emit vecExObjChanged();
+    }
 }
 
 void SceneRedactorForm::on_lswdgExistingObjects_itemClicked(QListWidgetItem *item)
 {
+    if (ui->lswdgExistingObjects->currentItem() && !listExObj.isEmpty())
+    {
+        int ind = ui->lswdgExistingObjects->row(ui->lswdgExistingObjects->currentItem());
 
+        QList<QGraphicsItem *> listItems = graphicsScene.items();
+        for (int i = 0; i < listItems.size(); ++i)
+            if (dynamic_cast<GraphicsFurnitureItem *>(listItems[i])->isContain(&listExObj[ind]))
+            {
+                //graphicsScene.removeItem(listItems[i]);
+                graphicsScene.clearSelection();
+                listItems[i]->setSelected(true);
+
+                break;
+            }
+    }
 }

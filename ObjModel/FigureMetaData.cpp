@@ -1,5 +1,6 @@
 #include "FigureMetaData.h"
 #include "ObjModel.h"
+//#include <QDebug>
 
 FigureMetaData::FigureMetaData()
 {
@@ -101,8 +102,10 @@ void FigureMetaData::LoadAndCalcMinMax()
     Point3D pnt3DMax = objModel.MaxPoint();
 
     pntMin.setX(pnt3DMin.x);
-    pntMin.setY(pnt3DMin.y);
+    pntMin.setY(pnt3DMin.z);
 
     pntMax.setX(pnt3DMax.x);
-    pntMax.setY(pnt3DMax.y);
+    pntMax.setY(pnt3DMax.z);
+
+    //qDebug() << name << " " << pntMax.rx() - pntMin.rx() << " " << pntMax.ry() - pntMin.ry();
 }
