@@ -27,7 +27,9 @@ SOURCES += main.cpp\
     SceneRedactorForm.cpp \
     ObjModel/FigureMetaData.cpp \
     SceneSizesInput.cpp \
-    SceneRedactorGraphics/GraphicsFurnitureItem.cpp
+    SceneRedactorGraphics/GraphicsFurnitureItem.cpp \
+    Scene/SceneMetaData.cpp \
+    Scene/FigureMetaData.cpp
 
 HEADERS  += MainForm.h \
     LabelScene/LabelScene.h \
@@ -43,7 +45,9 @@ HEADERS  += MainForm.h \
     SceneRedactorForm.h \
     ObjModel/FigureMetaData.h \
     SceneSizesInput.h \
-    SceneRedactorGraphics/GraphicsFurnitureItem.h
+    SceneRedactorGraphics/GraphicsFurnitureItem.h \
+    Scene/SceneMetaData.h \
+    Scene/FigureMetaData.h
 
 
 FORMS    += MainForm.ui \
