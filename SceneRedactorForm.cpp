@@ -22,6 +22,9 @@ SceneRedactorForm::SceneRedactorForm(qreal width, qreal height, QWidget *parent)
     floorItem->setPen(outlinePen);
     floorItem->setBrush(QBrush(Qt::lightGray));
     graphicsScene.addItem(floorItem);
+
+    QList<QGraphicsItem *> list1 = graphicsScene.items();
+    list1.clear();
 }
 
 SceneRedactorForm::SceneRedactorForm(SceneMetaData sceneMetaData, QWidget *parent) :
@@ -39,6 +42,8 @@ SceneRedactorForm::SceneRedactorForm(SceneMetaData sceneMetaData, QWidget *paren
     graphicsScene.clearSelection();
     RefreshObjectList();
 
+    QList<QGraphicsItem *> list2 = graphicsScene.items();
+    list2.clear();
 }
 
 void SceneRedactorForm::closeEvent(QCloseEvent *)

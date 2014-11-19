@@ -2,6 +2,7 @@
 #include <QFile>
 #include <QTextStream>
 #include "./Exception/OpeningFileException.h"
+#include <QDebug>
 
 SceneMetaData::SceneMetaData()
 {
@@ -36,7 +37,6 @@ void SceneMetaData::SetSceneLengthOZ(const qreal &value)
     sceneLengthOZ = value;
 }
 
-
 QList<FigureMetaData> SceneMetaData::getListFig() const
 {
     return listFig;
@@ -57,14 +57,14 @@ void SceneMetaData::SaveToFile(QString filename)
         ex.raise();
     }
 
-    QTextStream stream(&file);
+    QTextStream tstream(&file);
 
-    stream << GetSceneLengthOX() << endl;
-    stream << GetSceneLengthOZ() << endl;
+    tstream << GetSceneLengthOX() << endl;
+    tstream << GetSceneLengthOZ() << endl;
 
-    stream << listFig.size() << endl << endl;
+    tstream << listFig.size() << endl << endl;
     for (int i = 0; i < listFig.size(); ++i)
-        stream << listFig[i] << endl;
+        tstream << listFig[i] << endl;
 
     file.flush(); //переносим данные из буфера в файл
     file.close();
@@ -80,19 +80,19 @@ void SceneMetaData::LoadFromFile(QString filename)
         ex.raise();
     }
 
-    QTextStream stream(&file);
+    QTextStream tstream(&file);
+    bool doub = (sizeof(qreal) == sizeof(double)) ? (true) : (false);
+    sceneLengthOX = (doub) ? (tstream.readLine().toDouble()) : (tstream.readLine().toFloat());
+    sceneLengthOZ = (doub) ? (tstream.readLine().toDouble()) : (tstream.readLine().toFloat());
 
-    stream >> sceneLengthOX;
-    stream >> sceneLengthOZ;
-
-    int figCount;
-    stream >> figCount;
+    int figCount = tstream.readLine().toInt();
     listFig.clear();
 
     for (int i = 0; i < figCount; ++i)
     {
         FigureMetaData tempFig;
-        stream >> tempFig;
+        tstream.readLine();  // пропустить пустую строку
+        tstream >> tempFig;
         listFig.append(tempFig);
     }
 

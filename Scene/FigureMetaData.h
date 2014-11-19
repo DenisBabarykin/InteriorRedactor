@@ -4,6 +4,7 @@
 #include <QString>
 #include <QPointF>
 #include <QTextStream>
+#include <QFile>
 
 class FigureMetaData
 {

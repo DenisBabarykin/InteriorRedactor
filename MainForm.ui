@@ -383,6 +383,9 @@
    </property>
   </action>
   <action name="menuBtnEditScene">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="icon">
     <iconset resource="images.qrc">
      <normaloff>:/menu_icons/images/edit.png</normaloff>:/menu_icons/images/edit.png</iconset>

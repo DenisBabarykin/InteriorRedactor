@@ -111,6 +111,7 @@ void MainForm::CreateScene(SceneMetaData sceneMetaData)
     qDebug() << "Объектов на сцене:" << sceneMetaData.getListFig().size();
 
     this->sceneMetaData = sceneMetaData;
+    ui->menuBtnEditScene->setEnabled(true);
     ui->menuBtnSaveScene->setEnabled(true);
     ui->menuBtnSaveAsScene->setEnabled(true);
 }

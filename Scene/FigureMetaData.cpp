@@ -123,32 +123,27 @@ void FigureMetaData::LoadAndCalcMinMax()
 
 QTextStream &operator>>(QTextStream &in, FigureMetaData &fig)
 {
-    in >> fig.name;
-    in >> fig.category;
+    bool doub = (sizeof(qreal) == sizeof(double)) ? (true) : (false);
+
+    fig.name = in.readLine();
+    fig.category = in.readLine();
 
     qreal x = 0, y = 0;
-    in >> x;
-    in >> y;
-    fig.pntMin.setX(x);
-    fig.pntMin.setY(y);
+    x = (doub) ? (in.readLine().toDouble()) : (in.readLine().toFloat());
+    y = (doub) ? (in.readLine().toDouble()) : (in.readLine().toFloat());
+    fig.pntMin = QPointF(x, y);
 
-    in >> x;
-    in >> y;
-    fig.pntMax.setX(x);
-    fig.pntMax.setY(y);
+    x = (doub) ? (in.readLine().toDouble()) : (in.readLine().toFloat());
+    y = (doub) ? (in.readLine().toDouble()) : (in.readLine().toFloat());
+    fig.pntMax = QPointF(x, y);
 
-    in >> fig.angle;
+    fig.angle = QString(in.readLine().data()).toInt();
 
-    in >> x;
-    in >> y;
-    fig.SetPos(x, y);
+    x = (doub) ? (in.readLine().toDouble()) : (in.readLine().toFloat());
+    y = (doub) ? (in.readLine().toDouble()) : (in.readLine().toFloat());
+    fig.pos = QPointF(x, y);
 
-    int previewStat;
-    in >> previewStat;
-    if (previewStat == 1)
-        fig.hasPreview = true;
-    else
-        fig.hasPreview = false;
+    fig.hasPreview = (in.readLine() == QString("has_preview")) ? (true) : (false);
 
     return in;
 }
@@ -164,7 +159,7 @@ QTextStream &operator<<(QTextStream &out, const FigureMetaData &fig)
     out << fig.GetAngle() << endl;
     out << fig.GetPos().rx() << endl;
     out << fig.GetPos().ry() << endl;
-    out << ((fig.HasPreview()) ? (1) : (0)) << endl;
+    out << ((fig.HasPreview()) ? ("has_preview") : ("no_preview")) << endl;
 
     return out;
 }
