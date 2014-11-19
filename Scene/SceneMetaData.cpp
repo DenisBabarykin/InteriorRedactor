@@ -1,4 +1,7 @@
 #include "SceneMetaData.h"
+#include <QFile>
+#include <QTextStream>
+#include "./Exception/OpeningFileException.h"
 
 SceneMetaData::SceneMetaData()
 {
@@ -13,22 +16,22 @@ SceneMetaData::SceneMetaData(qreal sceneLengthOX, qreal sceneLengthOZ, QList<Fig
     listFig = list;
 }
 
-qreal SceneMetaData::getSceneLengthOX() const
+qreal SceneMetaData::GetSceneLengthOX() const
 {
     return sceneLengthOX;
 }
 
-void SceneMetaData::setSceneLengthOX(const qreal &value)
+void SceneMetaData::SetSceneLengthOX(const qreal &value)
 {
     sceneLengthOX = value;
 }
 
-qreal SceneMetaData::getSceneLengthOZ() const
+qreal SceneMetaData::GetSceneLengthOZ() const
 {
     return sceneLengthOZ;
 }
 
-void SceneMetaData::setSceneLengthOZ(const qreal &value)
+void SceneMetaData::SetSceneLengthOZ(const qreal &value)
 {
     sceneLengthOZ = value;
 }
@@ -42,4 +45,56 @@ QList<FigureMetaData> SceneMetaData::getListFig() const
 void SceneMetaData::setListFig(const QList<FigureMetaData> &list)
 {
     listFig = list;
+}
+
+void SceneMetaData::SaveToFile(QString filename)
+{
+    QFile file(filename);
+
+    if (!file.open(QFile::WriteOnly | QFile::Text))
+    {
+        OpeningFileException ex(filename);
+        ex.raise();
+    }
+
+    QTextStream stream(&file);
+
+    stream << GetSceneLengthOX() << endl;
+    stream << GetSceneLengthOZ() << endl;
+
+    stream << listFig.size() << endl << endl;
+    for (int i = 0; i < listFig.size(); ++i)
+        stream << listFig[i] << endl;
+
+    file.flush(); //переносим данные из буфера в файл
+    file.close();
+}
+
+void SceneMetaData::LoadFromFile(QString filename)
+{
+    QFile file(filename);
+
+    if (!file.open(QFile::ReadOnly | QFile::Text))
+    {
+        OpeningFileException ex(filename);
+        ex.raise();
+    }
+
+    QTextStream stream(&file);
+
+    stream >> sceneLengthOX;
+    stream >> sceneLengthOZ;
+
+    int figCount;
+    stream >> figCount;
+    listFig.clear();
+
+    for (int i = 0; i < figCount; ++i)
+    {
+        FigureMetaData tempFig;
+        stream >> tempFig;
+        listFig.append(tempFig);
+    }
+
+    file.close();
 }

@@ -24,7 +24,8 @@ private:
     QGraphicsScene graphicsScene;
 
 public:
-    explicit SceneRedactorForm(qreal width, qreal height, QWidget *parent = 0);
+    SceneRedactorForm(qreal width, qreal height, QWidget *parent = 0);
+    explicit SceneRedactorForm(SceneMetaData sceneMetaData, QWidget *parent = 0);
     ~SceneRedactorForm();
 
 

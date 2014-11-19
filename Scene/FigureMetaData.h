@@ -3,6 +3,7 @@
 
 #include <QString>
 #include <QPointF>
+#include <QTextStream>
 
 class FigureMetaData
 {
@@ -44,6 +45,13 @@ public:
     void SetPreviewStatus(bool hasPreview);
 
     void LoadAndCalcMinMax();
+
+    int GetAngle() const;
+    void SetAngle(int value);
+
+    friend QTextStream &operator<<(QTextStream &out, const FigureMetaData &fig);
+    friend QTextStream &operator>>(QTextStream &in, FigureMetaData &fig);
+
 };
 
 #endif // FIGUREMETADATA_H

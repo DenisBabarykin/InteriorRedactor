@@ -2,6 +2,7 @@
 #include "ui_SceneRedactorForm.h"
 #include <QDir>
 #include "SceneRedactorGraphics/GraphicsFurnitureItem.h"
+#include <QDebug>
 
 SceneRedactorForm::SceneRedactorForm(qreal width, qreal height, QWidget *parent) :
     QMainWindow(parent),
@@ -21,6 +22,23 @@ SceneRedactorForm::SceneRedactorForm(qreal width, qreal height, QWidget *parent)
     floorItem->setPen(outlinePen);
     floorItem->setBrush(QBrush(Qt::lightGray));
     graphicsScene.addItem(floorItem);
+}
+
+SceneRedactorForm::SceneRedactorForm(SceneMetaData sceneMetaData, QWidget *parent) :
+    SceneRedactorForm(sceneMetaData.GetSceneLengthOX(), sceneMetaData.GetSceneLengthOZ(), parent)
+{
+    listExObj = sceneMetaData.getListFig();
+
+    for (int i = 0; i < listExObj.size(); ++i)
+    {
+        GraphicsFurnitureItem *graphicsFurnitureItem = new GraphicsFurnitureItem(&listExObj[i]);
+        graphicsFurnitureItem->setFlag(QGraphicsItem::ItemIsMovable);
+        graphicsScene.addItem(graphicsFurnitureItem);
+    }
+
+    graphicsScene.clearSelection();
+    RefreshObjectList();
+
 }
 
 void SceneRedactorForm::closeEvent(QCloseEvent *)

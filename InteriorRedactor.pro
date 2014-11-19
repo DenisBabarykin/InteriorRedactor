@@ -27,7 +27,8 @@ SOURCES += main.cpp\
     Scene/SceneMetaData.cpp \
     Scene/FigureMetaData.cpp \
     Points/Points.cpp \
-    Scene/ObjModel.cpp
+    Scene/ObjModel.cpp \
+    Exception/OpeningFileException.cpp
 
 HEADERS  += MainForm.h \
     LabelScene/LabelScene.h \
@@ -43,7 +44,8 @@ HEADERS  += MainForm.h \
     Scene/SceneMetaData.h \
     Scene/FigureMetaData.h \
     Points/Points.h \
-    Scene/ObjModel.h
+    Scene/ObjModel.h \
+    Exception/OpeningFileException.h
 
 
 FORMS    += MainForm.ui \

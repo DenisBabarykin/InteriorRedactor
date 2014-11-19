@@ -1,5 +1,6 @@
 #include "ObjModel.h"
 #include <QtMath>
+#include <QDebug>
 
 const double Pi = 3.14159265;
 
@@ -18,14 +19,17 @@ void ObjModel::FillDataFromObjLoader(ObjLoader &objLoader)
         vecPnts3D[i] = Point3D(objLoader.vertexList[i]->e[0], objLoader.vertexList[i]->e[1],
                 objLoader.vertexList[i]->e[2]);
 
+    int nQuads = 0;
     for (int i = 0; i < vecIndx.count(); ++i)
     {
         if (objLoader.faceList[i]->vertex_count != 3)
-            throw ("Vertex count error");
+            //throw ("Vertex count error");
+            ++nQuads;
 
         vecIndx[i] = FaceIndexes(objLoader.faceList[i]->vertex_index[0],
                 objLoader.faceList[i]->vertex_index[1], objLoader.faceList[i]->vertex_index[2]);
     }
+    qDebug() << nQuads;
 }
 
 Point3D ObjModel::MaxPoint()

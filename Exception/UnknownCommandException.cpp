@@ -66,9 +66,6 @@ UnknownCommandException *UnknownCommandException::clone()
     return new UnknownCommandException(this);
 }
 
-UnknownCommandException::~UnknownCommandException()
-{
 
-}
 
 

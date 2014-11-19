@@ -21,6 +21,8 @@ public:
 private:
     Ui::MainForm *ui;
     SceneRedactorForm *sceneRedactorForm;
+    SceneMetaData sceneMetaData;
+    QString sceneFilename;
 
 private:
     void Draw(ObjModel &objModel);
@@ -35,7 +37,10 @@ private slots:
     void on_menuBtnCreateNewScene_triggered();
 
     void CreateNewSceneRedactor(int sceneLength, int sceneWidth);
+    void CreateNewSceneRedactor(SceneMetaData sceneMetaData);
 
+    void on_menuBtnSaveScene_triggered();
+    void on_menuBtnSaveAsScene_triggered();
 };
 
 #endif // MAINFORM_H

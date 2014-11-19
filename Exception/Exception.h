@@ -4,7 +4,7 @@
 #include <QException>
 #include <QString>
 
-class Exception //: public QException
+class Exception : public QException
 {
 private:
     QString type;                 // Тип ошибки

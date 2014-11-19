@@ -6,6 +6,7 @@
 #include "string_extra.h"
 #include <Exception/UnknownCommandException.h>
 #include <QString>
+#include <QDebug>
 
 #define WHITESPACE " \t\n\r"
 
@@ -310,18 +311,23 @@ int obj_parse_obj_file(obj_growable_scene_data *growable_data, const char *filen
 
         else if(strequal(current_token, "v")) // vertex
 		{
+            //qDebug() << __LINE__;
 			list_add_item(&growable_data->vertex_list,  obj_parse_vector(), NULL);
 		}
         else if(strequal(current_token, "vn")) //vertex normal
 		{
+            //qDebug() << __LINE__;
 			list_add_item(&growable_data->vertex_normal_list,  obj_parse_vector(), NULL);
 		}
         else if(strequal(current_token, "vt")) //vertex texture
 		{
+            //qDebug() << __LINE__;
 			list_add_item(&growable_data->vertex_texture_list,  obj_parse_vector(), NULL);
 		}
         else if(strequal(current_token, "f")) //face - полигон
 		{
+            static unsigned int a = 0;
+            //qDebug() << __LINE__ << ++a;
 			obj_face *face = obj_parse_face(growable_data);
 			face->material_index = current_material;
 			list_add_item(&growable_data->face_list, face, NULL);
@@ -334,6 +340,7 @@ int obj_parse_obj_file(obj_growable_scene_data *growable_data, const char *filen
 		}
         else if(strequal(current_token, "pl")) // plane
 		{
+            //qDebug() << __LINE__;
 			obj_plane *pl = obj_parse_plane(growable_data);
 			pl->material_index = current_material;
 			list_add_item(&growable_data->plane_list, pl, NULL);
@@ -370,11 +377,13 @@ int obj_parse_obj_file(obj_growable_scene_data *growable_data, const char *filen
 		
         else if(strequal(current_token, "usemtl")) // usemtl
 		{
+            //qDebug() << __LINE__;
 			current_material = list_find(&growable_data->material_list, strtok(NULL, WHITESPACE));
 		}
 		
         else if(strequal(current_token, "mtllib")) // mtllib
 		{
+            //qDebug() << __LINE__;
 			strncpy(growable_data->material_filename, strtok(NULL, WHITESPACE), OBJ_FILENAME_LENGTH);
 			obj_parse_mtl_file(growable_data->material_filename, &growable_data->material_list);
 			continue;

@@ -18,7 +18,7 @@ public:
     void raise() const;               // Бросить исключение
     UnknownCommandException *clone(); // Создать копию
 
-    ~UnknownCommandException();
+    //~UnknownCommandException() throw();
 };
 
 #endif // UNKNOWNCOMMANDEXCEPTION_H

@@ -16,14 +16,17 @@ public:
     SceneMetaData();
     SceneMetaData(qreal sceneLengthOX, qreal sceneLengthOZ, QList<FigureMetaData> list);
 
-    qreal getSceneLengthOX() const;
-    void setSceneLengthOX(const qreal &value);
+    qreal GetSceneLengthOX() const;
+    void SetSceneLengthOX(const qreal &value);
 
-    qreal getSceneLengthOZ() const;
-    void setSceneLengthOZ(const qreal &value);
+    qreal GetSceneLengthOZ() const;
+    void SetSceneLengthOZ(const qreal &value);
 
     QList<FigureMetaData> getListFig() const;
     void setListFig(const QList<FigureMetaData> &list);
+
+    void SaveToFile(QString filename);
+    void LoadFromFile(QString filename);
 };
 
 #endif // SCENEMETADATA_H

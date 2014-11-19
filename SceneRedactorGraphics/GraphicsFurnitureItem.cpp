@@ -13,9 +13,8 @@ GraphicsFurnitureItem::GraphicsFurnitureItem(FigureMetaData *fig,
     setFlag(ItemIsSelectable);
 
     figureMetaData = fig;
-    /*if (it->GetPos() == QPointF(0.0, 0.0))
-        it->SetPos(it->GetPntMax() - it->GetPntMin() + QPointF(1, 1));*/
-    figureMetaData->SetPos(GetWidth() / 2 + 20, GetHeight() / 2 + 20);
+    if (figureMetaData->GetPos() == QPointF(0.0, 0.0))
+        figureMetaData->SetPos(GetWidth() / 2 + 20, GetHeight() / 2 + 20);
     this->setPos(fig->GetPos());
 }
 

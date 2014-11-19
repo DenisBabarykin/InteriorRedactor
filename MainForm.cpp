@@ -28,6 +28,7 @@ MainForm::MainForm(QWidget *parent) :
 
 void MainForm::OpenScene()
 {
+    /*
     QString fileName = QFileDialog::getOpenFileName(this, "Введите имя файла", "", "Files (*.obj)");
 
     if (fileName == "")
@@ -65,6 +66,11 @@ void MainForm::OpenScene()
     }
 
     Draw(*pObjModel);
+    */
+
+    sceneFilename = QFileDialog::getOpenFileName(this, "Введите имя файла", "", "Files (*.smd)");
+    sceneMetaData.LoadFromFile(sceneFilename);
+    CreateNewSceneRedactor(sceneMetaData);
 }
 
 void MainForm::Draw(ObjModel &objModel)
@@ -101,10 +107,13 @@ void MainForm::MouseMove(int dx, int dy)
 void MainForm::CreateScene(SceneMetaData sceneMetaData)
 {
     qDebug() << "Файл сцены успешно получен";
-    qDebug() << "OX:" << sceneMetaData.getSceneLengthOX() << " OY:" << sceneMetaData.getSceneLengthOZ();
+    qDebug() << "OX:" << sceneMetaData.GetSceneLengthOX() << " OZ:" << sceneMetaData.GetSceneLengthOZ();
     qDebug() << "Объектов на сцене:" << sceneMetaData.getListFig().size();
-}
 
+    this->sceneMetaData = sceneMetaData;
+    ui->menuBtnSaveScene->setEnabled(true);
+    ui->menuBtnSaveAsScene->setEnabled(true);
+}
 
 MainForm::~MainForm()
 {
@@ -139,4 +148,35 @@ void MainForm::CreateNewSceneRedactor(int sceneLength, int sceneWidth)
     sceneRedactorForm = new SceneRedactorForm(sceneLength, sceneWidth, this);
     connect(sceneRedactorForm, SIGNAL(sceneEditedSignal(SceneMetaData)), this, SLOT(CreateScene(SceneMetaData)));
     sceneRedactorForm->show();
+}
+
+void MainForm::CreateNewSceneRedactor(SceneMetaData sceneMetaData)
+{
+    if (sceneRedactorForm)
+        delete sceneRedactorForm;
+
+    sceneRedactorForm = new SceneRedactorForm(sceneMetaData, this);
+    connect(sceneRedactorForm, SIGNAL(sceneEditedSignal(SceneMetaData)), this, SLOT(CreateScene(SceneMetaData)));
+    sceneRedactorForm->show();
+}
+
+void MainForm::on_menuBtnSaveScene_triggered()
+{
+    if (sceneFilename.isEmpty())
+        sceneFilename = QFileDialog::getSaveFileName(this, "Введите имя файла", "", "Files (*.smd)");
+
+    if ((sceneFilename.isEmpty()))
+        return;
+    else
+        sceneMetaData.SaveToFile(sceneFilename);
+}
+
+void MainForm::on_menuBtnSaveAsScene_triggered()
+{
+    sceneFilename = QFileDialog::getSaveFileName(this, "Введите имя файла", "", "Files (*.smd)");
+
+    if ((sceneFilename.isEmpty()))
+        return;
+    else
+        sceneMetaData.SaveToFile(sceneFilename);
 }
