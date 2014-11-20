@@ -50,6 +50,8 @@ public:
     int GetAngle() const;
     void SetAngle(int value);
 
+    const char *GetFileName();
+
     friend QTextStream &operator<<(QTextStream &out, const FigureMetaData &fig);
     friend QTextStream &operator>>(QTextStream &in, FigureMetaData &fig);
 

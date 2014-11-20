@@ -28,7 +28,8 @@ SOURCES += main.cpp\
     Scene/FigureMetaData.cpp \
     Points/Points.cpp \
     Scene/ObjModel.cpp \
-    Exception/OpeningFileException.cpp
+    Exception/OpeningFileException.cpp \
+    LabelScene/ZBuffer.cpp
 
 HEADERS  += MainForm.h \
     LabelScene/LabelScene.h \
@@ -45,7 +46,8 @@ HEADERS  += MainForm.h \
     Scene/FigureMetaData.h \
     Points/Points.h \
     Scene/ObjModel.h \
-    Exception/OpeningFileException.h
+    Exception/OpeningFileException.h \
+    LabelScene/ZBuffer.h
 
 
 FORMS    += MainForm.ui \

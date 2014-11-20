@@ -4,10 +4,15 @@
 
 const double Pi = 3.14159265;
 
+ObjModel::ObjModel()
+{
+
+}
+
 ObjModel::ObjModel(ObjLoader &objLoader)
 {
     FillDataFromObjLoader(objLoader);
-    //Center();
+    Center();
 }
 
 void ObjModel::FillDataFromObjLoader(ObjLoader &objLoader)
@@ -70,13 +75,23 @@ Point3D ObjModel::MinPoint()
     return MinPoint;
 }
 
+void ObjModel::Shift(qreal dx, qreal dy, qreal dz)
+{
+    for (int i = 0; i < vecPnts3D.count(); ++i)
+    {
+        vecPnts3D[i].x += dx;
+        vecPnts3D[i].y += dy;
+        vecPnts3D[i].z += dz;
+    }
+}
+
 void ObjModel::Center()
 {
     Point3D maxPoint = MaxPoint();
     Point3D minPoint = MinPoint();
 
     double dx = - (maxPoint.x + minPoint.x) / 2;
-    double dy = - (maxPoint.y + minPoint.y) / 2;
+    double dy = - minPoint.y;
     double dz = - (maxPoint.z + minPoint.z) / 2;
 
     for (int i = 0; i < vecPnts3D.count(); ++i)
@@ -85,6 +100,8 @@ void ObjModel::Center()
         vecPnts3D[i].y += dy;
         vecPnts3D[i].z += dz;
     }
+
+    //Shift(0, -minPoint.y, 0);
 }
 
 void ObjModel::DrawModel(QPainter &painter)

@@ -9,10 +9,12 @@
 #include <QDesktopWidget>
 #include "SceneSizesInput.h"
 #include <QDebug>
-
+#include <QImage>
 
 ObjModel *pObjModel = NULL;
 bool mousePressed = false;
+
+QVector<ObjModel *> vecModel;
 
 MainForm::MainForm(QWidget *parent) :
     QMainWindow(parent),
@@ -73,8 +75,9 @@ void MainForm::OpenScene()
     CreateNewSceneRedactor(sceneMetaData);
 }
 
-void MainForm::Draw(ObjModel &objModel)
+void MainForm::Draw(QVector<ObjModel *> &vec)
 {
+
     QPixmap pic(QSize(ui->lblScene->width(), ui->lblScene->height()));
     QPainter painter(&pic);
     painter.setPen(QPen(Qt::black, 1, Qt::SolidLine));
@@ -84,23 +87,53 @@ void MainForm::Draw(ObjModel &objModel)
     painter.translate(ui->lblScene->width() / 2, ui->lblScene->height() / 2);
     painter.scale(1, -1);
 
-    objModel.DrawModel(painter);
+    /*
+    for (int i = 0; i < vec.size(); ++i)
+        vec[i]->DrawModel(painter);
 
     ui->lblScene->setPixmap(pic);
+    */
+
+    QImage
+}
+
+void MainForm::Shift(QVector<ObjModel *> &vec, qreal dx, qreal dy, qreal dz)
+{
+    for (int i = 0; i < vec.size(); ++i)
+        vec[i]->Shift(dx, dy, dz);
 }
 
 void MainForm::MouseMove(int dx, int dy)
 {
     static int sumX = 0, sumY = 0;
 
-    if (pObjModel)
+    if (!vecModel.isEmpty())
     {
-        ObjModel tempModel = *pObjModel;
         sumX -= dx;
         sumY -= dy;
+
+        /*
+        ObjModel tempModel = *pObjModel;
         tempModel.RotateOY(sumX);
         tempModel.RotateOX(sumY);
         Draw(tempModel);
+        */
+
+        QVector<ObjModel *> vec;
+        for (int i = 0; i < vecModel.size(); ++i)
+        {
+            ObjModel *tempModel = new ObjModel;
+            *tempModel = *(vecModel[i]);
+            vec.append(tempModel);
+
+            vec[i]->RotateOY(sumX);
+            vec[i]->RotateOX(sumY);
+        }
+        Draw(vec);
+
+        for (int i = 0; i < vec.size(); ++i)
+            delete vec[i];
+        vec.clear();
     }
 }
 
@@ -114,6 +147,32 @@ void MainForm::CreateScene(SceneMetaData sceneMetaData)
     ui->menuBtnEditScene->setEnabled(true);
     ui->menuBtnSaveScene->setEnabled(true);
     ui->menuBtnSaveAsScene->setEnabled(true);
+
+    if (!vecModel.isEmpty())
+        for (int i = 0; i < vecModel.size(); ++i)
+            delete vecModel[i];
+    vecModel.clear();
+
+    for (int i = 0; i < sceneMetaData.getListFig().size(); ++i)
+    {
+        ObjLoader objLoader;
+        objLoader.load(sceneMetaData.getListFig()[i].GetFileName());
+        vecModel.append(new ObjModel(objLoader));
+        vecModel[i]->Shift(sceneMetaData.getListFig()[i].GetPos().rx(), 0, sceneMetaData.getListFig()[i].GetPos().ry());
+    }
+
+    // формирование пола
+    ObjModel *floor = new ObjModel;
+    floor->vecPnts3D.append(Point3D(0, 0, 0));
+    floor->vecPnts3D.append(Point3D(0, 0, sceneMetaData.GetSceneLengthOZ()));
+    floor->vecPnts3D.append(Point3D(sceneMetaData.GetSceneLengthOX(), 0, sceneMetaData.GetSceneLengthOZ()));
+    floor->vecPnts3D.append(Point3D(sceneMetaData.GetSceneLengthOX(), 0, 0));
+    floor->vecIndx.append(FaceIndexes(0, 1, 2));
+    floor->vecIndx.append(FaceIndexes(0, 2, 3));
+    vecModel.append(floor);
+
+    Shift(vecModel, -sceneMetaData.GetSceneLengthOX() / 2, 0, -sceneMetaData.GetSceneLengthOZ() / 2);
+    Draw(vecModel);
 }
 
 MainForm::~MainForm()

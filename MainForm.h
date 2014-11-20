@@ -25,7 +25,8 @@ private:
     QString sceneFilename;
 
 private:
-    void Draw(ObjModel &objModel);
+    void Draw(QVector<ObjModel *> &vec);
+    void Shift(QVector<ObjModel *> &vec, qreal dx, qreal dy, qreal dz);
 
 public slots:
     void OpenScene();

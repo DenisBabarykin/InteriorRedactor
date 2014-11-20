@@ -9,6 +9,7 @@
 class ObjModel
 {
 public:
+    ObjModel();
     explicit ObjModel(ObjLoader &objLoader);
 
     void DrawModel(QPainter &painter);
@@ -18,7 +19,9 @@ public:
     Point3D MaxPoint();
     Point3D MinPoint();
 
-private:
+    void Shift(qreal dx, qreal dy, qreal dz);
+
+public: //private:
     QVector<Point3D> vecPnts3D;
     QVector<FaceIndexes> vecIndx;
 

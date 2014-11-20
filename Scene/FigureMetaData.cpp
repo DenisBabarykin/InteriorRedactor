@@ -12,6 +12,11 @@ void FigureMetaData::SetAngle(int value)
     angle = value;
 }
 
+const char *FigureMetaData::GetFileName()
+{
+    return QString("models/" + category + "/" + name).toLocal8Bit().constData();
+}
+
 FigureMetaData::FigureMetaData()
 {
     angle = 0;
