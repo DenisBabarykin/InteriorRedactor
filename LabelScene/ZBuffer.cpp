@@ -7,7 +7,7 @@
 
 //Конструктор Z-буфера.
 
-ZBuffer :: ZBuffer ( int ax, int ay ) : image(ax, ay)
+ZBuffer :: ZBuffer ( int ax, int ay ) : image(ax, ay, QImage::Format_RGB32)
 {
     sX = ax; sY = ay;
     for ( int i = 0; i < sY; i++ )
@@ -41,22 +41,22 @@ void ZBuffer :: Clear ()
         for ( int i = 0; i < sX; i++ )                                                               //-1 серый
             //Инициализируем ячейки Z-буфера
         {
-            (*( buff[ j ] + i )).z = MAXDIST;
+            (*( buff[ j ] + i )) = MAXDIST;
             //(*( buff[ j ] + i )).color = clWhite;
             image.fill(Qt::white);
         }
 }
 
-void ZBuffer :: PutTriangle (triangle& t)
+void ZBuffer::PutTriangle(triangle& t, uint color)
 {
     int ymax, ymin, ysc, e1, e;
     double x[3], y[3];
     double z_a[3];
     //Заносим x,y из t в массивы для последующей работы с ними
-    x[0] = int( t.a->x ), y[0] = int( t.a->y );
-    x[1] = int( t.b->x ), y[1] = int( t.b->y );
-    x[2] = int( t.c->x ), y[2] = int( t.c->y );
-    z_a[0] = t.a->z, z_a[1] = t.b->z, z_a[2] = t.c->z;
+    x[0] = int( t.a.x ), y[0] = int( t.a.y );
+    x[1] = int( t.b.x ), y[1] = int( t.b.y );
+    x[2] = int( t.c.x ), y[2] = int( t.c.y );
+    z_a[0] = t.a.z, z_a[1] = t.b.z, z_a[2] = t.c.z;
     //Определяем максимальный и минимальный y
     ymax = ymin = y[0];
 
@@ -136,10 +136,11 @@ void ZBuffer :: PutTriangle (triangle& t)
             z = z1 + tc * ( z2 - z1 );
             //Если полученная глубина пиксела меньше той,
             //что находится в Z-Буфере - заменяем храняшуюся на новую.
-            if ( z < (*( buff[ysc] + xsc )).z )
+            if ( z < (*( buff[ysc] + xsc )) )
             {
-                (*( buff[ ysc ] + xsc )).color = t.clr;
-                (*( buff[ ysc ] + xsc )).z = z;
+                //(*( buff[ ysc ] + xsc )).color = t.clr;
+                //image.setPixel(QPoint(xsc, ysc), color);
+                (*( buff[ ysc ] + xsc )) = z;
             }
         }
     }

@@ -24,6 +24,7 @@ public:
 public: //private:
     QVector<Point3D> vecPnts3D;
     QVector<FaceIndexes> vecIndx;
+    void DrawModelFill(QPainter &painter);
 
 private:
     void FillDataFromObjLoader(ObjLoader &objLoader);

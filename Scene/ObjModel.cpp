@@ -131,6 +131,27 @@ void ObjModel::RotateOX(double angle)
     }
 }
 
+void ObjModel::DrawModelFill(QPainter &painter)
+{
+    QPointF *points = new QPointF[4];
+
+    painter.setBrush(QBrush(Qt::black));
+    painter.setRenderHint(QPainter::Antialiasing);
+
+    for (int i = 0; i < vecIndx.count(); ++i)
+    {
+        points[0] = QPointF(vecPnts3D[vecIndx[i].v1].x, vecPnts3D[vecIndx[i].v1].y);
+        points[1] = QPointF(vecPnts3D[vecIndx[i].v2].x, vecPnts3D[vecIndx[i].v2].y);
+        points[2] = QPointF(vecPnts3D[vecIndx[i].v3].x, vecPnts3D[vecIndx[i].v3].y);
+
+        painter.drawPolygon(points, 3);
+
+    }
+    painter.setBrush(QBrush(Qt::white));
+
+    delete [] points;
+}
+
 void ObjModel::RotateOY(double angle)
 {
     angle *= Pi / 180;

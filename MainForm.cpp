@@ -10,6 +10,7 @@
 #include "SceneSizesInput.h"
 #include <QDebug>
 #include <QImage>
+#include "LabelScene/ZBuffer.h"
 
 ObjModel *pObjModel = NULL;
 bool mousePressed = false;
@@ -87,14 +88,33 @@ void MainForm::Draw(QVector<ObjModel *> &vec)
     painter.translate(ui->lblScene->width() / 2, ui->lblScene->height() / 2);
     painter.scale(1, -1);
 
-    /*
+
     for (int i = 0; i < vec.size(); ++i)
-        vec[i]->DrawModel(painter);
+    {
+        if (!ui->checkBox->isChecked())
+            vec[i]->DrawModel(painter);
+        else
+            vec[i]->DrawModelFill(painter);
+    }
 
     ui->lblScene->setPixmap(pic);
-    */
 
-    QImage
+    /*
+    ZBuffer zbuf(ui->lblScene->width(), ui->lblScene->height());
+    zbuf.Clear();
+    for (int i = 0; i < vec.size(); ++i)
+    {
+        for (int j = 0; j < vec[i]->vecIndx.size(); ++j)
+        {
+            triangle tr;
+            tr.a = Point3D(vec[i]->vecPnts3D[vec[i]->vecIndx[j].v1]);
+            tr.b = Point3D(vec[i]->vecPnts3D[vec[i]->vecIndx[j].v2]);
+            tr.c = Point3D(vec[i]->vecPnts3D[vec[i]->vecIndx[j].v3]);
+            zbuf.PutTriangle(tr, 15000);
+        }
+    }
+    ui->lblScene->setPixmap(QPixmap::fromImage(zbuf.image));
+    */
 }
 
 void MainForm::Shift(QVector<ObjModel *> &vec, qreal dx, qreal dy, qreal dz)
