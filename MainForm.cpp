@@ -171,13 +171,13 @@ void MainForm::MouseMove(int dx, int dy)
     }
 }
 
-void MainForm::CreateScene(SceneMetaData sceneMetaData1)
+void MainForm::CreateScene(SceneMetaData sceneMetaData)
 {
     qDebug() << "Файл сцены успешно получен";
-    qDebug() << "OX:" << sceneMetaData1.GetSceneLengthOX() << " OZ:" << sceneMetaData1.GetSceneLengthOZ();
-    qDebug() << "Объектов на сцене:" << sceneMetaData1.getListFig().size();
+    qDebug() << "OX:" << sceneMetaData.GetSceneLengthOX() << " OZ:" << sceneMetaData.GetSceneLengthOZ();
+    qDebug() << "Объектов на сцене:" << sceneMetaData.getListFig().size();
 
-    this->sceneMetaData = sceneMetaData1;
+    this->sceneMetaData = sceneMetaData;
     ui->menuBtnEditScene->setEnabled(true);
     ui->menuBtnSaveScene->setEnabled(true);
     ui->menuBtnSaveAsScene->setEnabled(true);
@@ -187,14 +187,14 @@ void MainForm::CreateScene(SceneMetaData sceneMetaData1)
             delete vecModel[i];
     vecModel.clear();
 
-    for (int i = 0; i < sceneMetaData1.getListFig().size(); ++i)
+    for (int i = 0; i < sceneMetaData.getListFig().size(); ++i)
     {
         ObjLoader objLoader;
-        qDebug() << "loading " << sceneMetaData1.getListFig()[i].GetFileName();
-        objLoader.load(sceneMetaData1.getListFig()[i].GetFileName());
+        qDebug() << "loading " << sceneMetaData.getListFig()[i].GetFileName();
+        objLoader.load(sceneMetaData.getListFig()[i].GetFileName().toLocal8Bit().constData());
         vecModel.append(new ObjModel(objLoader));
-        qDebug() << "loading completed " << sceneMetaData1.getListFig()[i].GetFileName();
-        vecModel[i]->Shift(sceneMetaData1.getListFig()[i].GetPos().rx(), 0, sceneMetaData1.getListFig()[i].GetPos().ry());
+        qDebug() << "loading completed " << sceneMetaData.getListFig()[i].GetFileName();
+        vecModel[i]->Shift(sceneMetaData.getListFig()[i].GetPos().rx(), 0, sceneMetaData.getListFig()[i].GetPos().ry());
     }
 
     // формирование пола

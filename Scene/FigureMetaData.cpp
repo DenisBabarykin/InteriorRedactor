@@ -12,9 +12,9 @@ void FigureMetaData::SetAngle(int value)
     angle = value;
 }
 
-const char *FigureMetaData::GetFileName()
+QString FigureMetaData::GetFileName()
 {
-    return QString("models/" + category + "/" + name).toLocal8Bit().constData();
+    return QString("models/" + category + "/" + name);
 }
 
 FigureMetaData::FigureMetaData()

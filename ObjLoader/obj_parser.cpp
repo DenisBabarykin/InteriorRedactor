@@ -5,6 +5,7 @@
 #include "list.h"
 #include "string_extra.h"
 #include <Exception/UnknownCommandException.h>
+#include <Exception/OpeningFileException.h>
 #include <QString>
 #include <QDebug>
 
@@ -293,14 +294,16 @@ int obj_parse_obj_file(obj_growable_scene_data *growable_data, const char *filen
 	char current_line[OBJ_LINE_SIZE];
 	int line_number = 0;
     // открытие сцены
-	obj_file_stream = fopen( filename, "r");
+    obj_file_stream = fopen(filename, "r");
 	if(obj_file_stream == 0)
 	{
         //fprintf(stderr, "Error reading file: %s\n", filename);
+        OpeningFileException *ex = new OpeningFileException(QString(filename));
+        ex->raise();
 		return 0;
 	}
 
-	while( fgets(current_line, OBJ_LINE_SIZE, obj_file_stream) )
+    while (fgets(current_line, OBJ_LINE_SIZE, obj_file_stream) )
 	{
 		current_token = strtok( current_line, " \t\n\r");
 		line_number++;
@@ -312,17 +315,17 @@ int obj_parse_obj_file(obj_growable_scene_data *growable_data, const char *filen
         else if(strequal(current_token, "v")) // vertex
 		{
             //qDebug() << __LINE__;
-			list_add_item(&growable_data->vertex_list,  obj_parse_vector(), NULL);
+            list_add_item(&growable_data->vertex_list, obj_parse_vector(), NULL);
 		}
         else if(strequal(current_token, "vn")) //vertex normal
 		{
             //qDebug() << __LINE__;
-			list_add_item(&growable_data->vertex_normal_list,  obj_parse_vector(), NULL);
+            list_add_item(&growable_data->vertex_normal_list, obj_parse_vector(), NULL);
 		}
         else if(strequal(current_token, "vt")) //vertex texture
 		{
             //qDebug() << __LINE__;
-			list_add_item(&growable_data->vertex_texture_list,  obj_parse_vector(), NULL);
+            list_add_item(&growable_data->vertex_texture_list, obj_parse_vector(), NULL);
 		}
         else if(strequal(current_token, "f")) //face - полигон
 		{

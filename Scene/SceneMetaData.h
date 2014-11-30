@@ -28,8 +28,7 @@ public:
     void SaveToFile(QString filename);
     void LoadFromFile(QString filename);
 
-    SceneMetaData operator=(SceneMetaData &rs);
-    SceneMetaData(const SceneMetaData &in);
+
 };
 
 #endif // SCENEMETADATA_H
