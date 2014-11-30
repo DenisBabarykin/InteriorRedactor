@@ -12,6 +12,11 @@ Point3D::Point3D(qreal x, qreal y, qreal z)
     this->z = z;
 }
 
+Point3D Point3D::operator+(Point3D rightPnt)
+{
+    return Point3D(x + rightPnt.x, y + rightPnt.y, z + rightPnt.z);
+}
+
 Point2D::Point2D()
 {
     x = y = 0;

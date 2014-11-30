@@ -31,7 +31,7 @@ private:
 public slots:
     void OpenScene();
     void MouseMove(int dx, int dy);
-    void CreateScene(SceneMetaData sceneMetaData);
+    void CreateScene(SceneMetaData sceneMetaData1);
 
 private slots:
     void on_menuBtnEditScene_triggered();
@@ -42,6 +42,7 @@ private slots:
 
     void on_menuBtnSaveScene_triggered();
     void on_menuBtnSaveAsScene_triggered();
+    void on_checkBox_clicked();
 };
 
 #endif // MAINFORM_H

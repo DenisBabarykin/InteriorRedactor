@@ -37,7 +37,7 @@ void SceneMetaData::SetSceneLengthOZ(const qreal &value)
     sceneLengthOZ = value;
 }
 
-QList<FigureMetaData> SceneMetaData::getListFig() const
+QList<FigureMetaData> SceneMetaData::getListFig()
 {
     return listFig;
 }
@@ -97,4 +97,25 @@ void SceneMetaData::LoadFromFile(QString filename)
     }
 
     file.close();
+}
+
+SceneMetaData SceneMetaData::operator=(SceneMetaData &rs)
+{
+    sceneLengthOX = rs.sceneLengthOX;
+    sceneLengthOZ = rs.sceneLengthOZ;
+
+    listFig.clear();
+    for (int i = 0; i < rs.listFig.size(); ++i)
+        listFig.append(rs.listFig[i]);
+
+    return *this;
+}
+
+SceneMetaData::SceneMetaData(const SceneMetaData &in)
+{
+    sceneLengthOX = in.sceneLengthOX;
+    sceneLengthOZ = in.sceneLengthOZ;
+
+    for (int i = 0; i < in.listFig.size(); ++i)
+        listFig.append(in.listFig[i]);
 }

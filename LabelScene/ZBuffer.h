@@ -4,7 +4,7 @@
 #include <QImage>
 #include "./Points/Points.h"
 
-#define MAXDIST 15000.0 //Максимальная глубина сцены было 500
+#define MAXDIST -15000.0 //Максимальная глубина сцены было 500
 #define MAXYLINES 900 //Максимальное количество линий в сцене.   было  437
 typedef struct Cell CELL;
 //Структура ячейки, из которых будет состоять Z-буфер.
@@ -25,13 +25,12 @@ public:
 class ZBuffer
 {
 public:
-    double *buff[ MAXYLINES ];
+    double **buff;
     QImage image;
     int sX, sY;	// Размер Z-Буфера
     ZBuffer ( int, int );
     ~ZBuffer ();
     void PutTriangle(triangle &t, uint color);
-    void Show ();
     void Clear ();
 };
 

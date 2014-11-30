@@ -2,54 +2,47 @@
 #include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <QDebug>
 
 //---------------------------------------------------------------------------
 
 //Конструктор Z-буфера.
 
-ZBuffer :: ZBuffer ( int ax, int ay ) : image(ax, ay, QImage::Format_RGB32)
+ZBuffer::ZBuffer(int ax, int ay) : image(ax, ay, QImage::Format_RGB32)
 {
     sX = ax; sY = ay;
-    for ( int i = 0; i < sY; i++ )
-    {
-        //Выделение памяти под ячейки
-        buff[i] = (double *) malloc ( sX * sizeof ( double ));
-    }
+    buff = NULL;
+    if (!(buff = (double **) malloc(sX * sizeof(double))))
+        throw "Memory alloc error";
+    for ( int i = 0; i < sX; i++ )
+        if (!(buff[i] = (double *) malloc(sY * sizeof(double))))
+            throw "Memory alloc error";;
+    Clear();
 }
 
-//Деструктор Z-буфера.
-ZBuffer :: ~ZBuffer ( )
+ZBuffer::~ZBuffer()
 {
-    for ( int i = 0; i < sY; i++ )
-        free( buff[i] ); //Освобождение памяти
+    for (int i = 0; i < sX; i++)
+        free(buff[i]);
+    free(buff);
+    buff = NULL;
 }
 
-//Функция, выводящая на экран содержимое заполненного Z-буфера.
-void ZBuffer :: Show ()
+void ZBuffer::Clear()
 {
-    /*
-    for ( int j = 0; j < sY; j++ )
-        for ( int i = 0; i < sX; i++ )
-            //Выводим пиксели на экран
-            Form1->img->Canvas->Pixels[i][j] = (*( buff[j] + i )).color;/*clBlue(*( buff[ j ] + i )).color;*/
+    for (int i = 0; i < sX; i++)
+        for (int j = 0; j < sY; j++)
+            buff[i][j] = MAXDIST;
+
+    //image.fill(Qt::white); // !!!
 }
 
-//Функция, 'очищающая' Z-буфер.
-void ZBuffer :: Clear ()
-{
-    for ( int j = 0; j < sY; j++ )
-        for ( int i = 0; i < sX; i++ )                                                               //-1 серый
-            //Инициализируем ячейки Z-буфера
-        {
-            (*( buff[ j ] + i )) = MAXDIST;
-            //(*( buff[ j ] + i )).color = clWhite;
-            image.fill(Qt::white);
-        }
-}
+static int nAll = 0, nRewrite = 0;
 
-void ZBuffer::PutTriangle(triangle& t, uint color)
+void ZBuffer::PutTriangle(triangle &t, uint color)
 {
-    int ymax, ymin, ysc, e1, e;
+    int ysc, e1, e;
+    double ymax,ymin;
     double x[3], y[3];
     double z_a[3];
     //Заносим x,y из t в массивы для последующей работы с ними
@@ -65,6 +58,7 @@ void ZBuffer::PutTriangle(triangle& t, uint color)
     else
         if ( ymin > y[1] )
             ymin = y[1];
+
     if ( ymax < y[2] )
         ymax = y[2];
     else
@@ -81,7 +75,7 @@ void ZBuffer::PutTriangle(triangle& t, uint color)
     //Следующий участок кода перебирает все строки сцены
     //и определяет глубину каждого пикселя
     //для соответствующего треугольника
-    for ( ysc = ymin; ysc < ymax; ysc++ )
+    for ( ysc = (int)ymin; ysc < (int)ymax; ysc++ )
     {
         ne = 0;
         for ( int e = 0; e < 3; e++ )
@@ -118,11 +112,12 @@ void ZBuffer::PutTriangle(triangle& t, uint color)
             }
         }
 
+        double temp;
         if ( x2 < x1 )
         {
-            e = x1;
+            temp = x1;
             x1 = x2;
-            x2 = e;
+            x2 = temp;
             tc = z1;
             z1 = z2;
             z2 = tc;
@@ -136,11 +131,17 @@ void ZBuffer::PutTriangle(triangle& t, uint color)
             z = z1 + tc * ( z2 - z1 );
             //Если полученная глубина пиксела меньше той,
             //что находится в Z-Буфере - заменяем храняшуюся на новую.
-            if ( z < (*( buff[ysc] + xsc )) )
+            if (z > buff[xsc][ysc])
             {
-                //(*( buff[ ysc ] + xsc )).color = t.clr;
-                //image.setPixel(QPoint(xsc, ysc), color);
-                (*( buff[ ysc ] + xsc )) = z;
+                /*
+                (*( buff[ ysc ] + xsc )).R = t.R;
+                (*( buff[ ysc ] + xsc )).G = t.G;
+                (*( buff[ ysc ] + xsc )).B = t.B;
+
+                (*( buff[ ysc ] + xsc )).z = z; */
+
+                buff[xsc][ysc] = z;
+                image.setPixel(xsc, sY - ysc - 1, color);
             }
         }
     }

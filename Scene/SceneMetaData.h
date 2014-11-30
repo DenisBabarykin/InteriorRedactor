@@ -22,11 +22,14 @@ public:
     qreal GetSceneLengthOZ() const;
     void SetSceneLengthOZ(const qreal &value);
 
-    QList<FigureMetaData> getListFig() const;
+    QList<FigureMetaData> getListFig();
     void setListFig(const QList<FigureMetaData> &list);
 
     void SaveToFile(QString filename);
     void LoadFromFile(QString filename);
+
+    SceneMetaData operator=(SceneMetaData &rs);
+    SceneMetaData(const SceneMetaData &in);
 };
 
 #endif // SCENEMETADATA_H

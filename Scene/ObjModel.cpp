@@ -163,3 +163,16 @@ void ObjModel::RotateOY(double angle)
         vecPnts3D[i].z = z;
     }
 }
+
+void ObjModel::Perspective()
+{
+    qreal fov = 500;
+    qreal absZ;
+    for (int i = 0; i < vecPnts3D.count(); ++i)
+    {
+        absZ = fabs(vecPnts3D[i].z);
+        //absZ = vecPnts3D[i].z;
+        vecPnts3D[i].x =  vecPnts3D[i].x / absZ * fov;
+        vecPnts3D[i].y =  vecPnts3D[i].y / absZ * fov;
+    }
+}

@@ -15,6 +15,7 @@ public:
     void DrawModel(QPainter &painter);
     void RotateOX(double angle);
     void RotateOY(double angle);
+    void Perspective();
 
     Point3D MaxPoint();
     Point3D MinPoint();

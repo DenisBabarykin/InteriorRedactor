@@ -9,6 +9,7 @@ public:
     Point3D();
     Point3D(qreal x, qreal y, qreal z);
 
+    Point3D operator+(Point3D rightPnt);
 public:
     qreal x, y, z;
 
