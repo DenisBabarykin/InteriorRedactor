@@ -27,35 +27,42 @@ void GraphicsFurnitureItem::paint(QPainter *painter, const QStyleOptionGraphicsI
 {
     QPixmap *pixmap;
     QColor backgroundColor;
+    QString previewName;
+
+    if (figureMetaData->HasPreview())
+    {
+        previewName = figureMetaData->GetFileName();
+        previewName.replace(".obj", ".png");
+    }
 
     if (figureMetaData->GetCategory() == "Журнальные столики")
     {
-        pixmap = new QPixmap(":/coffee_table");
+        pixmap = new QPixmap((figureMetaData->HasPreview()) ? (previewName) : (":/coffee_table"));
         backgroundColor = Qt::cyan;
     }
     else if (figureMetaData->GetCategory() == "Кровати")
     {
-        pixmap = new QPixmap(":/bed");
+        pixmap = new QPixmap((figureMetaData->HasPreview()) ? (previewName) : (":/bed"));
         backgroundColor = Qt::darkCyan;
     }
     else if (figureMetaData->GetCategory() == "Обеденные столы")
     {
-        pixmap = new QPixmap(":/table");
+        pixmap = new QPixmap((figureMetaData->HasPreview()) ? (previewName) : (":/table"));
         backgroundColor = Qt::white;
     }
     else if (figureMetaData->GetCategory() == "Стулья")
     {
-        pixmap = new QPixmap(":/chair");
+        pixmap = new QPixmap((figureMetaData->HasPreview()) ? (previewName) : (":/chair"));
         backgroundColor = Qt::darkYellow;
     }
     else if (figureMetaData->GetCategory() == "Шкафы")
     {
-        pixmap = new QPixmap(":/cabinet");
+        pixmap = new QPixmap((figureMetaData->HasPreview()) ? (previewName) : (":/cabinet"));
         backgroundColor = Qt::darkGreen;
     }
     else
     {
-        pixmap = new QPixmap(":/question");
+        pixmap = new QPixmap((figureMetaData->HasPreview()) ? (previewName) : (":/question"));
         backgroundColor = Qt::white;
     }
 
