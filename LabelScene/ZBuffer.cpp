@@ -4,9 +4,6 @@
 #include <stdlib.h>
 #include <QDebug>
 
-//---------------------------------------------------------------------------
-
-//Конструктор Z-буфера.
 
 ZBuffer::ZBuffer(int ax, int ay) : image(ax, ay, QImage::Format_RGB32)
 {
@@ -46,27 +43,27 @@ void ZBuffer::PutTriangle(triangle &t, uint color)
     double x[3], y[3];
     double z_a[3];
     //Заносим x,y из t в массивы для последующей работы с ними
-    x[0] = int( t.a.x ), y[0] = int( t.a.y );
-    x[1] = int( t.b.x ), y[1] = int( t.b.y );
-    x[2] = int( t.c.x ), y[2] = int( t.c.y );
+    x[0] = int(t.a.x), y[0] = int(t.a.y);
+    x[1] = int(t.b.x), y[1] = int(t.b.y);
+    x[2] = int(t.c.x), y[2] = int(t.c.y);
     z_a[0] = t.a.z, z_a[1] = t.b.z, z_a[2] = t.c.z;
     //Определяем максимальный и минимальный y
     ymax = ymin = y[0];
 
-    if ( ymax < y[1] )
+    if (ymax < y[1])
         ymax = y[1];
     else
-        if ( ymin > y[1] )
+        if (ymin > y[1])
             ymin = y[1];
 
-    if ( ymax < y[2] )
+    if (ymax < y[2])
         ymax = y[2];
     else
-        if ( ymin > y[2] )
+        if (ymin > y[2])
             ymin = y[2];
 
-    ymin = ( ymin < 0 ) ? 0 : ymin;
-    ymax = ( ymax < sY ) ? ymax : sY;
+    ymin = (ymin < 0) ? 0 : ymin;
+    ymax = (ymax < sY) ? ymax : sY;
 
     int ne;
     double x1, x2;
@@ -75,45 +72,45 @@ void ZBuffer::PutTriangle(triangle &t, uint color)
     //Следующий участок кода перебирает все строки сцены
     //и определяет глубину каждого пикселя
     //для соответствующего треугольника
-    for ( ysc = (int)ymin; ysc < (int)ymax; ysc++ )
+    for (ysc = (int)ymin; ysc < (int)ymax; ysc++)
     {
         ne = 0;
-        for ( int e = 0; e < 3; e++ )
+        for (int e = 0; e < 3; e++)
         {
             e1 = e + 1;
-            if ( e1 == 3 )
+            if (e1 == 3)
                 e1 = 0;
 
-            if ( y[e] < y[e1] )
+            if (y[e] < y[e1])
             {
-                if ( y[e1] <= ysc || ysc < y[e] )
+                if (y[e1] <= ysc || ysc < y[e])
                     continue;
             }
             else
-                if ( y[e] > y[e1] )
+                if (y[e] > y[e1])
                 {
-                    if ( y[e1] > ysc || ysc >= y[e] )
+                    if (y[e1] > ysc || ysc >= y[e])
                         continue;
                 }
                 else
                     continue;
 
-            tc = double( y[e] - ysc ) / ( y[ e ] - y[ e1 ] );
-            if ( ne )
+            tc = double(y[e] - ysc) / (y[e] - y[e1]);
+            if (ne)
             {
-                x2 = x[ e ] +  ( tc * ( x[ e1 ] - x[ e ] ) );
-                z2 = z_a[ e ] + tc * (z_a[ e1 ] - z_a[ e ]);
+                x2 = x[e] +  ( tc * (x[e1] - x[e]) );
+                z2 = z_a[e] + tc * (z_a[e1] - z_a[e]);
             }
             else
             {
-                x1 = x[ e ] +  ( tc * ( x[ e1 ] - x[ e ] ) );
-                z1 = z_a[ e ] + tc * (z_a[ e1 ] - z_a[ e ] );
+                x1 = x[e] +  ( tc * (x[e1] - x[e]) );
+                z1 = z_a[e] + tc * (z_a[e1] - z_a[e]);
                 ne = 1;
             }
         }
 
         double temp;
-        if ( x2 < x1 )
+        if (x2 < x1)
         {
             temp = x1;
             x1 = x2;
@@ -123,12 +120,12 @@ void ZBuffer::PutTriangle(triangle &t, uint color)
             z2 = tc;
         }
 
-        xsc1 = ( x1 < 0 ) ? 0 : x1;
-        xsc2 = ( x2 < sX ) ? x2 : sX;
-        for ( int xsc = xsc1; xsc < xsc2; xsc++ )
+        xsc1 = (x1 < 0) ? 0 : x1;
+        xsc2 = (x2 < sX) ? x2 : sX;
+        for (int xsc = xsc1; xsc < xsc2; xsc++)
         {
-            tc = double( x1 - xsc ) / ( x1 - x2 );
-            z = z1 + tc * ( z2 - z1 );
+            tc = double(x1 - xsc) / (x1 - x2);
+            z = z1 + tc * (z2 - z1);
             //Если полученная глубина пиксела меньше той,
             //что находится в Z-Буфере - заменяем храняшуюся на новую.
             if (z > buff[xsc][ysc])

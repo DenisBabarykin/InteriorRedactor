@@ -48,7 +48,7 @@ void GraphicsFurnitureItem::paint(QPainter *painter, const QStyleOptionGraphicsI
     else if (figureMetaData->GetCategory() == "Обеденные столы")
     {
         pixmap = new QPixmap((figureMetaData->HasPreview()) ? (previewName) : (":/table"));
-        backgroundColor = Qt::white;
+        backgroundColor = Qt::black;
     }
     else if (figureMetaData->GetCategory() == "Стулья")
     {

@@ -6,13 +6,6 @@
 
 #define MAXDIST -15000.0 //Максимальная глубина сцены было 500
 #define MAXYLINES 900 //Максимальное количество линий в сцене.   было  437
-typedef struct Cell CELL;
-//Структура ячейки, из которых будет состоять Z-буфер.
-struct Cell
-{
-    double z;
-    int color;
-};
 
 class triangle
 {
@@ -28,10 +21,12 @@ public:
     double **buff;
     QImage image;
     int sX, sY;	// Размер Z-Буфера
-    ZBuffer ( int, int );
-    ~ZBuffer ();
+
+public:
+    ZBuffer(int ax, int ay);
+    ~ZBuffer();
     void PutTriangle(triangle &t, uint color);
-    void Clear ();
+    void Clear();
 };
 
 
