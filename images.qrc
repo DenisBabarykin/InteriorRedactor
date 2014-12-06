@@ -1,0 +1,19 @@
+<RCC>
+    <qresource prefix="/">
+        <file alias="bed">images/bed.png</file>
+        <file alias="cabinet">images/cabinet.png</file>
+        <file alias="chair">images/chair.png</file>
+        <file alias="coffee_table">images/coffee_table.png</file>
+        <file alias="table">images/table.png</file>
+        <file alias="up_arrow">images/up_arrow.png</file>
+        <file alias="question">images/question.png</file>
+    </qresource>
+    <qresource prefix="/menu_icons">
+        <file>images/edit.png</file>
+        <file>images/new.png</file>
+        <file>images/open_file.png</file>
+        <file>images/save.png</file>
+        <file>images/save_as.png</file>
+        <file>images/close.png</file>
+    </qresource>
+</RCC>
