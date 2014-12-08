@@ -75,13 +75,13 @@ Point3D ObjModel::MinPoint()
     return MinPoint;
 }
 
-void ObjModel::Shift(qreal dx, qreal dy, qreal dz)
+void ObjModel::Shift(const ObjModel *baseModel, qreal dx, qreal dy, qreal dz)
 {
     for (int i = 0; i < vecPnts3D.count(); ++i)
     {
-        vecPnts3D[i].x += dx;
-        vecPnts3D[i].y += dy;
-        vecPnts3D[i].z += dz;
+        vecPnts3D[i].x = baseModel->vecPnts3D[i].x + dx;
+        vecPnts3D[i].y = baseModel->vecPnts3D[i].y + dy;
+        vecPnts3D[i].z = baseModel->vecPnts3D[i].z + dz;
     }
 }
 
@@ -161,6 +161,43 @@ void ObjModel::RotateOY(double angle)
         int z = - vecPnts3D[i].x * sin(angle) + vecPnts3D[i].z * cos(angle);
         vecPnts3D[i].x = x;
         vecPnts3D[i].z = z;
+    }
+}
+
+void ObjModel::Rotate(const ObjModel *baseModel, int angleOX, int angleOY)
+{
+    if (!angleOX)
+    {
+        angleOY *= Pi / 180;
+        for (int i = 0; i < vecPnts3D.count(); ++i)
+        {
+            vecPnts3D[i].x = baseModel->vecPnts3D[i].x * cos(angleOY) + baseModel->vecPnts3D[i].z * sin(angleOY);
+            vecPnts3D[i].z = - baseModel->vecPnts3D[i].x * sin(angleOY) + baseModel->vecPnts3D[i].z * cos(angleOY);
+            vecPnts3D[i].y = baseModel->vecPnts3D[i].y;
+        }
+    }
+    else if (!angleOY)
+    {
+        angleOX *= Pi / 180;
+        for (int i = 0; i < vecPnts3D.count(); ++i)
+        {
+            vecPnts3D[i].x = baseModel->vecPnts3D[i].x;
+            vecPnts3D[i].y = baseModel->vecPnts3D[i].y * cos(angleOX) - baseModel->vecPnts3D[i].z * sin(angleOX);
+            vecPnts3D[i].z = baseModel->vecPnts3D[i].y * sin(angleOX) + baseModel->vecPnts3D[i].z * cos(angleOX);
+        }
+    }
+    else
+    {
+        angleOX *= Pi / 180;
+        angleOY *= Pi / 180;
+        for (int i = 0; i < vecPnts3D.count(); ++i)
+        {
+            vecPnts3D[i].y = baseModel->vecPnts3D[i].y * cos(angleOX) -  baseModel->vecPnts3D[i].z * sin(angleOX);
+            int newZ = vecPnts3D[i].y * sin(angleOX) + vecPnts3D[i].z * cos(angleOX);
+
+            vecPnts3D[i].x = baseModel->vecPnts3D[i].x * cos(angleOY) + newZ * sin(angleOY);
+            vecPnts3D[i].z = - baseModel->vecPnts3D[i].x * sin(angleOY) + newZ * cos(angleOY);
+        }
     }
 }
 

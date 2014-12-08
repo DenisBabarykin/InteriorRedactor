@@ -15,12 +15,13 @@ public:
     void DrawModel(QPainter &painter);
     void RotateOX(double angle);
     void RotateOY(double angle);
+    void Rotate(const ObjModel *baseModel, int angleOX, int angleOY);
     void Perspective();
 
     Point3D MaxPoint();
     Point3D MinPoint();
 
-    void Shift(qreal dx, qreal dy, qreal dz);
+    void Shift(const ObjModel *baseModel, qreal dx, qreal dy, qreal dz); // Сдвиг относительно базовой модели
 
 public: //private:
     QVector<Point3D> vecPnts3D;

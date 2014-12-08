@@ -11,11 +11,12 @@
 #include <QDebug>
 #include <QImage>
 #include "LabelScene/ZBuffer.h"
+#include "Facade/SingletonFacade.h"
 
 ObjModel *pObjModel = NULL;
 bool mousePressed = false;
 
-QVector<ObjModel *> vecModel;
+QVector<ObjModel *> vecModel; //+
 
 MainForm::MainForm(QWidget *parent) :
     QMainWindow(parent),

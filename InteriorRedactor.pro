@@ -30,7 +30,13 @@ SOURCES += main.cpp\
     Points/Points.cpp \
     Scene/ObjModel.cpp \
     Exception/OpeningFileException.cpp \
-    LabelScene/ZBuffer.cpp
+    LabelScene/ZBuffer.cpp \
+    Facade/Facade.cpp \
+    Facade/SingletonFacade.cpp \
+    Command/CommandController.cpp \
+    Command/CommandRotate.cpp \
+    Command/CommandCreateScene.cpp \
+    Scene/Scene.cpp
 
 HEADERS  += MainForm.h \
     LabelScene/LabelScene.h \
@@ -48,7 +54,14 @@ HEADERS  += MainForm.h \
     Points/Points.h \
     Scene/ObjModel.h \
     Exception/OpeningFileException.h \
-    LabelScene/ZBuffer.h
+    LabelScene/ZBuffer.h \
+    Facade/Facade.h \
+    Facade/SingletonFacade.h \
+    Command/Command.h \
+    Command/CommandController.h \
+    Command/CommandRotate.h \
+    Command/CommandCreateScene.h \
+    Scene/Scene.h
 
 
 FORMS    += MainForm.ui \

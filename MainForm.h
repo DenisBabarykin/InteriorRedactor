@@ -21,7 +21,7 @@ public:
 private:
     Ui::MainForm *ui;
     SceneRedactorForm *sceneRedactorForm;
-    SceneMetaData sceneMetaData;
+    SceneMetaData sceneMetaData; //+
     QString sceneFilename;
 
 private:
