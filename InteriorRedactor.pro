@@ -30,7 +30,6 @@ SOURCES += main.cpp\
     Points/Points.cpp \
     Scene/ObjModel.cpp \
     Exception/OpeningFileException.cpp \
-    LabelScene/ZBuffer.cpp \
     Facade/Facade.cpp \
     Facade/SingletonFacade.cpp \
     Command/CommandController.cpp \
@@ -61,7 +60,6 @@ HEADERS  += MainForm.h \
     Points/Points.h \
     Scene/ObjModel.h \
     Exception/OpeningFileException.h \
-    LabelScene/ZBuffer.h \
     Facade/Facade.h \
     Facade/SingletonFacade.h \
     Command/Command.h \

@@ -12,7 +12,7 @@ private:
 
 public:
     CommandRotate(int angleOX, int angleOY);
-    Execute();
+    void Execute();
     ~CommandRotate();
 };
 

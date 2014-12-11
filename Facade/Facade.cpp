@@ -22,19 +22,24 @@ void Facade::SaveSceneCommand(QString filename)
 
 void Facade::RotateSceneCommand(int angleOX, int angleOY)
 {
-    camera.AddRotation(angleOX, angleOY);
+    if (!scene.IsEmpty())
+        camera.AddRotation(angleOX, angleOY);
     emit CommandDoneSignal();
 }
 
 void Facade::ShiftSceneCommand(qreal dx, qreal dy, qreal dz)
 {
-    camera.AddShift(dx, dy, dz);
+    if (!scene.IsEmpty())
+        camera.AddShift(dx, dy, dz);
     emit CommandDoneSignal();
 }
 
 void Facade::DrawCommand()
 {
-    QtConcurrent::run(this, &Facade::TransformAndDrawScene);
+    if (!scene.IsEmpty())
+        QtConcurrent::run(this, &Facade::TransformAndDrawScene);
+    else
+        emit CommandDoneSignal();
 }
 
 void Facade::CreatePainterCommand(PainterType painterType, int width, int height)
@@ -44,12 +49,14 @@ void Facade::CreatePainterCommand(PainterType painterType, int width, int height
 
     switch(painterType)
     {
-        case painterType::zBuffer:
+        case zBuffer:
             painter = new ZBuffer(width, height);
+            connect(painter, SIGNAL(PaintingDoneSignal(QImage*)), this, SIGNAL(DrawImageSignal(QImage*)));
             break;
 
-        case painterType::skeleton:
+        case skeleton:
             // инстанцирование каркасным рисовальщиком
+            connect(painter, SIGNAL(PaintingDoneSignal(QImage*)), this, SIGNAL(DrawImageSignal(QImage*)));
             break;
 
         default:
@@ -62,6 +69,7 @@ void Facade::TransformAndDrawScene()
 {
     scene.Rotate(camera.GetAngleOX(), camera.GetAngleOY());
     scene.Shift(camera.GetDX(), camera.GetDY(), camera.GetDZ());
+    scene.Perspective();
     painter->Paint(scene);
     emit CommandDoneSignal();
 }

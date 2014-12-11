@@ -7,12 +7,12 @@ CommandShift::CommandShift(qreal dx, qreal dy, qreal dz)
     this->dz = dz;
 }
 
-CommandShift::Execute()
+void CommandShift::Execute()
 {
     SingletonFacade::GetFacade()->ShiftSceneCommand(dx, dy, dz);
 }
 
-CommandShift::~CommandRotate()
+CommandShift::~CommandShift()
 {
 
 }

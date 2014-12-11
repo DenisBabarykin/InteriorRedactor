@@ -4,12 +4,12 @@ CommandDraw::CommandDraw()
 {
 }
 
-CommandDraw::Execute()
+void CommandDraw::Execute()
 {
     SingletonFacade::GetFacade()->DrawCommand();
 }
 
-CommandDraw::~CommandRotate()
+CommandDraw::~CommandDraw()
 {
 
 }

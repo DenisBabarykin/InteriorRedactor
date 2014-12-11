@@ -13,8 +13,8 @@ private:
 
 public:
     CommandCreatePainter(PainterType painterType, int width, int height);
-    Execute();
-    ~CommandRotate();
+    void Execute();
+    ~CommandCreatePainter();
 };
 
 #endif // COMMANDCREATEPAINTER_H

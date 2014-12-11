@@ -1,11 +1,15 @@
 #include "Painter.h"
 
-std::list<ObjModel *> *Painter::GetListFig(Scene &scene)
+std::vector<ObjModel *> *Painter::GetListFig(Scene &scene)
 {
     return &scene.listFigWork;
 }
 
-Painter::Painter(QObject *parent) :
-    QObject(parent)
+Painter::Painter(int width, int height, QObject *parent) :
+    QObject(parent), currentFrame(new QImage(width, height, QImage::Format_RGB32))
+{
+}
+
+Painter::~Painter()
 {
 }

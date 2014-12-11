@@ -34,6 +34,7 @@ public slots:
     void OpenScene();
     void MouseMove(int dx, int dy);
     void CreateScene(SceneMetaData sceneMetaData);
+    void DrawImage(QImage *image);
 
 private slots:
     void on_menuBtnEditScene_triggered();

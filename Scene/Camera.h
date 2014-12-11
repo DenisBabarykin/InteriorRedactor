@@ -9,17 +9,17 @@ class Camera
 public:
     Camera();
 
-    inline void AddShift(double dx, double dy, double dz);
-    inline void AddRotation(double angleOX, double angleOY);
+    void AddShift(double dx, double dy, double dz);
+    void AddRotation(double angleOX, double angleOY);
 
-    inline double GetDX();
-    inline double GetDY();
-    inline double GetDZ();
+    double GetDX();
+    double GetDY();
+    double GetDZ();
 
-    inline double GetAngleOX();
-    inline double GetAngleOY();
+    double GetAngleOX();
+    double GetAngleOY();
 
-    inline void Clear();
+    void Clear();
 };
 
 #endif // CAMERA_H

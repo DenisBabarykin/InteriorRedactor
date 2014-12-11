@@ -16,7 +16,7 @@ public:
     void RotateOX(double angle);
     void RotateOY(double angle);
     void Rotate(const ObjModel *baseModel, int angleOX, int angleOY);
-    void Perspective();
+    void Perspective(const ObjModel *baseModel);
 
     Point3D MaxPoint();
     Point3D MinPoint();

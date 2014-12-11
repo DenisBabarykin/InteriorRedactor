@@ -20,16 +20,20 @@ private:
 private:
     void ShiftPartly(int downBorder, int upBorder, qreal dx, qreal dy, qreal dz); // изменения включительно с границами
     void RotatePartly(int downBorder, int upBorder, int angleOX, int angleOY);
+    void PerspectivePartly(int downBorder, int upBorder);
 
 public:
     Scene();
     ~Scene();
 
-    void LoadScene(const SceneMetaData *sceneMetaData);
+    void LoadScene(SceneMetaData *sceneMetaData);
     void Clear();
 
     void Shift(qreal dx, qreal dy, qreal dz);
     void Rotate(int angleOX, int angleOY);
+    void Perspective();
+
+    bool IsEmpty();
 
 signals:
     void SceneActionDoneSignal();

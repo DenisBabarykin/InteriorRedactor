@@ -6,7 +6,7 @@ CommandRotate::CommandRotate(int angleOX, int angleOY)
     this->angleOY = angleOY;
 }
 
-CommandRotate::Execute()
+void CommandRotate::Execute()
 {
     SingletonFacade::GetFacade()->RotateSceneCommand(angleOX, angleOY);
 }

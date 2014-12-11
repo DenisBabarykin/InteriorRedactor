@@ -5,7 +5,7 @@
 #include <QDebug>
 
 
-ZBuffer::ZBuffer(int ax, int ay) : currentFrame(new QImage(ax, ay, QImage::Format_RGB32))
+ZBuffer::ZBuffer(int ax, int ay, QObject *parent) : Painter(ax, ay, parent)
 {
     sX = ax; sY = ay;
     buff = NULL;

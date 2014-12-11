@@ -1,13 +1,13 @@
 #include "CommandController.h"
 
-CommandController::CommandController()
+CommandController::CommandController(QObject *parent)
 {
     isExecute = true;
 }
 
 void CommandController::Execute()
 {
-    if (!isExecute())
+    if (!isExecute)
         ExecuteNext();
 }
 
@@ -19,6 +19,16 @@ CommandController::~CommandController()
             delete commandQueue[i];
         commandQueue.clear();
     }
+}
+
+void CommandController::AddCommand(Command *command)
+{
+    commandQueue.push_back(command);
+}
+
+bool CommandController::IsExecute()
+{
+    return isExecute;
 }
 
 void CommandController::ExecuteNext()

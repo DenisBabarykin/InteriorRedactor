@@ -22,7 +22,7 @@ public:
     int sX, sY;	// Размер Z-Буфера
 
 public:
-    ZBuffer(int ax, int ay);
+    ZBuffer(int ax, int ay, QObject *parent = 0);
     ~ZBuffer();
     void PutTriangle(triangle &t, uint color);
     void Clear();

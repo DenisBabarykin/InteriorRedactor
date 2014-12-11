@@ -5,7 +5,11 @@ CommandCreateScene::CommandCreateScene(SceneMetaData sceneMetaData)
     this->sceneMetaData = sceneMetaData;
 }
 
-CommandCreateScene::Execute()
+void CommandCreateScene::Execute()
 {
-    SingletonFacade::GetFacade()->CreateSceneCommand();
+    SingletonFacade::GetFacade()->CreateSceneCommand(sceneMetaData);
+}
+
+CommandCreateScene::~CommandCreateScene()
+{
 }

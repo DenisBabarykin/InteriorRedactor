@@ -7,11 +7,11 @@ CommandCreatePainter::CommandCreatePainter(PainterType painterType, int width, i
     this->height = height;
 }
 
-CommandCreatePainter::Execute()
+void CommandCreatePainter::Execute()
 {
     SingletonFacade::GetFacade()->CreatePainterCommand(painterType, width, height);
 }
 
-CommandCreatePainter::~CommandRotate()
+CommandCreatePainter::~CommandCreatePainter()
 {
 }

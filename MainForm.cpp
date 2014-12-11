@@ -11,6 +11,12 @@
 #include <QDebug>
 #include <QImage>
 #include "Facade/SingletonFacade.h"
+#include "Command/CommandCreatePainter.h"
+#include "Command/CommandCreateScene.h"
+#include "Command/CommandDraw.h"
+#include "Command/CommandRotate.h"
+#include "Command/CommandSaveScene.h"
+#include "Command/CommandShift.h"
 
 ObjModel *pObjModel = NULL;
 bool mousePressed = false;
@@ -30,6 +36,7 @@ MainForm::MainForm(QWidget *parent) :
 
     connect(SingletonFacade::GetFacade(), SIGNAL(CommandDoneSignal()), &commandController, SLOT(ExecuteNext()));
     connect(&commandController, SIGNAL(ExecutionStatusSignal(bool)), this, SLOT(statusBarUpdate(bool)));
+    connect(SingletonFacade::GetFacade(), SIGNAL(DrawImageSignal(QImage*)), this, SLOT(DrawImage(QImage*)));
 }
 
 void MainForm::OpenScene()
@@ -79,6 +86,7 @@ void MainForm::OpenScene()
         return;
 
     sceneMetaData.LoadFromFile(sceneFilename);
+
     CreateNewSceneRedactor(sceneMetaData);
 }
 
@@ -126,7 +134,7 @@ void MainForm::Draw(QVector<ObjModel *> &vec)
                 zbuf.PutTriangle(tr, QColor(listColors[(i + 3) * 3]).rgb());
             }
         }
-        ui->lblScene->setPixmap(QPixmap::fromImage(zbuf.image));
+        //ui->lblScene->setPixmap(QPixmap::fromImage(zbuf.image));
     }
 
 }
@@ -134,11 +142,12 @@ void MainForm::Draw(QVector<ObjModel *> &vec)
 void MainForm::Shift(QVector<ObjModel *> &vec, qreal dx, qreal dy, qreal dz)
 {
     for (int i = 0; i < vec.size(); ++i)
-        vec[i]->Shift(dx, dy, dz);
+        ;//vec[i]->Shift(dx, dy, dz);
 }
 
 void MainForm::MouseMove(int dx, int dy)
 {
+    /*
     static int sumX = 0, sumY = 0;
 
     if (!vecModel.isEmpty())
@@ -151,7 +160,7 @@ void MainForm::MouseMove(int dx, int dy)
         tempModel.RotateOY(sumX);
         tempModel.RotateOX(sumY);
         Draw(tempModel);
-        */
+        //
 
         QVector<ObjModel *> vec;
         for (int i = 0; i < vecModel.size(); ++i)
@@ -160,10 +169,10 @@ void MainForm::MouseMove(int dx, int dy)
             *tempModel = *(vecModel[i]);
             vec.append(tempModel);
 
-            vec[i]->Shift(0, 0, sceneMetaData.GetSceneLengthOZ());
+            //vec[i]->Shift(0, 0, sceneMetaData.GetSceneLengthOZ());
             vec[i]->RotateOY(sumX);
             vec[i]->RotateOX(sumY);
-            vec[i]->Shift(0, 0, -sceneMetaData.GetSceneLengthOZ());
+            //vec[i]->Shift(0, 0, -sceneMetaData.GetSceneLengthOZ());
             vec[i]->Perspective();
         }
         Draw(vec);
@@ -172,10 +181,15 @@ void MainForm::MouseMove(int dx, int dy)
             delete vec[i];
         vec.clear();
     }
+    */
+    commandController.AddCommand(new CommandRotate(dx, dy));
+    commandController.AddCommand(new CommandDraw());
+    commandController.Execute();
 }
 
 void MainForm::CreateScene(SceneMetaData sceneMetaData)
 {
+    /*
     qDebug() << "Файл сцены успешно получен";
     qDebug() << "OX:" << sceneMetaData.GetSceneLengthOX() << " OZ:" << sceneMetaData.GetSceneLengthOZ();
     qDebug() << "Объектов на сцене:" << sceneMetaData.getListFig().size();
@@ -197,7 +211,7 @@ void MainForm::CreateScene(SceneMetaData sceneMetaData)
         objLoader.load(sceneMetaData.getListFig()[i].GetFileName().toLocal8Bit().constData());
         vecModel.append(new ObjModel(objLoader));
         qDebug() << "loading completed " << sceneMetaData.getListFig()[i].GetFileName();
-        vecModel[i]->Shift(sceneMetaData.getListFig()[i].GetPos().rx(), 0, sceneMetaData.getListFig()[i].GetPos().ry());
+        //vecModel[i]->Shift(sceneMetaData.getListFig()[i].GetPos().rx(), 0, sceneMetaData.getListFig()[i].GetPos().ry());
     }
 
     // формирование пола
@@ -213,6 +227,15 @@ void MainForm::CreateScene(SceneMetaData sceneMetaData)
 
     Shift(vecModel, -sceneMetaData.GetSceneLengthOX() / 2, 0, - 3 * sceneMetaData.GetSceneLengthOZ() / 2);
     Draw(vecModel);
+    */
+
+    commandController.AddCommand(new CommandCreateScene(sceneMetaData));
+    commandController.Execute();
+}
+
+void MainForm::DrawImage(QImage *image)
+{
+    ui->lblScene->setPixmap(QPixmap::fromImage(*image));
 }
 
 MainForm::~MainForm()
@@ -268,7 +291,12 @@ void MainForm::on_menuBtnSaveScene_triggered()
     if ((sceneFilename.isEmpty()))
         return;
     else
-        sceneMetaData.SaveToFile(sceneFilename);
+    {
+        //sceneMetaData.SaveToFile(sceneFilename);
+        commandController.AddCommand(new CommandSaveScene(sceneFilename));
+        commandController.Execute();
+    }
+
 }
 
 void MainForm::on_menuBtnSaveAsScene_triggered()
@@ -278,7 +306,11 @@ void MainForm::on_menuBtnSaveAsScene_triggered()
     if ((sceneFilename.isEmpty()))
         return;
     else
-        sceneMetaData.SaveToFile(sceneFilename);
+    {
+        //sceneMetaData.SaveToFile(sceneFilename);
+        commandController.AddCommand(new CommandSaveScene(sceneFilename));
+        commandController.Execute();
+    }
 }
 
 void MainForm::on_checkBox_clicked()
@@ -288,7 +320,7 @@ void MainForm::on_checkBox_clicked()
 
 void MainForm::statusBarUpdate(bool isExecute)
 {
-    if (isExecute)
+    if (commandController.IsExecute())
         ui->statusBar->showMessage("Выполнение...");
     else
         ui->statusBar->clearMessage();

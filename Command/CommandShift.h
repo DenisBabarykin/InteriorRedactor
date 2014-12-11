@@ -10,8 +10,8 @@ class CommandShift : public Command
 
 public:
     CommandShift(qreal dx, qreal dy, qreal dz);
-    Execute();
-    ~CommandRotate();
+    void Execute();
+    ~CommandShift();
 };
 
 #endif // COMMANDSHIFT_H

@@ -10,8 +10,8 @@ class CommandCreateScene : public Command
     SceneMetaData sceneMetaData;
 public:
     CommandCreateScene(SceneMetaData sceneMetaData);
-    Execute();
-    ~CommandRotate();
+    void Execute();
+    ~CommandCreateScene();
 };
 
 #endif // COMMANDCREATESCENE_H

@@ -201,7 +201,7 @@ void ObjModel::Rotate(const ObjModel *baseModel, int angleOX, int angleOY)
     }
 }
 
-void ObjModel::Perspective()
+void ObjModel::Perspective(const ObjModel *baseModel)
 {
     qreal fov = 500;
     qreal absZ;
@@ -209,7 +209,7 @@ void ObjModel::Perspective()
     {
         absZ = fabs(vecPnts3D[i].z);
         //absZ = vecPnts3D[i].z;
-        vecPnts3D[i].x =  vecPnts3D[i].x / absZ * fov;
-        vecPnts3D[i].y =  vecPnts3D[i].y / absZ * fov;
+        vecPnts3D[i].x =  baseModel->vecPnts3D[i].x / absZ * fov;
+        vecPnts3D[i].y =  baseModel->vecPnts3D[i].y / absZ * fov;
     }
 }

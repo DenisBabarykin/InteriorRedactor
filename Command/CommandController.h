@@ -17,6 +17,9 @@ public:
     void Execute();
     ~CommandController();
 
+    void AddCommand(Command *command);
+    bool IsExecute();
+
 signals:
     void ExecutionStatusSignal(bool isExecute);
 

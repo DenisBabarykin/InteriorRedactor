@@ -13,7 +13,7 @@ private:
 public:
     CommandSaveScene(QString fileName);
     void Execute();
-    ~CommandRotate();
+    ~CommandSaveScene();
 };
 
 #endif // COMMANDSAVESCENE_H

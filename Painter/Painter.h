@@ -13,12 +13,12 @@ protected:
     QImage *currentFrame;
 
 protected:
-    std::list<ObjModel *> *GetListFig(Scene &scene);
+    std::vector<ObjModel *> *GetListFig(Scene &scene);
 
 public:
-    explicit Painter(QObject *parent = 0);
+    explicit Painter(int width, int height, QObject *parent = 0);
     virtual void Paint(Scene &scene) = 0;
-    ~Painter() = 0;
+    ~Painter();
 
 signals:
     void PaintingDoneSignal(QImage *frame);

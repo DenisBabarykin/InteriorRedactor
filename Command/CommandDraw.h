@@ -8,8 +8,8 @@ class CommandDraw : public Command
 {
 public:
     CommandDraw();
-    Execute();
-    ~CommandRotate();
+    void Execute();
+    ~CommandDraw();
 };
 
 #endif // COMMANDDRAW_H

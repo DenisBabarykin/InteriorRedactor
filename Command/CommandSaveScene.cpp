@@ -10,6 +10,6 @@ void CommandSaveScene::Execute()
     SingletonFacade::GetFacade()->SaveSceneCommand(fileName);
 }
 
-CommandSaveScene::~CommandRotate()
+CommandSaveScene::~CommandSaveScene()
 {
 }
