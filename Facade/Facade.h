@@ -6,6 +6,8 @@
 #include "Scene/ObjModel.h"
 #include "Scene/Scene.h"
 #include "Scene/Camera.h"
+#include "Painter/ZBuffer.h"
+#include "Painter/PainterType.h"
 
 class Facade : public QObject
 {
@@ -18,14 +20,20 @@ public:
     void RotateSceneCommand(int angleOX, int angleOY);
     void ShiftSceneCommand(qreal dx, qreal dy, qreal dz);
     void DrawCommand();
+    void CreatePainterCommand(PainterType painterType, int width, int height);
 
 private:
     Scene scene;
     Camera camera;
     SceneMetaData sceneMetaData;
+    Painter *painter;
+
+private:
+    void TransformAndDrawScene();
 
 signals:
-    void CommandDoneSignal();
+    void CommandDoneSignal();            // Текущая команда выполнена
+    void DrawImageSignal(QImage *image); // Отрисовать передаваемый image
 
 public slots:
 

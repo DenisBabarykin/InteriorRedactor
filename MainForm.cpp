@@ -10,7 +10,6 @@
 #include "SceneSizesInput.h"
 #include <QDebug>
 #include <QImage>
-#include "LabelScene/ZBuffer.h"
 #include "Facade/SingletonFacade.h"
 
 ObjModel *pObjModel = NULL;

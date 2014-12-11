@@ -7,15 +7,15 @@ const int CORES_COUNT = QThread::idealThreadCount();
 
 void Scene::ShiftPartly(int downBorder, int upBorder, qreal dx, qreal dy, qreal dz)
 {
-    std::list<ObjModel *>::iterator itBegin = listFigWork.begin();
+    std::vector<ObjModel *>::iterator itBegin = listFigWork.begin();
     for (int i = 0; i < downBorder; ++i)
         ++itBegin;
 
-    std::list<ObjModel *>::iterator itOrigBegin = listFigOrig.begin();
+    std::vector<ObjModel *>::iterator itOrigBegin = listFigOrig.begin();
     for (int i = 0; i < downBorder; ++i)
         ++itOrigBegin;
 
-    std::list<ObjModel *>::iterator itEnd = listFigWork.end();
+    std::vector<ObjModel *>::iterator itEnd = listFigWork.end();
     for (int i = 0; i < upBorder; ++i)
         ++itEnd;
 
@@ -25,15 +25,15 @@ void Scene::ShiftPartly(int downBorder, int upBorder, qreal dx, qreal dy, qreal 
 
 void Scene::RotatePartly(int downBorder, int upBorder, int angleOX, int angleOY)
 {
-    std::list<ObjModel *>::iterator itBegin = listFigWork.begin();
+    std::vector<ObjModel *>::iterator itBegin = listFigWork.begin();
     for (int i = 0; i < downBorder; ++i)
         ++itBegin;
 
-    std::list<ObjModel *>::iterator itOrigBegin = listFigOrig.begin();
+    std::vector<ObjModel *>::iterator itOrigBegin = listFigOrig.begin();
     for (int i = 0; i < downBorder; ++i)
         ++itOrigBegin;
 
-    std::list<ObjModel *>::iterator itEnd = listFigWork.end();
+    std::vector<ObjModel *>::iterator itEnd = listFigWork.end();
     for (int i = 0; i < upBorder; ++i)
         ++itEnd;
 
@@ -79,12 +79,13 @@ void Scene::LoadScene(const SceneMetaData *sceneMetaData)
 
     // Копирование оригинала в рабочую копию
     listFigWork.resize(listFigOrig.size());
-    std::list<ObjModel *>::iterator itOrig = listFigOrig.begin();
-    std::list<ObjModel *>::iterator itWork = listFigWork.begin();
+    std::vector<ObjModel *>::iterator itOrig = listFigOrig.begin();
+    std::vector<ObjModel *>::iterator itWork = listFigWork.begin();
     for ( ; itOrig < listFigOrig.end(); ++itOrig, ++itWork)
         *(*itWork) = *(*itOrig);
 
     Shift(vecModel, -sceneMetaData.GetSceneLengthOX() / 2, 0, - 3 * sceneMetaData.GetSceneLengthOZ() / 2);
+    emit SceneActionDoneSignal();
 }
 
 void Scene::Clear()

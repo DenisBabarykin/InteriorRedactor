@@ -4,7 +4,7 @@
 class Command
 {
 public:
-    virtual Execute() = 0;
+    virtual void Execute() = 0;
     virtual ~Command() = 0;
 
 };

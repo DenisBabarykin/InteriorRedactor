@@ -40,7 +40,10 @@ SOURCES += main.cpp\
     Scene/Camera.cpp \
     Command/CommandDraw.cpp \
     Command/CommandShift.cpp \
-    Command/CommandSaveScene.cpp
+    Command/CommandSaveScene.cpp \
+    Painter/Painter.cpp \
+    Painter/ZBuffer.cpp \
+    Command/CommandCreatePainter.cpp
 
 HEADERS  += MainForm.h \
     LabelScene/LabelScene.h \
@@ -69,7 +72,11 @@ HEADERS  += MainForm.h \
     Scene/Camera.h \
     Command/CommandDraw.h \
     Command/CommandShift.h \
-    Command/CommandSaveScene.h
+    Command/CommandSaveScene.h \
+    Painter/Painter.h \
+    Painter/ZBuffer.h \
+    Command/CommandCreatePainter.h \
+    Painter/PainterType.h
 
 
 FORMS    += MainForm.ui \

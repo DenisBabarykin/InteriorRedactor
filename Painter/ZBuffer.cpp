@@ -5,7 +5,7 @@
 #include <QDebug>
 
 
-ZBuffer::ZBuffer(int ax, int ay) : image(ax, ay, QImage::Format_RGB32)
+ZBuffer::ZBuffer(int ax, int ay) : currentFrame(new QImage(ax, ay, QImage::Format_RGB32))
 {
     sX = ax; sY = ay;
     buff = NULL;
@@ -32,6 +32,27 @@ void ZBuffer::Clear()
             buff[i][j] = MAXDIST;
 
     //image.fill(Qt::white); // !!!
+}
+
+void ZBuffer::Paint(Scene &scene)
+{
+    QStringList listColors = QColor::colorNames();
+    for (int i = 0; i < GetListFig(scene)->size(); ++i)
+    {
+        for (int j = 0; j < (*GetListFig(scene))[i]->vecIndx.size(); ++j)
+        {
+            triangle tr;
+            tr.a = Point3D((*GetListFig(scene))[i]->vecPnts3D[(*GetListFig(scene))[i]->vecIndx[j].v1]);
+            tr.b = Point3D((*GetListFig(scene))[i]->vecPnts3D[(*GetListFig(scene))[i]->vecIndx[j].v2]);
+            tr.c = Point3D((*GetListFig(scene))[i]->vecPnts3D[(*GetListFig(scene))[i]->vecIndx[j].v3]);
+
+            tr.a = tr.a + Point3D(currentFrame->width() / 2, currentFrame->height() / 2, 0);
+            tr.b = tr.b + Point3D(currentFrame->width() / 2, currentFrame->height() / 2, 0);
+            tr.c = tr.c + Point3D(currentFrame->width() / 2, currentFrame->height() / 2, 0);
+            PutTriangle(tr, QColor(listColors[(i + 3) * 3]).rgb());
+        }
+    }
+    emit PaintingDoneSignal(currentFrame);
 }
 
 static int nAll = 0, nRewrite = 0;
@@ -138,7 +159,7 @@ void ZBuffer::PutTriangle(triangle &t, uint color)
                 (*( buff[ ysc ] + xsc )).z = z; */
 
                 buff[xsc][ysc] = z;
-                image.setPixel(xsc, sY - ysc - 1, color);
+                currentFrame->setPixel(xsc, sY - ysc - 1, color);
             }
         }
     }

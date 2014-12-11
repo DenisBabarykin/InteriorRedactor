@@ -5,7 +5,7 @@
 #include <QList>
 #include "Command.h"
 
-class CommandController : public QObject
+class CommandController : public QObject, public Command
 {
     Q_OBJECT
 private:
@@ -14,8 +14,8 @@ private:
 
 public:
     explicit CommandController(QObject *parent = 0);
-
     void Execute();
+    ~CommandController();
 
 signals:
     void ExecutionStatusSignal(bool isExecute);

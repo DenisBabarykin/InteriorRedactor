@@ -4,14 +4,18 @@
 #include <QObject>
 #include "ObjModel.h"
 #include "SceneMetaData.h"
-#include <list>
+#include <vector>
+
+class Painter;
 
 class Scene : public QObject
 {
     Q_OBJECT
 private:
-    std::list<ObjModel *> listFigOrig; // Оригинал
-    std::list<ObjModel *> listFigWork; // Рабочая копия
+    friend class Painter;
+
+    std::vector<ObjModel *> listFigOrig; // Оригинал
+    std::vector<ObjModel *> listFigWork; // Рабочая копия
 
 private:
     void ShiftPartly(int downBorder, int upBorder, qreal dx, qreal dy, qreal dz); // изменения включительно с границами
