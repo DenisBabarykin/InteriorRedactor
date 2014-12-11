@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include "Scene/ObjModel.h"
 #include "SceneRedactorForm.h"
+#include "Command/CommandController.h"
 
 namespace Ui {
 class MainForm;
@@ -23,6 +24,7 @@ private:
     SceneRedactorForm *sceneRedactorForm;
     SceneMetaData sceneMetaData; //+
     QString sceneFilename;
+    CommandController commandController;
 
 private:
     void Draw(QVector<ObjModel *> &vec);
@@ -43,6 +45,8 @@ private slots:
     void on_menuBtnSaveScene_triggered();
     void on_menuBtnSaveAsScene_triggered();
     void on_checkBox_clicked();
+
+    void statusBarUpdate(bool isExecute);
 };
 
 #endif // MAINFORM_H

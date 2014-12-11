@@ -4,7 +4,7 @@
 Facade::Facade(QObject *parent) :
     QObject(parent)
 {
-    connect(&scene, SIGNAL(SceneActionDoneSignal()), this, SIGNAL(CommandDoneSignal()));
+    //connect(&scene, SIGNAL(SceneActionDoneSignal()), this, SIGNAL(CommandDoneSignal()));
 }
 
 void Facade::CreateSceneCommand(SceneMetaData sceneMetaData)
@@ -20,10 +20,17 @@ void Facade::SaveSceneCommand(QString filename)
 
 void Facade::RotateSceneCommand(int angleOX, int angleOY)
 {
-    QtConcurrent::run(&scene, &Scene::Rotate, angleOX, angleOY);
+    camera.AddRotation(angleOX, angleOY);
 }
 
 void Facade::ShiftSceneCommand(qreal dx, qreal dy, qreal dz)
 {
-    QtConcurrent::run(&scene, &Scene::Shift, dx, dy, dz);
+    camera.AddShift(dx, dy, dz);
+}
+
+void Facade::DrawCommand()
+{
+    QtConcurrent::run(&scene, &Scene::Rotate, camera.GetAngleOX(), camera.GetAngleOY());
+    QtConcurrent::run(&scene, &Scene::Shift, camera.GetDX(), camera.GetDY(), camera.GetDZ());
+    // вызов рисовальщика
 }

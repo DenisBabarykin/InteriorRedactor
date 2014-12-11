@@ -21,16 +21,6 @@
   </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QGridLayout" name="gridLayout">
-    <item row="0" column="0" rowspan="2">
-     <widget class="LabelScene" name="lblScene">
-      <property name="frameShape">
-       <enum>QFrame::Box</enum>
-      </property>
-      <property name="text">
-       <string/>
-      </property>
-     </widget>
-    </item>
     <item row="0" column="1">
      <widget class="QGroupBox" name="grbxCamera">
       <property name="minimumSize">
@@ -279,6 +269,16 @@
        </size>
       </property>
      </spacer>
+    </item>
+    <item row="0" column="0" rowspan="2">
+     <widget class="LabelScene" name="lblScene">
+      <property name="frameShape">
+       <enum>QFrame::Box</enum>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
     </item>
    </layout>
    <zorder>lblScene</zorder>

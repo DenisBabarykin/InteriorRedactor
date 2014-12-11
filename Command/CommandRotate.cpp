@@ -10,3 +10,8 @@ CommandRotate::Execute()
 {
     SingletonFacade::GetFacade()->RotateSceneCommand(angleOX, angleOY);
 }
+
+CommandRotate::~CommandRotate()
+{
+
+}

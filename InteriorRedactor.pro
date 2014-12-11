@@ -36,7 +36,11 @@ SOURCES += main.cpp\
     Command/CommandController.cpp \
     Command/CommandRotate.cpp \
     Command/CommandCreateScene.cpp \
-    Scene/Scene.cpp
+    Scene/Scene.cpp \
+    Scene/Camera.cpp \
+    Command/CommandDraw.cpp \
+    Command/CommandShift.cpp \
+    Command/CommandSaveScene.cpp
 
 HEADERS  += MainForm.h \
     LabelScene/LabelScene.h \
@@ -61,7 +65,11 @@ HEADERS  += MainForm.h \
     Command/CommandController.h \
     Command/CommandRotate.h \
     Command/CommandCreateScene.h \
-    Scene/Scene.h
+    Scene/Scene.h \
+    Scene/Camera.h \
+    Command/CommandDraw.h \
+    Command/CommandShift.h \
+    Command/CommandSaveScene.h
 
 
 FORMS    += MainForm.ui \

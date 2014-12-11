@@ -10,16 +10,18 @@ class CommandController : public QObject
     Q_OBJECT
 private:
     QList<Command *> commandQueue;
-    bool canExecute;
+    bool isExecute;
 
 public:
     explicit CommandController(QObject *parent = 0);
 
-    bool CanExecute();
+    void Execute();
 
 signals:
+    void ExecutionStatusSignal(bool isExecute);
 
-public slots:
+private slots:
+    void ExecuteNext();
 
 };
 

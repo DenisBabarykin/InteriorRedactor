@@ -5,6 +5,7 @@
 #include "Scene/SceneMetaData.h"
 #include "Scene/ObjModel.h"
 #include "Scene/Scene.h"
+#include "Scene/Camera.h"
 
 class Facade : public QObject
 {
@@ -16,9 +17,11 @@ public:
     void SaveSceneCommand(QString filename);
     void RotateSceneCommand(int angleOX, int angleOY);
     void ShiftSceneCommand(qreal dx, qreal dy, qreal dz);
+    void DrawCommand();
 
 private:
     Scene scene;
+    Camera camera;
     SceneMetaData sceneMetaData;
 
 signals:

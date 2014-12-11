@@ -28,6 +28,9 @@ MainForm::MainForm(QWidget *parent) :
 
     connect(ui->menuBtnOpenScene, SIGNAL(triggered()), this, SLOT(OpenScene()));
     connect(ui->lblScene, SIGNAL(mouseMoveSignal(int,int)), this, SLOT(MouseMove(int,int)));
+
+    connect(SingletonFacade::GetFacade(), SIGNAL(CommandDoneSignal()), &commandController, SLOT(ExecuteNext()));
+    connect(&commandController, SIGNAL(ExecutionStatusSignal(bool)), this, SLOT(statusBarUpdate(bool)));
 }
 
 void MainForm::OpenScene()
@@ -282,4 +285,12 @@ void MainForm::on_menuBtnSaveAsScene_triggered()
 void MainForm::on_checkBox_clicked()
 {
     MouseMove(0, 0);
+}
+
+void MainForm::statusBarUpdate(bool isExecute)
+{
+    if (isExecute)
+        ui->statusBar->showMessage("Выполнение...");
+    else
+        ui->statusBar->clearMessage();
 }

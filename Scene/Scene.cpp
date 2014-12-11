@@ -107,37 +107,39 @@ void Scene::Shift(qreal dx, qreal dy, qreal dz)
 {
     if (CORES_COUNT == -1 || CORES_COUNT == 1 || CORES_COUNT = 2)
     {
-        ShiftPartly(0, listFig.size() - 1, dx, dy, dz);
+        ShiftPartly(0, listFigOrig.size() - 1, dx, dy, dz);
     }
     else
     {
-        int nExtraThreads = CORES_COUNT - 2;
+        int nExtraThreads = (CORES_COUNT - 1 < listFigOrig.size()) ?
+                    (CORES_COUNT - 2) : (listFigOrig.size() - 1);
         QFuture<void> future[nExtraThreads];
-        int nModelsForThread = listFig.size() / (nExtraThreads + 1);
+        int nModelsForThread = listFigOrig.size() / (nExtraThreads + 1);
 
         for (int i = 0; i < nExtraThreads; ++i)
             future[i] = QtConcurrent::run(this, &Scene::ShiftPartly,
                   i * nModelsForThread, (i + 1) * nModelsForThread - 1, dx, dy, dz);
 
-        ShiftPartly(nExtraThreads * nModelsForThread, listFig.size() - 1, dx, dy, dz);
+        ShiftPartly(nExtraThreads * nModelsForThread, listFigOrig.size() - 1, dx, dy, dz);
 
         for (int i = 0; i < nExtraThreads; ++i)
             future[i].waitForFinished();
     }
-    emit SceneActionDoneSignal();
+    //emit SceneActionDoneSignal();
 }
 
 void Scene::Rotate(int angleOX, int angleOY)
 {
     if (CORES_COUNT < 3)
     {
-        RotatePartly(0, listFig.size() - 1, angleOX, angleOY);
+        RotatePartly(0, listFigOrig.size() - 1, angleOX, angleOY);
     }
     else
     {
-        int nExtraThreads = CORES_COUNT - 2;
+        int nExtraThreads = (CORES_COUNT - 1 < listFigOrig.size()) ?
+                    (CORES_COUNT - 2) : (listFigOrig.size() - 1);
         QFuture<void> future[nExtraThreads];
-        int nModelsForThread = listFig.size() / (nExtraThreads + 1);
+        int nModelsForThread = listFigOrig.size() / (nExtraThreads + 1);
 
         for (int i = 0; i < nExtraThreads; ++i)
             future[i] = QtConcurrent::run(this, &Scene::RotatePartly,
@@ -148,5 +150,5 @@ void Scene::Rotate(int angleOX, int angleOY)
         for (int i = 0; i < nExtraThreads; ++i)
             future[i].waitForFinished();
     }
-    emit SceneActionDoneSignal();
+    //emit SceneActionDoneSignal();
 }
