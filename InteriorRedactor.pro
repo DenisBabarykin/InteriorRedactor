@@ -42,7 +42,8 @@ SOURCES += main.cpp\
     Command/CommandSaveScene.cpp \
     Painter/Painter.cpp \
     Painter/ZBuffer.cpp \
-    Command/CommandCreatePainter.cpp
+    Command/CommandCreatePainter.cpp \
+    Painter/Skeleton.cpp
 
 HEADERS  += MainForm.h \
     LabelScene/LabelScene.h \
@@ -74,7 +75,8 @@ HEADERS  += MainForm.h \
     Painter/Painter.h \
     Painter/ZBuffer.h \
     Command/CommandCreatePainter.h \
-    Painter/PainterType.h
+    Painter/PainterType.h \
+    Painter/Skeleton.h
 
 
 FORMS    += MainForm.ui \

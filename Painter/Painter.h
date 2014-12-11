@@ -13,7 +13,7 @@ protected:
     QImage *currentFrame;
 
 protected:
-    std::vector<ObjModel *> *GetListFig(Scene &scene);
+    QList<ObjModel *> *GetListFig(Scene &scene);
 
 public:
     explicit Painter(int width, int height, QObject *parent = 0);

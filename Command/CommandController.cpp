@@ -1,8 +1,11 @@
 #include "CommandController.h"
+#include <QDebug>
+#include <typeinfo>
 
 CommandController::CommandController(QObject *parent)
 {
-    isExecute = true;
+    isExecute = false;
+    commandQueue.clear();
 }
 
 void CommandController::Execute()
@@ -26,19 +29,16 @@ void CommandController::AddCommand(Command *command)
     commandQueue.push_back(command);
 }
 
-bool CommandController::IsExecute()
-{
-    return isExecute;
-}
-
 void CommandController::ExecuteNext()
 {
     if (!commandQueue.empty())
     {
         isExecute = true;
         commandQueue[0]->Execute();
+        qDebug() << typeid(*commandQueue[0]).name();
         delete commandQueue[0];
         commandQueue.pop_front();
+        qDebug() << "Size:" << commandQueue.size();
     }
     else
         isExecute = false;

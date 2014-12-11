@@ -6,7 +6,6 @@
 #include "Scene/ObjModel.h"
 #include "Scene/Scene.h"
 #include "Scene/Camera.h"
-#include "Painter/ZBuffer.h"
 #include "Painter/PainterType.h"
 
 class Facade : public QObject

@@ -22,16 +22,12 @@ public:
 private:
     Ui::MainForm *ui;
     SceneRedactorForm *sceneRedactorForm;
-    SceneMetaData sceneMetaData; //+
     QString sceneFilename;
     CommandController commandController;
 
 private:
-    void Draw(QVector<ObjModel *> &vec);
-    void Shift(QVector<ObjModel *> &vec, qreal dx, qreal dy, qreal dz);
 
 public slots:
-    void OpenScene();
     void MouseMove(int dx, int dy);
     void CreateScene(SceneMetaData sceneMetaData);
     void DrawImage(QImage *image);
@@ -48,6 +44,7 @@ private slots:
     void on_checkBox_clicked();
 
     void statusBarUpdate(bool isExecute);
+    void on_menuBtnOpenScene_triggered();
 };
 
 #endif // MAINFORM_H

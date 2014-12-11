@@ -1,11 +1,13 @@
 #include "Facade.h"
 #include <QtConcurrent/QtConcurrent>
+#include "Painter/ZBuffer.h"
+#include "Painter/Skeleton.h"
 
 Facade::Facade(QObject *parent) :
     QObject(parent)
 {
     painter = NULL;
-    connect(&scene, SIGNAL(SceneActionDoneSignal()), this, SIGNAL(CommandDoneSignal()));
+    connect(&scene, SIGNAL(SceneActionDoneSignal()), this, SIGNAL(CommandDoneSignal()), Qt::QueuedConnection);
 }
 
 void Facade::CreateSceneCommand(SceneMetaData sceneMetaData)
@@ -51,12 +53,12 @@ void Facade::CreatePainterCommand(PainterType painterType, int width, int height
     {
         case zBuffer:
             painter = new ZBuffer(width, height);
-            connect(painter, SIGNAL(PaintingDoneSignal(QImage*)), this, SIGNAL(DrawImageSignal(QImage*)));
+            connect(painter, SIGNAL(PaintingDoneSignal(QImage*)), this, SIGNAL(DrawImageSignal(QImage*)), Qt::QueuedConnection);
             break;
 
         case skeleton:
-            // инстанцирование каркасным рисовальщиком
-            connect(painter, SIGNAL(PaintingDoneSignal(QImage*)), this, SIGNAL(DrawImageSignal(QImage*)));
+            painter = new Skeleton(width, height);
+            connect(painter, SIGNAL(PaintingDoneSignal(QImage*)), this, SIGNAL(DrawImageSignal(QImage*)), Qt::QueuedConnection);
             break;
 
         default:

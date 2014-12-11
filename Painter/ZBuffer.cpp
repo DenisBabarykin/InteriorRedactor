@@ -31,11 +31,12 @@ void ZBuffer::Clear()
         for (int j = 0; j < sY; j++)
             buff[i][j] = MAXDIST;
 
-    //image.fill(Qt::white); // !!!
+    currentFrame->fill(Qt::black); // !!!
 }
 
 void ZBuffer::Paint(Scene &scene)
 {
+    Clear();
     QStringList listColors = QColor::colorNames();
     for (int i = 0; i < GetListFig(scene)->size(); ++i)
     {

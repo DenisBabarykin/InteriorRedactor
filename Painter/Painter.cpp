@@ -1,6 +1,6 @@
 #include "Painter.h"
 
-std::vector<ObjModel *> *Painter::GetListFig(Scene &scene)
+QList<ObjModel *> *Painter::GetListFig(Scene &scene)
 {
     return &scene.listFigWork;
 }

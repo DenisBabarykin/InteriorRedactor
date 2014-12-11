@@ -14,8 +14,8 @@ class Scene : public QObject
 private:
     friend class Painter;
 
-    std::vector<ObjModel *> listFigOrig; // Оригинал
-    std::vector<ObjModel *> listFigWork; // Рабочая копия
+    QList<ObjModel *> listFigOrig; // Оригинал
+    QList<ObjModel *> listFigWork; // Рабочая копия
 
 private:
     void ShiftPartly(int downBorder, int upBorder, qreal dx, qreal dy, qreal dz); // изменения включительно с границами
