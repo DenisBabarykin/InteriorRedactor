@@ -15,8 +15,7 @@ int main(int argc, char *argv[])
         a.setStyleSheet(ts.readAll());
     }
 
-    w.show();
-    w.MoveFrameToCenter(); // Центрируем форму
+    w.showFullScreen();
 
     return a.exec();
 }

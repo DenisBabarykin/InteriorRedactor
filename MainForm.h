@@ -5,6 +5,7 @@
 #include "Scene/ObjModel.h"
 #include "SceneRedactorForm.h"
 #include "Command/CommandController.h"
+#include "Painter/PainterType.h"
 
 namespace Ui {
 class MainForm;
@@ -17,20 +18,22 @@ class MainForm : public QMainWindow
 public:
     explicit MainForm(QWidget *parent = 0);
     ~MainForm();
-    void MoveFrameToCenter();
 
 private:
     Ui::MainForm *ui;
     SceneRedactorForm *sceneRedactorForm;
     QString sceneFilename;
     CommandController commandController;
+    PainterType::PainterType painterType;
 
 private:
     void menuViewCheck(QAction *checkedMenuBtn);
+    void menuStylesheetCheck(QAction *checkedMenuBtn);
 
 public slots:
-    void MouseMove(int dx, int dy);
+    void MouseMove(qreal dx, qreal dy);
     void Wheel(int delta);
+    void Resize(int width, int height);
     void CreateScene(SceneMetaData sceneMetaData);
     void DrawImage(QImage *image);
 
@@ -49,6 +52,9 @@ private slots:
     void on_menuBtnSkeletonView_triggered();
     void on_menuBtnZBufView_triggered();
     void on_menuBtnExit_triggered();
+    void on_menuBtnNormalStylesheet_triggered();
+    void on_menuBtnQdarkstylesheet_triggered();
+    void on_menuBtnFullscreen_triggered();
 };
 
 #endif // MAINFORM_H

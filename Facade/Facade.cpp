@@ -46,26 +46,25 @@ void Facade::DrawCommand()
         emit CommandDoneSignal();
 }
 
-void Facade::CreatePainterCommand(PainterType painterType, int width, int height)
+void Facade::CreatePainterCommand(PainterType::PainterType painterType, int width, int height)
 {
     if (painter)
         delete painter;
 
     switch(painterType)
     {
-        case zBuffer:
+        case PainterType::zBuffer:
             painter = new ZBuffer(width, height);
-            connect(painter, SIGNAL(PaintingDoneSignal(QImage*)), this, SIGNAL(DrawImageSignal(QImage*)), Qt::QueuedConnection);
             break;
 
-        case skeleton:
+        case PainterType::skeleton:
             painter = new Skeleton(width, height);
-            connect(painter, SIGNAL(PaintingDoneSignal(QImage*)), this, SIGNAL(DrawImageSignal(QImage*)), Qt::QueuedConnection);
             break;
 
         default:
             throw "undefined painter type";
     }
+    connect(painter, SIGNAL(PaintingDoneSignal(QImage*)), this, SIGNAL(DrawImageSignal(QImage*)), Qt::QueuedConnection);
     emit CommandDoneSignal();
 }
 

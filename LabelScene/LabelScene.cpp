@@ -39,3 +39,8 @@ void LabelScene::wheelEvent(QWheelEvent *ev)
 {
     emit wheelSignal(ev->delta());
 }
+
+void LabelScene::resizeEvent(QResizeEvent *ev)
+{
+    emit labelResizeSignal(ev->size().width(), ev->size().height());
+}

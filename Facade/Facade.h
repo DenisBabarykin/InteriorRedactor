@@ -19,7 +19,7 @@ public:
     void RotateSceneCommand(int angleOX, int angleOY);
     void ShiftSceneCommand(qreal dx, qreal dy, qreal dz);
     void DrawCommand();
-    void CreatePainterCommand(PainterType painterType, int width, int height);
+    void CreatePainterCommand(PainterType::PainterType painterType, int width, int height);
 
 private:
     Scene scene;

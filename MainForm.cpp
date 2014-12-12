@@ -25,16 +25,18 @@ MainForm::MainForm(QWidget *parent) :
     ui->setupUi(this);
 
     sceneRedactorForm = NULL;
+    painterType = PainterType::zBuffer;
 
-    connect(ui->lblScene, SIGNAL(mouseMoveSignal(int,int)), this, SLOT(MouseMove(int,int)));
+    connect(ui->lblScene, SIGNAL(mouseMoveSignal(qreal,qreal)), this, SLOT(MouseMove(qreal,qreal)));
     connect(ui->lblScene, SIGNAL(wheelSignal(int)), this, SLOT(Wheel(int)));
+    connect(ui->lblScene, SIGNAL(labelResizeSignal(int,int)), this, SLOT(Resize(int,int)));
 
     connect(SingletonFacade::GetFacade(), SIGNAL(CommandDoneSignal()), &commandController, SLOT(ExecuteNext()), Qt::QueuedConnection);
     connect(&commandController, SIGNAL(ExecutionStatusSignal(bool)), this, SLOT(statusBarUpdate(bool)), Qt::QueuedConnection);
     connect(SingletonFacade::GetFacade(), SIGNAL(DrawImageSignal(QImage*)), this, SLOT(DrawImage(QImage*)), Qt::QueuedConnection);
 }
 
-void MainForm::MouseMove(int dx, int dy)
+void MainForm::MouseMove(qreal dx, qreal dy)
 {
     commandController.AddCommand(new CommandRotate(dy, dx)); // dx и dy переставлены
     commandController.AddCommand(new CommandDraw());
@@ -48,14 +50,22 @@ void MainForm::Wheel(int delta)
     commandController.Execute();
 }
 
+void MainForm::Resize(int width, int height)
+{
+    commandController.AddCommand(new CommandCreatePainter((painterType), width, height));
+    commandController.AddCommand(new CommandDraw());
+    commandController.Execute();
+}
+
 void MainForm::CreateScene(SceneMetaData sceneMetaData)
 {
     commandController.AddCommand(new CommandCreateScene(sceneMetaData));
-    commandController.AddCommand(new CommandCreatePainter((zBuffer), ui->lblScene->width(), ui->lblScene->height()));
+    commandController.AddCommand(new CommandCreatePainter((painterType), ui->lblScene->width(), ui->lblScene->height()));
     commandController.AddCommand(new CommandDraw());
     commandController.Execute();
     ui->menuBtnSaveScene->setEnabled(true);
     ui->menuBtnSaveAsScene->setEnabled(true);
+    ui->menuBtnEditScene->setEnabled(true);
 }
 
 void MainForm::DrawImage(QImage *image)
@@ -74,17 +84,18 @@ void MainForm::on_menuBtnEditScene_triggered()
         sceneRedactorForm->show();
 }
 
-void MainForm::MoveFrameToCenter()
-{
-    QRect frect = frameGeometry();
-    frect.moveCenter(QDesktopWidget().availableGeometry().center());
-    move(frect.topLeft());
-}
-
 void MainForm::menuViewCheck(QAction *checkedMenuBtn)
 {
     ui->menuBtnSkeletonView->setChecked(false);
     ui->menuBtnZBufView->setChecked(false);
+
+    checkedMenuBtn->setChecked(true);
+}
+
+void MainForm::menuStylesheetCheck(QAction *checkedMenuBtn)
+{
+    ui->menuBtnNormalStylesheet->setChecked(false);
+    ui->menuBtnQdarkstylesheet->setChecked(false);
 
     checkedMenuBtn->setChecked(true);
 }
@@ -128,7 +139,6 @@ void MainForm::on_menuBtnSaveScene_triggered()
         commandController.AddCommand(new CommandSaveScene(sceneFilename));
         commandController.Execute();
     }
-
 }
 
 void MainForm::on_menuBtnSaveAsScene_triggered()
@@ -166,7 +176,8 @@ void MainForm::on_menuBtnOpenScene_triggered()
 
 void MainForm::on_menuBtnSkeletonView_triggered()
 {
-    commandController.AddCommand(new CommandCreatePainter((skeleton), ui->lblScene->width(), ui->lblScene->height()));
+    painterType = PainterType::skeleton;
+    commandController.AddCommand(new CommandCreatePainter((painterType), ui->lblScene->width(), ui->lblScene->height()));
     commandController.AddCommand(new CommandDraw());
     commandController.Execute();
     menuViewCheck(ui->menuBtnSkeletonView);
@@ -174,7 +185,8 @@ void MainForm::on_menuBtnSkeletonView_triggered()
 
 void MainForm::on_menuBtnZBufView_triggered()
 {
-    commandController.AddCommand(new CommandCreatePainter((zBuffer), ui->lblScene->width(), ui->lblScene->height()));
+    painterType = PainterType::zBuffer;
+    commandController.AddCommand(new CommandCreatePainter((painterType), ui->lblScene->width(), ui->lblScene->height()));
     commandController.AddCommand(new CommandDraw());
     commandController.Execute();
     menuViewCheck(ui->menuBtnZBufView);
@@ -183,4 +195,35 @@ void MainForm::on_menuBtnZBufView_triggered()
 void MainForm::on_menuBtnExit_triggered()
 {
     this->close();
+}
+
+void MainForm::on_menuBtnNormalStylesheet_triggered()
+{
+    menuStylesheetCheck(ui->menuBtnNormalStylesheet);
+    qApp->setStyleSheet("");
+}
+
+void MainForm::on_menuBtnQdarkstylesheet_triggered()
+{
+    QFile f(":qdarkstyle/style.qss");
+    if (f.exists())
+    {
+        f.open(QFile::ReadOnly | QFile::Text);
+        QTextStream ts(&f);
+        menuStylesheetCheck(ui->menuBtnQdarkstylesheet);
+        qApp->setStyleSheet(ts.readAll());
+    }
+    else
+    {
+        ui->menuBtnQdarkstylesheet->setChecked(false);
+        QMessageBox::warning(this, "Ошибка применения стиля", "Выбранный стиль не может быть применён, так как не был найден файл стилей.");
+    }
+}
+
+void MainForm::on_menuBtnFullscreen_triggered()
+{
+    if (ui->menuBtnFullscreen->isChecked())
+        this->showFullScreen();
+    else
+        this->showNormal();
 }

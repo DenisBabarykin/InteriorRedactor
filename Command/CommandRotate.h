@@ -7,11 +7,11 @@
 class CommandRotate : public Command
 {
 private:
-    int angleOX;
-    int angleOY;
+    qreal angleOX;
+    qreal angleOY;
 
 public:
-    CommandRotate(int angleOX, int angleOY);
+    CommandRotate(qreal angleOX, qreal angleOY);
     void Execute();
     ~CommandRotate();
 };

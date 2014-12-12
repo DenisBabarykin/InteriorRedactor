@@ -1,6 +1,6 @@
 #include "CommandCreatePainter.h"
 
-CommandCreatePainter::CommandCreatePainter(PainterType painterType, int width, int height)
+CommandCreatePainter::CommandCreatePainter(PainterType::PainterType painterType, int width, int height)
 {
     this->painterType = painterType;
     this->width = width;
