@@ -53,24 +53,58 @@
     <addaction name="menuBtnSaveScene"/>
     <addaction name="menuBtnSaveAsScene"/>
     <addaction name="separator"/>
-    <addaction name="menuBtnCloseScene"/>
+    <addaction name="menuBtnExit"/>
    </widget>
-   <widget class="QMenu" name="menu_2">
+   <widget class="QMenu" name="menu_view">
     <property name="title">
      <string>Вид</string>
     </property>
-    <addaction name="menuBtnSkeletonView"/>
-    <addaction name="menuBtnZBufView"/>
+    <widget class="QMenu" name="menu_view_method">
+     <property name="title">
+      <string>Метод отображения сцены</string>
+     </property>
+     <addaction name="menuBtnZBufView"/>
+     <addaction name="menuBtnSkeletonView"/>
+    </widget>
+    <widget class="QMenu" name="menu_stylesheet">
+     <property name="title">
+      <string>Визуальный стиль приложения</string>
+     </property>
+     <addaction name="menuBtnNormalStylesheet"/>
+     <addaction name="menuBtnQdarkstylesheet"/>
+    </widget>
+    <addaction name="menu_view_method"/>
+    <addaction name="separator"/>
+    <addaction name="menu_stylesheet"/>
+    <addaction name="separator"/>
+    <addaction name="menuBtnFullscreen"/>
    </widget>
    <addaction name="menu"/>
-   <addaction name="menu_2"/>
+   <addaction name="menu_view"/>
   </widget>
   <widget class="QToolBar" name="toolBar">
+   <property name="font">
+    <font>
+     <pointsize>9</pointsize>
+    </font>
+   </property>
+   <property name="cursor">
+    <cursorShape>ArrowCursor</cursorShape>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>24</width>
+     <height>24</height>
+    </size>
+   </property>
+   <property name="toolButtonStyle">
+    <enum>Qt::ToolButtonTextBesideIcon</enum>
+   </property>
    <attribute name="toolBarArea">
     <enum>TopToolBarArea</enum>
    </attribute>
    <attribute name="toolBarBreak">
-    <bool>false</bool>
+    <bool>true</bool>
    </attribute>
    <addaction name="menuBtnCreateNewScene"/>
    <addaction name="menuBtnOpenScene"/>
@@ -79,7 +113,7 @@
    <addaction name="menuBtnSaveScene"/>
    <addaction name="menuBtnSaveAsScene"/>
    <addaction name="separator"/>
-   <addaction name="menuBtnCloseScene"/>
+   <addaction name="menuBtnExit"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <action name="menuBtnCreateNewScene">
@@ -93,6 +127,14 @@
    <property name="text">
     <string>Создать сцену</string>
    </property>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Создать новую сцену с помощью редактора сцены.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>9</pointsize>
+    </font>
+   </property>
    <property name="shortcut">
     <string>Ctrl+N</string>
    </property>
@@ -104,6 +146,14 @@
    </property>
    <property name="text">
     <string>Открыть сцену</string>
+   </property>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Открыть готовую сцену, загрузив её из файла.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>9</pointsize>
+    </font>
    </property>
    <property name="shortcut">
     <string>Ctrl+O</string>
@@ -120,6 +170,14 @@
    <property name="text">
     <string>Сохранить</string>
    </property>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Сохранить текущую сцену в файл.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>9</pointsize>
+    </font>
+   </property>
    <property name="shortcut">
     <string>Ctrl+S</string>
    </property>
@@ -135,17 +193,33 @@
    <property name="text">
     <string>Сохранить как...</string>
    </property>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Сохранить текущую сцену в новый файл.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>9</pointsize>
+    </font>
+   </property>
   </action>
-  <action name="menuBtnCloseScene">
+  <action name="menuBtnExit">
    <property name="enabled">
-    <bool>false</bool>
+    <bool>true</bool>
    </property>
    <property name="icon">
     <iconset resource="images.qrc">
      <normaloff>:/menu_icons/images/close.png</normaloff>:/menu_icons/images/close.png</iconset>
    </property>
    <property name="text">
-    <string>Закрыть сцену</string>
+    <string>Выход</string>
+   </property>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Выйти из приложения.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>9</pointsize>
+    </font>
    </property>
    <property name="shortcut">
     <string>Ctrl+W</string>
@@ -162,27 +236,91 @@
    <property name="text">
     <string>Редактировать сцену</string>
    </property>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Редактировать текущую сцену с помощью редактора сцены.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>9</pointsize>
+    </font>
+   </property>
    <property name="shortcut">
     <string>Ctrl+E</string>
    </property>
   </action>
   <action name="menuBtnSkeletonView">
    <property name="checkable">
-    <bool>false</bool>
+    <bool>true</bool>
    </property>
    <property name="text">
     <string>Каркасная модель</string>
    </property>
+   <property name="font">
+    <font>
+     <pointsize>9</pointsize>
+    </font>
+   </property>
   </action>
   <action name="menuBtnZBufView">
    <property name="checkable">
-    <bool>false</bool>
+    <bool>true</bool>
    </property>
    <property name="checked">
-    <bool>false</bool>
+    <bool>true</bool>
    </property>
    <property name="text">
     <string>Буфер глубины</string>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>9</pointsize>
+    </font>
+   </property>
+   <property name="menuRole">
+    <enum>QAction::TextHeuristicRole</enum>
+   </property>
+  </action>
+  <action name="menuBtnNormalStylesheet">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Стандартный</string>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>9</pointsize>
+    </font>
+   </property>
+  </action>
+  <action name="menuBtnQdarkstylesheet">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Тёмный</string>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>9</pointsize>
+    </font>
+   </property>
+  </action>
+  <action name="menuBtnFullscreen">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Полноэкранный режим</string>
+   </property>
+   <property name="shortcut">
+    <string>F11</string>
    </property>
   </action>
  </widget>

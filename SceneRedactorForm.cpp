@@ -15,7 +15,7 @@ SceneRedactorForm::SceneRedactorForm(qreal width, qreal height, QWidget *parent)
     ui->grvwScheme->setScene(&graphicsScene);
 
     //QBrush blueBrush(Qt::gray);
-    QPen outlinePen(Qt::blue);
+    QPen outlinePen(Qt::darkGray);
     outlinePen.setWidth(10);
 
     QGraphicsRectItem *floorItem = new QGraphicsRectItem(0, 0, width, height);

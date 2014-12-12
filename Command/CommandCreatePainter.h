@@ -8,11 +8,11 @@
 class CommandCreatePainter : public Command
 {
 private:
-    PainterType painterType;
+    PainterType::PainterType painterType;
     int width, height;
 
 public:
-    CommandCreatePainter(PainterType painterType, int width, int height);
+    CommandCreatePainter(PainterType::PainterType painterType, int width, int height);
     void Execute();
     ~CommandCreatePainter();
 };

@@ -54,12 +54,12 @@ void Scene::LoadScene(SceneMetaData *sceneMetaData)
     // формирование пола
     ObjModel *floor = new ObjModel;
     int dy = - 5; // чтобы исключить борьбу
-    floor->vecPnts3D.append(Point3D(0, dy, 0));
-    floor->vecPnts3D.append(Point3D(0, dy, sceneMetaData->GetSceneLengthOZ()));
-    floor->vecPnts3D.append(Point3D(sceneMetaData->GetSceneLengthOX(), dy, sceneMetaData->GetSceneLengthOZ()));
-    floor->vecPnts3D.append(Point3D(sceneMetaData->GetSceneLengthOX(), dy, 0));
-    floor->vecIndx.append(FaceIndexes(0, 1, 2));
-    floor->vecIndx.append(FaceIndexes(0, 2, 3));
+    floor->vecPnts3D.push_back(Point3D(0, dy, 0));
+    floor->vecPnts3D.push_back(Point3D(0, dy, sceneMetaData->GetSceneLengthOZ()));
+    floor->vecPnts3D.push_back(Point3D(sceneMetaData->GetSceneLengthOX(), dy, sceneMetaData->GetSceneLengthOZ()));
+    floor->vecPnts3D.push_back(Point3D(sceneMetaData->GetSceneLengthOX(), dy, 0));
+    floor->vecIndx.push_back(FaceIndexes(0, 1, 2));
+    floor->vecIndx.push_back(FaceIndexes(0, 2, 3));
     floor->Shift(floor, - sceneMetaData->GetSceneLengthOX() / 2, 0, - sceneMetaData->GetSceneLengthOZ() / 2);
     listFigOrig.push_back(floor);
 
@@ -68,7 +68,7 @@ void Scene::LoadScene(SceneMetaData *sceneMetaData)
     {
         ObjModel *objModel = new ObjModel();
         *objModel = *listFigOrig[i];
-        listFigWork.append(objModel);
+        listFigWork.push_back(objModel);
     }
 
     emit SceneActionDoneSignal();

@@ -84,4 +84,5 @@ FORMS    += MainForm.ui \
     SceneSizesInput.ui
 
 RESOURCES += \
-    images.qrc
+    images.qrc \
+    qdarkstyle/style.qrc

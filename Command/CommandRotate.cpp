@@ -1,6 +1,6 @@
 #include "CommandRotate.h"
 
-CommandRotate::CommandRotate(int angleOX, int angleOY)
+CommandRotate::CommandRotate(qreal angleOX, qreal angleOY)
 {
     this->angleOX = angleOX;
     this->angleOY = angleOY;

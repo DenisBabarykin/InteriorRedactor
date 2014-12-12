@@ -24,8 +24,8 @@ public:
     void Shift(const ObjModel *baseModel, qreal dx, qreal dy, qreal dz); // Сдвиг относительно базовой модели
 
 public: //private:
-    QVector<Point3D> vecPnts3D;
-    QVector<FaceIndexes> vecIndx;
+    std::vector<Point3D> vecPnts3D;
+    std::vector<FaceIndexes> vecIndx;
     void DrawModelFill(QPainter &painter);
 
 private:

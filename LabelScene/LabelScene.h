@@ -5,6 +5,7 @@
 #include <QObject>
 #include <QMouseEvent>
 #include <QWheelEvent>
+#include <QResizeEvent>
 
 class LabelScene : public QLabel
 {
@@ -17,14 +18,16 @@ public:
     void mouseReleaseEvent(QMouseEvent *ev);
     void mouseMoveEvent(QMouseEvent *ev);
     void wheelEvent(QWheelEvent *ev);
+    void resizeEvent(QResizeEvent *ev);
 
 private:
     int prevX, prevY;
     bool mousePressed;
 
 signals:
-    void mouseMoveSignal(int dx, int dy);
+    void mouseMoveSignal(qreal dx, qreal dy);
     void wheelSignal(int delta);
+    void labelResizeSignal(int width, int height);
 
 };
 
