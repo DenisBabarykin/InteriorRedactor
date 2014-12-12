@@ -192,11 +192,11 @@ void ObjModel::Rotate(const ObjModel *baseModel, qreal angleOX, qreal angleOY)
         angleOY *= Pi / 180;
         for (int i = 0; i < vecPnts3D.size(); ++i)
         {
-            vecPnts3D[i].y = baseModel->vecPnts3D[i].y * cos(angleOX) -  baseModel->vecPnts3D[i].z * sin(angleOX);
-            int newZ = baseModel->vecPnts3D[i].y * sin(angleOX) + baseModel->vecPnts3D[i].z * cos(angleOX);
+            vecPnts3D[i].x = baseModel->vecPnts3D[i].x * cos(angleOY) + baseModel->vecPnts3D[i].z * sin(angleOY);
+            qreal newZ = - baseModel->vecPnts3D[i].x * sin(angleOY) + baseModel->vecPnts3D[i].z * cos(angleOY);
 
-            vecPnts3D[i].x = baseModel->vecPnts3D[i].x * cos(angleOY) + newZ * sin(angleOY);
-            vecPnts3D[i].z = - baseModel->vecPnts3D[i].x * sin(angleOY) + newZ * cos(angleOY);
+            vecPnts3D[i].y = baseModel->vecPnts3D[i].y * cos(angleOX) - newZ * sin(angleOX);
+            vecPnts3D[i].z = baseModel->vecPnts3D[i].y * sin(angleOX) + newZ * cos(angleOX);
         }
     }
 }

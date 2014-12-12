@@ -70,8 +70,7 @@ void Facade::CreatePainterCommand(PainterType::PainterType painterType, int widt
 
 void Facade::TransformAndDrawScene()
 {
-    scene.Rotate(camera.GetAngleOX() + 90, camera.GetAngleOY());
-    //scene.Rotate(0, 90);
+    scene.Rotate(camera.GetAngleOX(), camera.GetAngleOY());
     scene.Shift(camera.GetDX(), camera.GetDY(), -sceneMetaData.GetSceneLengthOZ() + camera.GetDZ());
     scene.Perspective();
     painter->Paint(scene);
