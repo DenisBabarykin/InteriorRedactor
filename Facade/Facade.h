@@ -16,7 +16,7 @@ public:
 
     void CreateSceneCommand(SceneMetaData sceneMetaData);
     void SaveSceneCommand(QString filename);
-    void RotateSceneCommand(int angleOX, int angleOY);
+    void RotateSceneCommand(qreal angleOX, qreal angleOY);
     void ShiftSceneCommand(qreal dx, qreal dy, qreal dz);
     void DrawCommand();
     void CreatePainterCommand(PainterType::PainterType painterType, int width, int height);
