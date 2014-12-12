@@ -26,6 +26,7 @@ private:
     CommandController commandController;
 
 private:
+    void menuViewCheck(QAction *checkedMenuBtn);
 
 public slots:
     void MouseMove(int dx, int dy);
@@ -47,6 +48,7 @@ private slots:
     void on_menuBtnOpenScene_triggered();
     void on_menuBtnSkeletonView_triggered();
     void on_menuBtnZBufView_triggered();
+    void on_menuBtnExit_triggered();
 };
 
 #endif // MAINFORM_H

@@ -53,17 +53,17 @@
     <addaction name="menuBtnSaveScene"/>
     <addaction name="menuBtnSaveAsScene"/>
     <addaction name="separator"/>
-    <addaction name="menuBtnCloseScene"/>
+    <addaction name="menuBtnExit"/>
    </widget>
-   <widget class="QMenu" name="menu_2">
+   <widget class="QMenu" name="menu_view">
     <property name="title">
      <string>Вид</string>
     </property>
-    <addaction name="menuBtnSkeletonView"/>
     <addaction name="menuBtnZBufView"/>
+    <addaction name="menuBtnSkeletonView"/>
    </widget>
    <addaction name="menu"/>
-   <addaction name="menu_2"/>
+   <addaction name="menu_view"/>
   </widget>
   <widget class="QToolBar" name="toolBar">
    <attribute name="toolBarArea">
@@ -79,7 +79,7 @@
    <addaction name="menuBtnSaveScene"/>
    <addaction name="menuBtnSaveAsScene"/>
    <addaction name="separator"/>
-   <addaction name="menuBtnCloseScene"/>
+   <addaction name="menuBtnExit"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <action name="menuBtnCreateNewScene">
@@ -136,16 +136,16 @@
     <string>Сохранить как...</string>
    </property>
   </action>
-  <action name="menuBtnCloseScene">
+  <action name="menuBtnExit">
    <property name="enabled">
-    <bool>false</bool>
+    <bool>true</bool>
    </property>
    <property name="icon">
     <iconset resource="images.qrc">
      <normaloff>:/menu_icons/images/close.png</normaloff>:/menu_icons/images/close.png</iconset>
    </property>
    <property name="text">
-    <string>Закрыть сцену</string>
+    <string>Выход</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+W</string>
@@ -168,7 +168,7 @@
   </action>
   <action name="menuBtnSkeletonView">
    <property name="checkable">
-    <bool>false</bool>
+    <bool>true</bool>
    </property>
    <property name="text">
     <string>Каркасная модель</string>
@@ -176,13 +176,16 @@
   </action>
   <action name="menuBtnZBufView">
    <property name="checkable">
-    <bool>false</bool>
+    <bool>true</bool>
    </property>
    <property name="checked">
-    <bool>false</bool>
+    <bool>true</bool>
    </property>
    <property name="text">
     <string>Буфер глубины</string>
+   </property>
+   <property name="menuRole">
+    <enum>QAction::TextHeuristicRole</enum>
    </property>
   </action>
  </widget>

@@ -54,6 +54,8 @@ void MainForm::CreateScene(SceneMetaData sceneMetaData)
     commandController.AddCommand(new CommandCreatePainter((zBuffer), ui->lblScene->width(), ui->lblScene->height()));
     commandController.AddCommand(new CommandDraw());
     commandController.Execute();
+    ui->menuBtnSaveScene->setEnabled(true);
+    ui->menuBtnSaveAsScene->setEnabled(true);
 }
 
 void MainForm::DrawImage(QImage *image)
@@ -77,6 +79,14 @@ void MainForm::MoveFrameToCenter()
     QRect frect = frameGeometry();
     frect.moveCenter(QDesktopWidget().availableGeometry().center());
     move(frect.topLeft());
+}
+
+void MainForm::menuViewCheck(QAction *checkedMenuBtn)
+{
+    ui->menuBtnSkeletonView->setChecked(false);
+    ui->menuBtnZBufView->setChecked(false);
+
+    checkedMenuBtn->setChecked(true);
 }
 
 void MainForm::on_menuBtnCreateNewScene_triggered()
@@ -159,6 +169,7 @@ void MainForm::on_menuBtnSkeletonView_triggered()
     commandController.AddCommand(new CommandCreatePainter((skeleton), ui->lblScene->width(), ui->lblScene->height()));
     commandController.AddCommand(new CommandDraw());
     commandController.Execute();
+    menuViewCheck(ui->menuBtnSkeletonView);
 }
 
 void MainForm::on_menuBtnZBufView_triggered()
@@ -166,4 +177,10 @@ void MainForm::on_menuBtnZBufView_triggered()
     commandController.AddCommand(new CommandCreatePainter((zBuffer), ui->lblScene->width(), ui->lblScene->height()));
     commandController.AddCommand(new CommandDraw());
     commandController.Execute();
+    menuViewCheck(ui->menuBtnZBufView);
+}
+
+void MainForm::on_menuBtnExit_triggered()
+{
+    this->close();
 }
