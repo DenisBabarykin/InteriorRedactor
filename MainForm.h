@@ -29,6 +29,7 @@ private:
 
 public slots:
     void MouseMove(int dx, int dy);
+    void Wheel(int delta);
     void CreateScene(SceneMetaData sceneMetaData);
     void DrawImage(QImage *image);
 
@@ -41,10 +42,11 @@ private slots:
 
     void on_menuBtnSaveScene_triggered();
     void on_menuBtnSaveAsScene_triggered();
-    void on_checkBox_clicked();
 
     void statusBarUpdate(bool isExecute);
     void on_menuBtnOpenScene_triggered();
+    void on_menuBtnSkeletonView_triggered();
+    void on_menuBtnZBufView_triggered();
 };
 
 #endif // MAINFORM_H

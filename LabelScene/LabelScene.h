@@ -4,6 +4,7 @@
 #include <QLabel>
 #include <QObject>
 #include <QMouseEvent>
+#include <QWheelEvent>
 
 class LabelScene : public QLabel
 {
@@ -15,6 +16,7 @@ public:
     void mousePressEvent(QMouseEvent *ev);
     void mouseReleaseEvent(QMouseEvent *ev);
     void mouseMoveEvent(QMouseEvent *ev);
+    void wheelEvent(QWheelEvent *ev);
 
 private:
     int prevX, prevY;
@@ -22,6 +24,7 @@ private:
 
 signals:
     void mouseMoveSignal(int dx, int dy);
+    void wheelSignal(int delta);
 
 };
 

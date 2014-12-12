@@ -19,7 +19,7 @@ private:
 
 private:
     void ShiftPartly(int downBorder, int upBorder, qreal dx, qreal dy, qreal dz); // изменения включительно с границами
-    void RotatePartly(int downBorder, int upBorder, int angleOX, int angleOY);
+    void RotatePartly(int downBorder, int upBorder, qreal angleOX, qreal angleOY);
     void PerspectivePartly(int downBorder, int upBorder);
 
 public:
@@ -30,7 +30,7 @@ public:
     void Clear();
 
     void Shift(qreal dx, qreal dy, qreal dz);
-    void Rotate(int angleOX, int angleOY);
+    void Rotate(qreal angleOX, qreal angleOY);
     void Perspective();
 
     bool IsEmpty();

@@ -27,6 +27,7 @@ MainForm::MainForm(QWidget *parent) :
     sceneRedactorForm = NULL;
 
     connect(ui->lblScene, SIGNAL(mouseMoveSignal(int,int)), this, SLOT(MouseMove(int,int)));
+    connect(ui->lblScene, SIGNAL(wheelSignal(int)), this, SLOT(Wheel(int)));
 
     connect(SingletonFacade::GetFacade(), SIGNAL(CommandDoneSignal()), &commandController, SLOT(ExecuteNext()), Qt::QueuedConnection);
     connect(&commandController, SIGNAL(ExecutionStatusSignal(bool)), this, SLOT(statusBarUpdate(bool)), Qt::QueuedConnection);
@@ -35,7 +36,14 @@ MainForm::MainForm(QWidget *parent) :
 
 void MainForm::MouseMove(int dx, int dy)
 {
-    commandController.AddCommand(new CommandRotate(dx, dy));
+    commandController.AddCommand(new CommandRotate(dy, dx)); // dx и dy переставлены
+    commandController.AddCommand(new CommandDraw());
+    commandController.Execute();
+}
+
+void MainForm::Wheel(int delta)
+{
+    commandController.AddCommand(new CommandShift(0, 0, delta));
     commandController.AddCommand(new CommandDraw());
     commandController.Execute();
 }
@@ -126,11 +134,6 @@ void MainForm::on_menuBtnSaveAsScene_triggered()
     }
 }
 
-void MainForm::on_checkBox_clicked()
-{
-    MouseMove(0, 0);
-}
-
 void MainForm::statusBarUpdate(bool isExecute)
 {
     if (isExecute)
@@ -149,4 +152,18 @@ void MainForm::on_menuBtnOpenScene_triggered()
     sceneMetaData.LoadFromFile(sceneFilename);
 
     CreateNewSceneRedactor(sceneMetaData);
+}
+
+void MainForm::on_menuBtnSkeletonView_triggered()
+{
+    commandController.AddCommand(new CommandCreatePainter((skeleton), ui->lblScene->width(), ui->lblScene->height()));
+    commandController.AddCommand(new CommandDraw());
+    commandController.Execute();
+}
+
+void MainForm::on_menuBtnZBufView_triggered()
+{
+    commandController.AddCommand(new CommandCreatePainter((zBuffer), ui->lblScene->width(), ui->lblScene->height()));
+    commandController.AddCommand(new CommandDraw());
+    commandController.Execute();
 }

@@ -119,18 +119,6 @@ void ObjModel::DrawModel(QPainter &painter)
     }
 }
 
-void ObjModel::RotateOX(double angle)
-{
-    angle *= Pi / 180;
-    for (int i = 0; i < vecPnts3D.count(); ++i)
-    {
-        int y = vecPnts3D[i].y * cos(angle) - vecPnts3D[i].z * sin(angle);
-        int z = vecPnts3D[i].y * sin(angle) + vecPnts3D[i].z * cos(angle);
-        vecPnts3D[i].y = y;
-        vecPnts3D[i].z = z;
-    }
-}
-
 void ObjModel::DrawModelFill(QPainter &painter)
 {
     QPointF *points = new QPointF[4];
@@ -164,7 +152,19 @@ void ObjModel::RotateOY(double angle)
     }
 }
 
-void ObjModel::Rotate(const ObjModel *baseModel, int angleOX, int angleOY)
+void ObjModel::RotateOX(double angle)
+{
+    angle *= Pi / 180;
+    for (int i = 0; i < vecPnts3D.count(); ++i)
+    {
+        int y = vecPnts3D[i].y * cos(angle) - vecPnts3D[i].z * sin(angle);
+        int z = vecPnts3D[i].y * sin(angle) + vecPnts3D[i].z * cos(angle);
+        vecPnts3D[i].y = y;
+        vecPnts3D[i].z = z;
+    }
+}
+
+void ObjModel::Rotate(const ObjModel *baseModel, qreal angleOX, qreal angleOY)
 {
     if (!angleOX)
     {
@@ -193,7 +193,7 @@ void ObjModel::Rotate(const ObjModel *baseModel, int angleOX, int angleOY)
         for (int i = 0; i < vecPnts3D.count(); ++i)
         {
             vecPnts3D[i].y = baseModel->vecPnts3D[i].y * cos(angleOX) -  baseModel->vecPnts3D[i].z * sin(angleOX);
-            int newZ = vecPnts3D[i].y * sin(angleOX) + vecPnts3D[i].z * cos(angleOX);
+            int newZ = baseModel->vecPnts3D[i].y * sin(angleOX) + baseModel->vecPnts3D[i].z * cos(angleOX);
 
             vecPnts3D[i].x = baseModel->vecPnts3D[i].x * cos(angleOY) + newZ * sin(angleOY);
             vecPnts3D[i].z = - baseModel->vecPnts3D[i].x * sin(angleOY) + newZ * cos(angleOY);
@@ -212,4 +212,5 @@ void ObjModel::Perspective(const ObjModel *baseModel)
         vecPnts3D[i].x =  baseModel->vecPnts3D[i].x / absZ * fov;
         vecPnts3D[i].y =  baseModel->vecPnts3D[i].y / absZ * fov;
     }
+   // qDebug() << this;
 }

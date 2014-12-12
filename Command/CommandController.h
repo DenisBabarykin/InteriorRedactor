@@ -11,6 +11,7 @@ class CommandController : public QObject, public Command
 private:
     QList<Command *> commandQueue;
     bool isExecute;
+    int queueMaxLen;
 
 public:
     explicit CommandController(QObject *parent = 0);

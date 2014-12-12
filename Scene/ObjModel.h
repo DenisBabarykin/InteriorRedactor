@@ -15,7 +15,7 @@ public:
     void DrawModel(QPainter &painter);
     void RotateOX(double angle);
     void RotateOY(double angle);
-    void Rotate(const ObjModel *baseModel, int angleOX, int angleOY);
+    void Rotate(const ObjModel *baseModel, qreal angleOX, qreal angleOY);
     void Perspective(const ObjModel *baseModel);
 
     Point3D MaxPoint();

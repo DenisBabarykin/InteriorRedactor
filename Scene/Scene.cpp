@@ -7,69 +7,20 @@ const int CORES_COUNT = QThread::idealThreadCount();
 
 void Scene::ShiftPartly(int downBorder, int upBorder, qreal dx, qreal dy, qreal dz)
 {
-    /*
-    std::vector<ObjModel *>::iterator itBegin = listFigWork.begin();
-    for (int i = 0; i < downBorder; ++i)
-        ++itBegin;
-
-    std::vector<ObjModel *>::iterator itOrigBegin = listFigOrig.begin();
-    for (int i = 0; i < downBorder; ++i)
-        ++itOrigBegin;
-
-    std::vector<ObjModel *>::iterator itEnd = listFigWork.end();
-    for (int i = 0; i < upBorder; ++i)
-        ++itEnd;
-
-    for ( ; itBegin <= itEnd; ++itBegin, ++itOrigBegin)
-        (*itBegin)->Shift(*itOrigBegin, dx, dy, dz);
-    */
-
     for (int i = downBorder; i <= upBorder; ++i)
-        listFigWork[i]->Shift(listFigOrig[i], dx, dy, dz);
+        listFigWork[i]->Shift(listFigWork[i], dx, dy, dz);
 }
 
-void Scene::RotatePartly(int downBorder, int upBorder, int angleOX, int angleOY)
+void Scene::RotatePartly(int downBorder, int upBorder, qreal angleOX, qreal angleOY)
 {
-    /*
-    std::vector<ObjModel *>::iterator itBegin = listFigWork.begin();
-    for (int i = 0; i < downBorder; ++i)
-        ++itBegin;
-
-    std::vector<ObjModel *>::iterator itOrigBegin = listFigOrig.begin();
-    for (int i = 0; i < downBorder; ++i)
-        ++itOrigBegin;
-
-    std::vector<ObjModel *>::iterator itEnd = listFigWork.end();
-    for (int i = 0; i < upBorder; ++i)
-        ++itEnd;
-
-    for ( ; itBegin <= itEnd; ++itBegin)
-        (*itBegin)->Rotate(*itOrigBegin, angleOX, angleOY);
-    */
     for (int i = downBorder; i <= upBorder; ++i)
         listFigWork[i]->Rotate(listFigOrig[i], angleOX, angleOY);
 }
 
 void Scene::PerspectivePartly(int downBorder, int upBorder)
 {
-    /*
-    std::vector<ObjModel *>::iterator itBegin = listFigWork.begin();
-    for (int i = 0; i < downBorder; ++i)
-        ++itBegin;
-
-    std::vector<ObjModel *>::iterator itOrigBegin = listFigOrig.begin();
-    for (int i = 0; i < downBorder; ++i)
-        ++itOrigBegin;
-
-    std::vector<ObjModel *>::iterator itEnd = listFigWork.end();
-    for (int i = 0; i < upBorder; ++i)
-        ++itEnd;
-
-    for ( ; itBegin <= itEnd; ++itBegin)
-        (*itBegin)->Perspective(*itOrigBegin);
-    */
     for (int i = downBorder; i <= upBorder; ++i)
-        listFigWork[i]->Perspective(listFigOrig[i]);
+        listFigWork[i]->Perspective(listFigWork[i]);
 }
 
 Scene::Scene()
@@ -93,7 +44,10 @@ void Scene::LoadScene(SceneMetaData *sceneMetaData)
         qDebug() << "loading completed " << sceneMetaData->getListFig()[i].GetFileName();
 
         ObjModel *objModel = new ObjModel(objLoader);
-        objModel->Shift(objModel, sceneMetaData->getListFig()[i].GetPos().rx(), 0, sceneMetaData->getListFig()[i].GetPos().ry());
+        objModel->Shift(objModel, sceneMetaData->getListFig()[i].GetPos().rx() -
+                        sceneMetaData->GetSceneLengthOX() / 2, 0,
+                        sceneMetaData->getListFig()[i].GetPos().ry() -
+                        sceneMetaData->GetSceneLengthOZ() / 2);
         listFigOrig.push_back(objModel);
     }
 
@@ -106,17 +60,10 @@ void Scene::LoadScene(SceneMetaData *sceneMetaData)
     floor->vecPnts3D.append(Point3D(sceneMetaData->GetSceneLengthOX(), dy, 0));
     floor->vecIndx.append(FaceIndexes(0, 1, 2));
     floor->vecIndx.append(FaceIndexes(0, 2, 3));
+    floor->Shift(floor, - sceneMetaData->GetSceneLengthOX() / 2, 0, - sceneMetaData->GetSceneLengthOZ() / 2);
     listFigOrig.push_back(floor);
 
     // Копирование оригинала в рабочую копию
-    /*
-    listFigWork.resize(listFigOrig.size());
-    std::vector<ObjModel *>::iterator itOrig = listFigOrig.begin();
-    std::vector<ObjModel *>::iterator itWork = listFigWork.begin();
-    for ( ; itOrig < listFigOrig.end(); ++itOrig, ++itWork)
-        *(*itWork) = *(*itOrig);
-    */
-
     for (int i = 0; i < listFigOrig.size(); ++i)
     {
         ObjModel *objModel = new ObjModel();
@@ -124,7 +71,6 @@ void Scene::LoadScene(SceneMetaData *sceneMetaData)
         listFigWork.append(objModel);
     }
 
-    Shift(-sceneMetaData->GetSceneLengthOX() / 2, 0, - 3 * sceneMetaData->GetSceneLengthOZ() / 2);
     emit SceneActionDoneSignal();
 }
 
@@ -142,19 +88,11 @@ void Scene::Clear()
             delete listFigWork[i];
         listFigWork.clear();
     }
-    /*
-    if (!listFigWork.empty())
-    {
-        for (std::vector<ObjModel *>::iterator it = listFigWork.begin(); it != listFigWork.end(); it++)
-            delete *it;
-        listFigWork.clear();
-    }
-    */
 }
 
 void Scene::Shift(qreal dx, qreal dy, qreal dz)
 {
-    if (CORES_COUNT == -1 || CORES_COUNT == 1 || CORES_COUNT == 2)
+    if (CORES_COUNT < 3)
     {
         ShiftPartly(0, listFigOrig.size() - 1, dx, dy, dz);
     }
@@ -174,10 +112,9 @@ void Scene::Shift(qreal dx, qreal dy, qreal dz)
         for (int i = 0; i < nExtraThreads; ++i)
             future[i].waitForFinished();
     }
-    //emit SceneActionDoneSignal();
 }
 
-void Scene::Rotate(int angleOX, int angleOY)
+void Scene::Rotate(qreal angleOX, qreal angleOY)
 {
     if (CORES_COUNT < 3)
     {
@@ -199,7 +136,6 @@ void Scene::Rotate(int angleOX, int angleOY)
         for (int i = 0; i < nExtraThreads; ++i)
             future[i].waitForFinished();
     }
-    //emit SceneActionDoneSignal();
 }
 
 void Scene::Perspective()

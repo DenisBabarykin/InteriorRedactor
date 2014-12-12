@@ -13,6 +13,8 @@ Facade::Facade(QObject *parent) :
 void Facade::CreateSceneCommand(SceneMetaData sceneMetaData)
 {
     this->sceneMetaData = sceneMetaData;
+    camera.Clear();
+    scene.Clear();
     QtConcurrent::run(&scene, &Scene::LoadScene, &this->sceneMetaData);
 }
 
@@ -32,7 +34,7 @@ void Facade::RotateSceneCommand(int angleOX, int angleOY)
 void Facade::ShiftSceneCommand(qreal dx, qreal dy, qreal dz)
 {
     if (!scene.IsEmpty())
-        camera.AddShift(dx, dy, dz);
+        camera.AddShift(dx, dy, (camera.GetDZ() > sceneMetaData.GetSceneLengthOZ() * 0.2 && dz > 0) ? (0) : (dz));
     emit CommandDoneSignal();
 }
 
@@ -70,7 +72,7 @@ void Facade::CreatePainterCommand(PainterType painterType, int width, int height
 void Facade::TransformAndDrawScene()
 {
     scene.Rotate(camera.GetAngleOX(), camera.GetAngleOY());
-    scene.Shift(camera.GetDX(), camera.GetDY(), camera.GetDZ());
+    scene.Shift(camera.GetDX(), camera.GetDY(), -sceneMetaData.GetSceneLengthOZ() + camera.GetDZ());
     scene.Perspective();
     painter->Paint(scene);
     emit CommandDoneSignal();

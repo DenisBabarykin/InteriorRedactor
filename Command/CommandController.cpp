@@ -5,6 +5,7 @@
 CommandController::CommandController(QObject *parent)
 {
     isExecute = false;
+    queueMaxLen = 3;
     commandQueue.clear();
 }
 
@@ -26,7 +27,10 @@ CommandController::~CommandController()
 
 void CommandController::AddCommand(Command *command)
 {
-    commandQueue.push_back(command);
+    if (commandQueue.size() < queueMaxLen)
+        commandQueue.push_back(command);
+    else
+        delete command;
 }
 
 void CommandController::ExecuteNext()
