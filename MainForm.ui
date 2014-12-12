@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1300</width>
+    <width>987</width>
     <height>700</height>
    </rect>
   </property>
@@ -21,7 +21,7 @@
   </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QGridLayout" name="gridLayout">
-    <item row="0" column="0" rowspan="2">
+    <item row="0" column="0" rowspan="3">
      <widget class="LabelScene" name="lblScene">
       <property name="frameShape">
        <enum>QFrame::Box</enum>
@@ -31,266 +31,14 @@
       </property>
      </widget>
     </item>
-    <item row="0" column="1">
-     <widget class="QGroupBox" name="grbxCamera">
-      <property name="minimumSize">
-       <size>
-        <width>251</width>
-        <height>261</height>
-       </size>
-      </property>
-      <property name="maximumSize">
-       <size>
-        <width>251</width>
-        <height>261</height>
-       </size>
-      </property>
-      <property name="title">
-       <string>Управление камерой</string>
-      </property>
-      <widget class="QGroupBox" name="grbxCameraShift">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>15</y>
-         <width>231</width>
-         <height>131</height>
-        </rect>
-       </property>
-       <property name="title">
-        <string>Сдвиг</string>
-       </property>
-       <widget class="QWidget" name="layoutWidget">
-        <property name="geometry">
-         <rect>
-          <x>128</x>
-          <y>20</y>
-          <width>52</width>
-          <height>48</height>
-         </rect>
-        </property>
-        <layout class="QVBoxLayout" name="verticalLayout_3">
-         <item>
-          <widget class="QLineEdit" name="ledtCameraShiftForward"/>
-         </item>
-         <item>
-          <widget class="QLineEdit" name="ledtCameraShiftBackward"/>
-         </item>
-        </layout>
-       </widget>
-       <widget class="QWidget" name="layoutWidget">
-        <property name="geometry">
-         <rect>
-          <x>10</x>
-          <y>20</y>
-          <width>54</width>
-          <height>101</height>
-         </rect>
-        </property>
-        <layout class="QVBoxLayout" name="verticalLayout">
-         <item>
-          <widget class="QLineEdit" name="ledtCameraShiftUp"/>
-         </item>
-         <item>
-          <widget class="QLineEdit" name="ledtCameraShiftDown"/>
-         </item>
-         <item>
-          <widget class="QLineEdit" name="ledtCameraShiftLeft"/>
-         </item>
-         <item>
-          <widget class="QLineEdit" name="ledtCameraShiftRight"/>
-         </item>
-        </layout>
-       </widget>
-       <widget class="QWidget" name="layoutWidget">
-        <property name="geometry">
-         <rect>
-          <x>70</x>
-          <y>20</y>
-          <width>38</width>
-          <height>101</height>
-         </rect>
-        </property>
-        <layout class="QVBoxLayout" name="verticalLayout_2">
-         <item>
-          <widget class="QLabel" name="lblCameraShiftUp">
-           <property name="text">
-            <string>Вверх</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLabel" name="lblCameraShiftDown">
-           <property name="text">
-            <string>Вниз</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLabel" name="lblCameraShiftLeft">
-           <property name="text">
-            <string>Влево</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLabel" name="lblCameraShiftRight">
-           <property name="text">
-            <string>Вправо</string>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </widget>
-       <widget class="QWidget" name="layoutWidget">
-        <property name="geometry">
-         <rect>
-          <x>184</x>
-          <y>20</y>
-          <width>39</width>
-          <height>51</height>
-         </rect>
-        </property>
-        <layout class="QVBoxLayout" name="verticalLayout_4">
-         <item>
-          <widget class="QLabel" name="lblCameraShiftForward">
-           <property name="text">
-            <string>Вперёд</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLabel" name="lblCameraShiftForward_2">
-           <property name="text">
-            <string>Назад</string>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </widget>
-      </widget>
-      <widget class="QGroupBox" name="grbxCameraRotate">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>150</y>
-         <width>151</width>
-         <height>101</height>
-        </rect>
-       </property>
-       <property name="title">
-        <string>Поворот</string>
-       </property>
-       <widget class="QWidget" name="layoutWidget">
-        <property name="geometry">
-         <rect>
-          <x>10</x>
-          <y>20</y>
-          <width>52</width>
-          <height>74</height>
-         </rect>
-        </property>
-        <layout class="QVBoxLayout" name="verticalLayout_5">
-         <item>
-          <widget class="QLineEdit" name="ledtCameraRotateOX"/>
-         </item>
-         <item>
-          <widget class="QLineEdit" name="ledtCameraRotateOY"/>
-         </item>
-         <item>
-          <widget class="QLineEdit" name="ledtCameraRotateOZ"/>
-         </item>
-        </layout>
-       </widget>
-       <widget class="QWidget" name="layoutWidget">
-        <property name="geometry">
-         <rect>
-          <x>68</x>
-          <y>22</y>
-          <width>74</width>
-          <height>71</height>
-         </rect>
-        </property>
-        <layout class="QVBoxLayout" name="verticalLayout_6">
-         <item>
-          <widget class="QLabel" name="lblCameraRotateOX">
-           <property name="text">
-            <string>Вокруг оси OX</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLabel" name="lblCameraRotateOX_2">
-           <property name="text">
-            <string>Вокруг оси OY</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLabel" name="lblCameraRotateOX_3">
-           <property name="text">
-            <string>Вокруг оси OZ</string>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </widget>
-      </widget>
-      <widget class="QPushButton" name="btnCameraApply">
-       <property name="enabled">
-        <bool>false</bool>
-       </property>
-       <property name="geometry">
-        <rect>
-         <x>168</x>
-         <y>229</y>
-         <width>75</width>
-         <height>23</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>Применить</string>
-       </property>
-      </widget>
-      <widget class="QCheckBox" name="checkBox">
-       <property name="geometry">
-        <rect>
-         <x>180</x>
-         <y>180</y>
-         <width>70</width>
-         <height>17</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>CheckBox</string>
-       </property>
-      </widget>
-     </widget>
-    </item>
-    <item row="1" column="1">
-     <spacer name="verticalSpacer">
-      <property name="orientation">
-       <enum>Qt::Vertical</enum>
-      </property>
-      <property name="sizeHint" stdset="0">
-       <size>
-        <width>20</width>
-        <height>416</height>
-       </size>
-      </property>
-     </spacer>
-    </item>
    </layout>
-   <zorder>lblScene</zorder>
-   <zorder>grbxCamera</zorder>
-   <zorder>verticalSpacer</zorder>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1300</width>
+     <width>987</width>
      <height>21</height>
     </rect>
    </property>
@@ -307,7 +55,15 @@
     <addaction name="separator"/>
     <addaction name="menuBtnCloseScene"/>
    </widget>
+   <widget class="QMenu" name="menu_2">
+    <property name="title">
+     <string>Вид</string>
+    </property>
+    <addaction name="menuBtnSkeletonView"/>
+    <addaction name="menuBtnZBufView"/>
+   </widget>
    <addaction name="menu"/>
+   <addaction name="menu_2"/>
   </widget>
   <widget class="QToolBar" name="toolBar">
    <attribute name="toolBarArea">
@@ -408,6 +164,25 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+E</string>
+   </property>
+  </action>
+  <action name="menuBtnSkeletonView">
+   <property name="checkable">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Каркасная модель</string>
+   </property>
+  </action>
+  <action name="menuBtnZBufView">
+   <property name="checkable">
+    <bool>false</bool>
+   </property>
+   <property name="checked">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Буфер глубины</string>
    </property>
   </action>
  </widget>

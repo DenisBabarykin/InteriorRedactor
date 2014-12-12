@@ -30,7 +30,20 @@ SOURCES += main.cpp\
     Points/Points.cpp \
     Scene/ObjModel.cpp \
     Exception/OpeningFileException.cpp \
-    LabelScene/ZBuffer.cpp
+    Facade/Facade.cpp \
+    Facade/SingletonFacade.cpp \
+    Command/CommandController.cpp \
+    Command/CommandRotate.cpp \
+    Command/CommandCreateScene.cpp \
+    Scene/Scene.cpp \
+    Scene/Camera.cpp \
+    Command/CommandDraw.cpp \
+    Command/CommandShift.cpp \
+    Command/CommandSaveScene.cpp \
+    Painter/Painter.cpp \
+    Painter/ZBuffer.cpp \
+    Command/CommandCreatePainter.cpp \
+    Painter/Skeleton.cpp
 
 HEADERS  += MainForm.h \
     LabelScene/LabelScene.h \
@@ -48,7 +61,22 @@ HEADERS  += MainForm.h \
     Points/Points.h \
     Scene/ObjModel.h \
     Exception/OpeningFileException.h \
-    LabelScene/ZBuffer.h
+    Facade/Facade.h \
+    Facade/SingletonFacade.h \
+    Command/Command.h \
+    Command/CommandController.h \
+    Command/CommandRotate.h \
+    Command/CommandCreateScene.h \
+    Scene/Scene.h \
+    Scene/Camera.h \
+    Command/CommandDraw.h \
+    Command/CommandShift.h \
+    Command/CommandSaveScene.h \
+    Painter/Painter.h \
+    Painter/ZBuffer.h \
+    Command/CommandCreatePainter.h \
+    Painter/PainterType.h \
+    Painter/Skeleton.h
 
 
 FORMS    += MainForm.ui \
