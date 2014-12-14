@@ -1,7 +1,7 @@
 #include "MainForm.h"
 #include "ui_MainForm.h"
-#include "ObjLoader/ObjLoader.h"
-#include "Scene/ObjModel.h"
+#include "Figure/Figure.h"
+#include "Figure/SimpleFigure.h"
 #include <QMessageBox>
 #include <QString>
 #include <QFileDialog>

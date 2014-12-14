@@ -8,8 +8,9 @@
 #define OBJ_LINE_SIZE 500
 #define MAX_VERTEX_COUNT 4 // Треугольники или прямоугольники
 
-struct obj_face
+class obj_face
 {
+public:
 	int vertex_index[MAX_VERTEX_COUNT];
 	int normal_index[MAX_VERTEX_COUNT];
 	int texture_index[MAX_VERTEX_COUNT];
@@ -17,8 +18,9 @@ struct obj_face
 	int material_index;
 };
 
-struct obj_sphere
+class obj_sphere
 {
+public:
 	int pos_index;
 	int up_normal_index;
 	int equator_normal_index;
@@ -26,8 +28,9 @@ struct obj_sphere
 	int material_index;
 };
 
-struct obj_plane
+class obj_plane
 {
+public:
 	int pos_index;
 	int normal_index;
 	int rotation_normal_index;
@@ -35,13 +38,15 @@ struct obj_plane
 	int material_index;
 };
 
-struct obj_vector
+class obj_vector
 {
+public:
 	double e[3];
 };
 
-struct obj_material
+class obj_material
 {
+public:
 	char name[MATERIAL_NAME_SIZE];
 	char texture_filename[OBJ_FILENAME_LENGTH];
 	double amb[3];
@@ -55,34 +60,39 @@ struct obj_material
 	double refract_index;
 };
 
-struct obj_camera
+class obj_camera
 {
+public:
 	int camera_pos_index;
 	int camera_look_point_index;
 	int camera_up_norm_index;
 };
 
-struct obj_light_point
+class obj_light_point
 {
+public:
 	int pos_index;
 	int material_index;
 };
 
-struct obj_light_disc
+class obj_light_disc
 {
+public:
 	int pos_index;
 	int normal_index;
 	int material_index;
 };
 
-struct obj_light_quad
+class obj_light_quad
 {
+public:
 	int vertex_index[MAX_VERTEX_COUNT];
 	int material_index;
 };
 
-struct obj_growable_scene_data
+class obj_growable_scene_data
 {
+public:
 //	vector extreme_dimensions[2];
 	char scene_filename[OBJ_FILENAME_LENGTH];
 	char material_filename[OBJ_FILENAME_LENGTH];
@@ -104,8 +114,9 @@ struct obj_growable_scene_data
 	obj_camera *camera;
 };
 
-struct obj_scene_data
+class obj_scene_data
 {
+public:
 	obj_vector **vertex_list;
 	obj_vector **vertex_normal_list;
 	obj_vector **vertex_texture_list;

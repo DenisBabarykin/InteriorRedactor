@@ -2,9 +2,8 @@
 #define SCENE_H
 
 #include <QObject>
-#include "ObjModel.h"
+#include "./Figure/Figure.h"
 #include "SceneMetaData.h"
-#include <vector>
 
 class Painter;
 
@@ -14,8 +13,8 @@ class Scene : public QObject
 private:
     friend class Painter;
 
-    QList<ObjModel *> listFigOrig; // Оригинал
-    QList<ObjModel *> listFigWork; // Рабочая копия
+    QList<Figure *> listFigOrig; // Оригинал
+    QList<Figure *> listFigWork; // Рабочая копия
 
 private:
     void ShiftPartly(int downBorder, int upBorder, qreal dx, qreal dy, qreal dz); // изменения включительно с границами

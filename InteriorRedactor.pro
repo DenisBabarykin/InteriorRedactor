@@ -19,7 +19,6 @@ SOURCES += main.cpp\
     ObjLoader/list.cpp \
     ObjLoader/obj_parser.cpp \
     ObjLoader/string_extra.cpp \
-    ObjLoader/ObjLoader.cpp \
     Exception/Exception.cpp \
     Exception/UnknownCommandException.cpp \
     SceneRedactorForm.cpp \
@@ -28,7 +27,6 @@ SOURCES += main.cpp\
     Scene/SceneMetaData.cpp \
     Scene/FigureMetaData.cpp \
     Points/Points.cpp \
-    Scene/ObjModel.cpp \
     Exception/OpeningFileException.cpp \
     Facade/Facade.cpp \
     Facade/SingletonFacade.cpp \
@@ -43,14 +41,16 @@ SOURCES += main.cpp\
     Painter/Painter.cpp \
     Painter/ZBuffer.cpp \
     Command/CommandCreatePainter.cpp \
-    Painter/Skeleton.cpp
+    Painter/Skeleton.cpp \
+    Figure/Figure.cpp \
+    Figure/SimpleFigure.cpp \
+    Figure/MeasuredFigure.cpp
 
 HEADERS  += MainForm.h \
     LabelScene/LabelScene.h \
     ObjLoader/list.h \
     ObjLoader/obj_parser.h \
     ObjLoader/string_extra.h \
-    ObjLoader/ObjLoader.h \
     Exception/Exception.h \
     Exception/UnknownCommandException.h \
     SceneRedactorForm.h \
@@ -59,7 +59,7 @@ HEADERS  += MainForm.h \
     Scene/SceneMetaData.h \
     Scene/FigureMetaData.h \
     Points/Points.h \
-    Scene/ObjModel.h \
+    Scene/SimpleFigure.h \
     Exception/OpeningFileException.h \
     Facade/Facade.h \
     Facade/SingletonFacade.h \
@@ -76,7 +76,10 @@ HEADERS  += MainForm.h \
     Painter/ZBuffer.h \
     Command/CommandCreatePainter.h \
     Painter/PainterType.h \
-    Painter/Skeleton.h
+    Painter/Skeleton.h \
+    Figure/Figure.h \
+    Figure/SimpleFigure.h \
+    Figure/MeasuredFigure.h
 
 
 FORMS    += MainForm.ui \

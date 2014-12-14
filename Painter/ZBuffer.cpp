@@ -40,12 +40,21 @@ void ZBuffer::Paint(Scene &scene)
     QStringList listColors = QColor::colorNames();
     for (int i = 0; i < GetListFig(scene)->size(); ++i)
     {
-        for (int j = 0; j < (*GetListFig(scene))[i]->vecIndx.size(); ++j)
+        for (int j = 0; j < (*GetListFig(scene))[i]->faceCount; ++j)
         {
             triangle tr;
-            tr.a = Point3D((*GetListFig(scene))[i]->vecPnts3D[(*GetListFig(scene))[i]->vecIndx[j].v1]);
-            tr.b = Point3D((*GetListFig(scene))[i]->vecPnts3D[(*GetListFig(scene))[i]->vecIndx[j].v2]);
-            tr.c = Point3D((*GetListFig(scene))[i]->vecPnts3D[(*GetListFig(scene))[i]->vecIndx[j].v3]);
+
+            tr.a = Point3D((*GetListFig(scene))[i]->vertexList[ (*GetListFig(scene))[i]->faceList[j]->vertex_index[0] ]->e[0],
+                    (*GetListFig(scene))[i]->vertexList[ (*GetListFig(scene))[i]->faceList[j]->vertex_index[0] ]->e[1],
+                    (*GetListFig(scene))[i]->vertexList[ (*GetListFig(scene))[i]->faceList[j]->vertex_index[0] ]->e[2]);
+
+            tr.b = Point3D((*GetListFig(scene))[i]->vertexList[ (*GetListFig(scene))[i]->faceList[j]->vertex_index[1] ]->e[0],
+                    (*GetListFig(scene))[i]->vertexList[ (*GetListFig(scene))[i]->faceList[j]->vertex_index[1] ]->e[1],
+                    (*GetListFig(scene))[i]->vertexList[ (*GetListFig(scene))[i]->faceList[j]->vertex_index[1] ]->e[2]);
+
+            tr.c = Point3D((*GetListFig(scene))[i]->vertexList[ (*GetListFig(scene))[i]->faceList[j]->vertex_index[2] ]->e[0],
+                    (*GetListFig(scene))[i]->vertexList[ (*GetListFig(scene))[i]->faceList[j]->vertex_index[2] ]->e[1],
+                    (*GetListFig(scene))[i]->vertexList[ (*GetListFig(scene))[i]->faceList[j]->vertex_index[2] ]->e[2]);
 
             tr.a = tr.a + Point3D(currentFrame->width() / 2, currentFrame->height() / 2, 0);
             tr.b = tr.b + Point3D(currentFrame->width() / 2, currentFrame->height() / 2, 0);
