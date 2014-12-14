@@ -1,5 +1,5 @@
 #include "FigureMetaData.h"
-#include "ObjModel.h"
+#include "./Figure/SimpleFigure.h"
 #include <QDebug>
 
 int FigureMetaData::GetAngle() const
@@ -109,10 +109,10 @@ void FigureMetaData::LoadAndCalcMinMax()
     if (name.isEmpty())
         throw "Name is empty";
 
-    ObjLoader objLoader;
-    const char *ch = ("models/" + category + "/" + name).toLocal8Bit().constData();
+    Figure objLoader;
+    //const char *ch = ("models/" + category + "/" + name).toLocal8Bit().constData();
     objLoader.load(QString("models/" + category + "/" + name).toLocal8Bit().constData());
-    ObjModel objModel(objLoader);
+    SimpleFigure objModel(objLoader);
 
     Point3D pnt3DMin = objModel.MinPoint();
     Point3D pnt3DMax = objModel.MaxPoint();

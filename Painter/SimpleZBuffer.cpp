@@ -1,11 +1,11 @@
-#include "ZBuffer.h"
+#include "SimpleZBuffer.h"
 #include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <QDebug>
 
 
-ZBuffer::ZBuffer(int ax, int ay, QObject *parent) : Painter(ax, ay, parent)
+SimpleZBuffer::SimpleZBuffer(int ax, int ay, QObject *parent) : Painter(ax, ay, parent)
 {
     sX = ax; sY = ay;
     buff = NULL;
@@ -17,7 +17,7 @@ ZBuffer::ZBuffer(int ax, int ay, QObject *parent) : Painter(ax, ay, parent)
     Clear();
 }
 
-ZBuffer::~ZBuffer()
+SimpleZBuffer::~SimpleZBuffer()
 {
     for (int i = 0; i < sX; i++)
         free(buff[i]);
@@ -25,7 +25,7 @@ ZBuffer::~ZBuffer()
     buff = NULL;
 }
 
-void ZBuffer::Clear()
+void SimpleZBuffer::Clear()
 {
     for (int i = 0; i < sX; i++)
         for (int j = 0; j < sY; j++)
@@ -34,18 +34,27 @@ void ZBuffer::Clear()
     currentFrame->fill(Qt::black); // !!!
 }
 
-void ZBuffer::Paint(Scene &scene)
+void SimpleZBuffer::Paint(Scene &scene)
 {
     Clear();
     QStringList listColors = QColor::colorNames();
     for (int i = 0; i < GetListFig(scene)->size(); ++i)
     {
-        for (int j = 0; j < (*GetListFig(scene))[i]->vecIndx.size(); ++j)
+        for (int j = 0; j < (*GetListFig(scene))[i]->faceCount; ++j)
         {
             triangle tr;
-            tr.a = Point3D((*GetListFig(scene))[i]->vecPnts3D[(*GetListFig(scene))[i]->vecIndx[j].v1]);
-            tr.b = Point3D((*GetListFig(scene))[i]->vecPnts3D[(*GetListFig(scene))[i]->vecIndx[j].v2]);
-            tr.c = Point3D((*GetListFig(scene))[i]->vecPnts3D[(*GetListFig(scene))[i]->vecIndx[j].v3]);
+
+            tr.a = Point3D((*GetListFig(scene))[i]->vertexList[ (*GetListFig(scene))[i]->faceList[j]->vertex_index[0] ]->e[0],
+                    (*GetListFig(scene))[i]->vertexList[ (*GetListFig(scene))[i]->faceList[j]->vertex_index[0] ]->e[1],
+                    (*GetListFig(scene))[i]->vertexList[ (*GetListFig(scene))[i]->faceList[j]->vertex_index[0] ]->e[2]);
+
+            tr.b = Point3D((*GetListFig(scene))[i]->vertexList[ (*GetListFig(scene))[i]->faceList[j]->vertex_index[1] ]->e[0],
+                    (*GetListFig(scene))[i]->vertexList[ (*GetListFig(scene))[i]->faceList[j]->vertex_index[1] ]->e[1],
+                    (*GetListFig(scene))[i]->vertexList[ (*GetListFig(scene))[i]->faceList[j]->vertex_index[1] ]->e[2]);
+
+            tr.c = Point3D((*GetListFig(scene))[i]->vertexList[ (*GetListFig(scene))[i]->faceList[j]->vertex_index[2] ]->e[0],
+                    (*GetListFig(scene))[i]->vertexList[ (*GetListFig(scene))[i]->faceList[j]->vertex_index[2] ]->e[1],
+                    (*GetListFig(scene))[i]->vertexList[ (*GetListFig(scene))[i]->faceList[j]->vertex_index[2] ]->e[2]);
 
             tr.a = tr.a + Point3D(currentFrame->width() / 2, currentFrame->height() / 2, 0);
             tr.b = tr.b + Point3D(currentFrame->width() / 2, currentFrame->height() / 2, 0);
@@ -58,7 +67,7 @@ void ZBuffer::Paint(Scene &scene)
 
 static int nAll = 0, nRewrite = 0;
 
-void ZBuffer::PutTriangle(triangle &t, uint color)
+void SimpleZBuffer::PutTriangle(triangle &t, uint color)
 {
     int ysc, e1, e;
     double ymax,ymin;

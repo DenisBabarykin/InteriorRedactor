@@ -2,7 +2,7 @@
 #define MAINFORM_H
 
 #include <QMainWindow>
-#include "Scene/ObjModel.h"
+#include "Figure/SimpleFigure.h"
 #include "SceneRedactorForm.h"
 #include "Command/CommandController.h"
 #include "Painter/PainterType.h"

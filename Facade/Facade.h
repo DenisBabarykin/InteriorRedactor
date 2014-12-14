@@ -3,7 +3,7 @@
 
 #include <QObject>
 #include "Scene/SceneMetaData.h"
-#include "Scene/ObjModel.h"
+#include "Figure/SimpleFigure.h"
 #include "Scene/Scene.h"
 #include "Scene/Camera.h"
 #include "Painter/PainterType.h"

@@ -4,7 +4,7 @@
 #include <QObject>
 #include "./Scene/Scene.h"
 #include <QImage>
-#include "./Scene/ObjModel.h"
+#include "./Figure/SimpleFigure.h"
 
 class Painter : public QObject
 {
@@ -13,7 +13,7 @@ protected:
     QImage *currentFrame;
 
 protected:
-    QList<ObjModel *> *GetListFig(Scene &scene);
+    QList<Figure *> *GetListFig(Scene &scene);
 
 public:
     explicit Painter(int width, int height, QObject *parent = 0);
