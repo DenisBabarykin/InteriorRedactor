@@ -9,6 +9,12 @@ SimpleFigure::SimpleFigure()
 
 }
 
+SimpleFigure::~SimpleFigure()
+{
+    vecPnts3D.clear();
+    vecIndx.clear();
+}
+
 SimpleFigure::SimpleFigure(Figure &objLoader)
 {
     FillDataFromObjLoader(objLoader);
@@ -20,12 +26,12 @@ void SimpleFigure::FillDataFromObjLoader(Figure &objLoader)
     vecPnts3D.resize(objLoader.vertexCount);
     vecIndx.resize(objLoader.faceCount);
 
-    for (int i = 0; i < vecPnts3D.size(); ++i)
+    for (uint i = 0; i < vecPnts3D.size(); ++i)
         vecPnts3D[i] = Point3D(objLoader.vertexList[i]->e[0], objLoader.vertexList[i]->e[1],
                 objLoader.vertexList[i]->e[2]);
 
     int nQuads = 0;
-    for (int i = 0; i < vecIndx.size(); ++i)
+    for (uint i = 0; i < vecIndx.size(); ++i)
     {
         if (objLoader.faceList[i]->vertex_count != 3)
             //throw ("Vertex count error");
@@ -41,7 +47,7 @@ Point3D SimpleFigure::MaxPoint()
 {
     Point3D maxPoint = vecPnts3D[0];
 
-    for (int i = 0; i < vecPnts3D.size(); ++i)
+    for (uint i = 0; i < vecPnts3D.size(); ++i)
     {
         if (vecPnts3D[i].x > maxPoint.x)
             maxPoint.x = vecPnts3D[i].x;
@@ -60,7 +66,7 @@ Point3D SimpleFigure::MinPoint()
 {
     Point3D MinPoint = vecPnts3D[0];
 
-    for (int i = 0; i < vecPnts3D.size(); ++i)
+    for (uint i = 0; i < vecPnts3D.size(); ++i)
     {
         if (vecPnts3D[i].x < MinPoint.x)
             MinPoint.x = vecPnts3D[i].x;
@@ -77,7 +83,7 @@ Point3D SimpleFigure::MinPoint()
 
 void SimpleFigure::Shift(const SimpleFigure *baseModel, qreal dx, qreal dy, qreal dz)
 {
-    for (int i = 0; i < vecPnts3D.size(); ++i)
+    for (uint i = 0; i < vecPnts3D.size(); ++i)
     {
         vecPnts3D[i].x = baseModel->vecPnts3D[i].x + dx;
         vecPnts3D[i].y = baseModel->vecPnts3D[i].y + dy;
@@ -94,7 +100,7 @@ void SimpleFigure::Center()
     double dy = - minPoint.y;
     double dz = - (maxPoint.z + minPoint.z) / 2;
 
-    for (int i = 0; i < vecPnts3D.size(); ++i)
+    for (uint i = 0; i < vecPnts3D.size(); ++i)
     {
         vecPnts3D[i].x += dx;
         vecPnts3D[i].y += dy;
@@ -106,7 +112,7 @@ void SimpleFigure::Center()
 
 void SimpleFigure::DrawModel(QPainter &painter)
 {
-    for (int i = 0; i < vecIndx.size(); ++i)
+    for (uint i = 0; i < vecIndx.size(); ++i)
     {
         painter.drawLine(vecPnts3D[vecIndx[i].v1].x, vecPnts3D[vecIndx[i].v1].y, vecPnts3D[vecIndx[i].v2].x,
                 vecPnts3D[vecIndx[i].v2].y);
@@ -124,7 +130,7 @@ void SimpleFigure::Rotate(const SimpleFigure *baseModel, qreal angleOX, qreal an
     if (!angleOX)
     {
         angleOY *= Pi / 180;
-        for (int i = 0; i < vecPnts3D.size(); ++i)
+        for (uint i = 0; i < vecPnts3D.size(); ++i)
         {
             vecPnts3D[i].x = baseModel->vecPnts3D[i].x * cos(angleOY) + baseModel->vecPnts3D[i].z * sin(angleOY);
             vecPnts3D[i].z = - baseModel->vecPnts3D[i].x * sin(angleOY) + baseModel->vecPnts3D[i].z * cos(angleOY);
@@ -134,7 +140,7 @@ void SimpleFigure::Rotate(const SimpleFigure *baseModel, qreal angleOX, qreal an
     else if (!angleOY)
     {
         angleOX *= Pi / 180;
-        for (int i = 0; i < vecPnts3D.size(); ++i)
+        for (uint i = 0; i < vecPnts3D.size(); ++i)
         {
             vecPnts3D[i].x = baseModel->vecPnts3D[i].x;
             vecPnts3D[i].y = baseModel->vecPnts3D[i].y * cos(angleOX) - baseModel->vecPnts3D[i].z * sin(angleOX);
@@ -145,7 +151,7 @@ void SimpleFigure::Rotate(const SimpleFigure *baseModel, qreal angleOX, qreal an
     {
         angleOX *= Pi / 180;
         angleOY *= Pi / 180;
-        for (int i = 0; i < vecPnts3D.size(); ++i)
+        for (uint i = 0; i < vecPnts3D.size(); ++i)
         {
             vecPnts3D[i].x = baseModel->vecPnts3D[i].x * cos(angleOY) + baseModel->vecPnts3D[i].z * sin(angleOY);
             qreal newZ = - baseModel->vecPnts3D[i].x * sin(angleOY) + baseModel->vecPnts3D[i].z * cos(angleOY);
@@ -160,7 +166,7 @@ void SimpleFigure::Perspective(const SimpleFigure *baseModel)
 {
     qreal fov = 500;
     qreal absZ;
-    for (int i = 0; i < vecPnts3D.size(); ++i)
+    for (uint i = 0; i < vecPnts3D.size(); ++i)
     {
         absZ = fabs(vecPnts3D[i].z);
         //absZ = vecPnts3D[i].z;

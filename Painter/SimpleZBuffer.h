@@ -16,13 +16,13 @@ public:
 
 class SimpleZBuffer : public Painter
 {
-public:
+protected:
     double **buff;
     int sX, sY;	// Размер Z-Буфера
 
 public:
     SimpleZBuffer(int ax, int ay, QObject *parent = 0);
-    ~SimpleZBuffer();
+    virtual ~SimpleZBuffer();
     void PutTriangle(triangle &t, uint color);
     void Clear();
     void Paint(Scene &scene);

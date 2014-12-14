@@ -44,7 +44,8 @@ SOURCES += main.cpp\
     Figure/Figure.cpp \
     Figure/SimpleFigure.cpp \
     Figure/MeasuredFigure.cpp \
-    Painter/SimpleZBuffer.cpp
+    Painter/SimpleZBuffer.cpp \
+    Painter/ColorSimpleZBuffer.cpp
 
 HEADERS  += MainForm.h \
     LabelScene/LabelScene.h \
@@ -79,7 +80,8 @@ HEADERS  += MainForm.h \
     Figure/Figure.h \
     Figure/SimpleFigure.h \
     Figure/MeasuredFigure.h \
-    Painter/SimpleZBuffer.h
+    Painter/SimpleZBuffer.h \
+    Painter/ColorSimpleZBuffer.h
 
 
 FORMS    += MainForm.ui \

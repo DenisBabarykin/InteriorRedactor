@@ -11,6 +11,7 @@ class SimpleFigure : public virtual MeasuredFigure
 {
 public:
     SimpleFigure();
+    ~SimpleFigure();
     explicit SimpleFigure(Figure &objLoader);
 
     void DrawModel(QPainter &painter);

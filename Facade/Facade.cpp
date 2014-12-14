@@ -1,7 +1,8 @@
 #include "Facade.h"
 #include <QtConcurrent/QtConcurrent>
-#include "Painter/SimpleZBuffer.h"
-#include "Painter/Skeleton.h"
+#include "./Painter/SimpleZBuffer.h"
+#include "./Painter/Skeleton.h"
+#include "./Painter/ColorSimpleZBuffer.h"
 
 Facade::Facade(QObject *parent) :
     QObject(parent)
@@ -53,12 +54,16 @@ void Facade::CreatePainterCommand(PainterType::PainterType painterType, int widt
 
     switch(painterType)
     {
-        case PainterType::simplezBuffer:
+        case PainterType::simpleZBuffer:
             painter = new SimpleZBuffer(width, height);
             break;
 
         case PainterType::skeleton:
             painter = new Skeleton(width, height);
+            break;
+
+        case PainterType::colorSimpleZBuffer:
+            painter = new ColorSimpleZBuffer(width, height);
             break;
 
         default:

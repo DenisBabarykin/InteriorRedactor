@@ -8,7 +8,7 @@
 #define OBJ_LINE_SIZE 500
 #define MAX_VERTEX_COUNT 4 // Треугольники или прямоугольники
 
-class obj_face
+class ObjFace
 {
 public:
 	int vertex_index[MAX_VERTEX_COUNT];
@@ -18,7 +18,7 @@ public:
 	int material_index;
 };
 
-class obj_sphere
+class ObjSphere
 {
 public:
 	int pos_index;
@@ -28,7 +28,7 @@ public:
 	int material_index;
 };
 
-class obj_plane
+class ObjPlane
 {
 public:
 	int pos_index;
@@ -38,13 +38,13 @@ public:
 	int material_index;
 };
 
-class obj_vector
+class ObjVector
 {
 public:
 	double e[3];
 };
 
-class obj_material
+class ObjMaterial
 {
 public:
 	char name[MATERIAL_NAME_SIZE];
@@ -60,7 +60,7 @@ public:
 	double refract_index;
 };
 
-class obj_camera
+class ObjCamera
 {
 public:
 	int camera_pos_index;
@@ -68,14 +68,14 @@ public:
 	int camera_up_norm_index;
 };
 
-class obj_light_point
+class ObjLightPoint
 {
 public:
 	int pos_index;
 	int material_index;
 };
 
-class obj_light_disc
+class ObjLightDisc
 {
 public:
 	int pos_index;
@@ -83,14 +83,14 @@ public:
 	int material_index;
 };
 
-class obj_light_quad
+class ObjLightQuad
 {
 public:
 	int vertex_index[MAX_VERTEX_COUNT];
 	int material_index;
 };
 
-class obj_growable_scene_data
+class ObjGrowableSceneData
 {
 public:
 //	vector extreme_dimensions[2];
@@ -111,25 +111,25 @@ public:
 	
 	list material_list;
 	
-	obj_camera *camera;
+    ObjCamera *camera;
 };
 
-class obj_scene_data
+class ObjSceneData
 {
 public:
-	obj_vector **vertex_list;
-	obj_vector **vertex_normal_list;
-	obj_vector **vertex_texture_list;
+    ObjVector **vertex_list;
+    ObjVector **vertex_normal_list;
+    ObjVector **vertex_texture_list;
 	
-	obj_face **face_list;
-	obj_sphere **sphere_list;
-	obj_plane **plane_list;
+    ObjFace **face_list;
+    ObjSphere **sphere_list;
+    ObjPlane **plane_list;
 	
-	obj_light_point **light_point_list;
-	obj_light_quad **light_quad_list;
-	obj_light_disc **light_disc_list;
+    ObjLightPoint **light_point_list;
+    ObjLightQuad **light_quad_list;
+    ObjLightDisc **light_disc_list;
 	
-	obj_material **material_list;
+    ObjMaterial **material_list;
 	
 	int vertex_count;
 	int vertex_normal_count;
@@ -145,10 +145,10 @@ public:
 
 	int material_count;
 
-	obj_camera *camera;
+    ObjCamera *camera;
 };
 
-int parse_obj_scene(obj_scene_data *data_out, const char *filename);
-void delete_obj_data(obj_scene_data *data_out);
+int parse_obj_scene(ObjSceneData *data_out, const char *filename);
+void delete_obj_data(ObjSceneData *data_out);
 
 #endif
