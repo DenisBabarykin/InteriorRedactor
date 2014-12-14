@@ -38,21 +38,21 @@ void Scene::LoadScene(SceneMetaData *sceneMetaData)
 
     for (int i = 0; i < sceneMetaData->getListFig().size(); ++i)
     {
-        ObjLoader objLoader;
+        Figure *objLoader = new Figure();
         qDebug() << "loading " << sceneMetaData->getListFig()[i].GetFileName();
-        objLoader.load(sceneMetaData->getListFig()[i].GetFileName().toLocal8Bit().constData());
+        objLoader->load(sceneMetaData->getListFig()[i].GetFileName().toLocal8Bit().constData());
         qDebug() << "loading completed " << sceneMetaData->getListFig()[i].GetFileName();
 
-        ObjModel *objModel = new ObjModel(objLoader);
-        objModel->Shift(objModel, sceneMetaData->getListFig()[i].GetPos().rx() -
+        objLoader->Shift(objLoader, sceneMetaData->getListFig()[i].GetPos().rx() -
                         sceneMetaData->GetSceneLengthOX() / 2, 0,
                         sceneMetaData->getListFig()[i].GetPos().ry() -
                         sceneMetaData->GetSceneLengthOZ() / 2);
-        listFigOrig.push_back(objModel);
+        listFigOrig.push_back(objLoader);
     }
 
     // формирование пола
-    ObjModel *floor = new ObjModel;
+    /*
+    Figure *floor = new Figure;
     int dy = - 5; // чтобы исключить борьбу
     floor->vecPnts3D.push_back(Point3D(0, dy, 0));
     floor->vecPnts3D.push_back(Point3D(0, dy, sceneMetaData->GetSceneLengthOZ()));
@@ -62,14 +62,14 @@ void Scene::LoadScene(SceneMetaData *sceneMetaData)
     floor->vecIndx.push_back(FaceIndexes(0, 2, 3));
     floor->Shift(floor, - sceneMetaData->GetSceneLengthOX() / 2, 0, - sceneMetaData->GetSceneLengthOZ() / 2);
     listFigOrig.push_back(floor);
+    */
+
+    Figure *floor = Figure::CreateFloor(sceneMetaData->GetSceneLengthOX(), sceneMetaData->GetSceneLengthOZ());
+    listFigOrig.push_back(floor);
 
     // Копирование оригинала в рабочую копию
     for (int i = 0; i < listFigOrig.size(); ++i)
-    {
-        ObjModel *objModel = new ObjModel();
-        *objModel = *listFigOrig[i];
-        listFigWork.push_back(objModel);
-    }
+        listFigWork.push_back((*listFigOrig[i]).Clone());
 
     emit SceneActionDoneSignal();
 }

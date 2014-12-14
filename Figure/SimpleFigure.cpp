@@ -1,21 +1,21 @@
-#include "ObjModel.h"
+#include "SimpleFigure.h"
 #include <QtMath>
 #include <QDebug>
 
 const double Pi = 3.14159265;
 
-ObjModel::ObjModel()
+SimpleFigure::SimpleFigure()
 {
 
 }
 
-ObjModel::ObjModel(ObjLoader &objLoader)
+SimpleFigure::SimpleFigure(Figure &objLoader)
 {
     FillDataFromObjLoader(objLoader);
     Center();
 }
 
-void ObjModel::FillDataFromObjLoader(ObjLoader &objLoader)
+void SimpleFigure::FillDataFromObjLoader(Figure &objLoader)
 {
     vecPnts3D.resize(objLoader.vertexCount);
     vecIndx.resize(objLoader.faceCount);
@@ -37,7 +37,7 @@ void ObjModel::FillDataFromObjLoader(ObjLoader &objLoader)
     qDebug() << nQuads;
 }
 
-Point3D ObjModel::MaxPoint()
+Point3D SimpleFigure::MaxPoint()
 {
     Point3D maxPoint = vecPnts3D[0];
 
@@ -56,7 +56,7 @@ Point3D ObjModel::MaxPoint()
     return maxPoint;
 }
 
-Point3D ObjModel::MinPoint()
+Point3D SimpleFigure::MinPoint()
 {
     Point3D MinPoint = vecPnts3D[0];
 
@@ -75,7 +75,7 @@ Point3D ObjModel::MinPoint()
     return MinPoint;
 }
 
-void ObjModel::Shift(const ObjModel *baseModel, qreal dx, qreal dy, qreal dz)
+void SimpleFigure::Shift(const SimpleFigure *baseModel, qreal dx, qreal dy, qreal dz)
 {
     for (int i = 0; i < vecPnts3D.size(); ++i)
     {
@@ -85,7 +85,7 @@ void ObjModel::Shift(const ObjModel *baseModel, qreal dx, qreal dy, qreal dz)
     }
 }
 
-void ObjModel::Center()
+void SimpleFigure::Center()
 {
     Point3D maxPoint = MaxPoint();
     Point3D minPoint = MinPoint();
@@ -104,7 +104,7 @@ void ObjModel::Center()
     //Shift(0, -minPoint.y, 0);
 }
 
-void ObjModel::DrawModel(QPainter &painter)
+void SimpleFigure::DrawModel(QPainter &painter)
 {
     for (int i = 0; i < vecIndx.size(); ++i)
     {
@@ -119,52 +119,7 @@ void ObjModel::DrawModel(QPainter &painter)
     }
 }
 
-void ObjModel::DrawModelFill(QPainter &painter)
-{
-    QPointF *points = new QPointF[4];
-
-    painter.setBrush(QBrush(Qt::black));
-    painter.setRenderHint(QPainter::Antialiasing);
-
-    for (int i = 0; i < vecIndx.size(); ++i)
-    {
-        points[0] = QPointF(vecPnts3D[vecIndx[i].v1].x, vecPnts3D[vecIndx[i].v1].y);
-        points[1] = QPointF(vecPnts3D[vecIndx[i].v2].x, vecPnts3D[vecIndx[i].v2].y);
-        points[2] = QPointF(vecPnts3D[vecIndx[i].v3].x, vecPnts3D[vecIndx[i].v3].y);
-
-        painter.drawPolygon(points, 3);
-
-    }
-    painter.setBrush(QBrush(Qt::white));
-
-    delete [] points;
-}
-
-void ObjModel::RotateOY(double angle)
-{
-    angle *= Pi / 180;
-    for (int i = 0; i < vecPnts3D.size(); ++i)
-    {
-        int x = vecPnts3D[i].x * cos(angle) + vecPnts3D[i].z * sin(angle);
-        int z = - vecPnts3D[i].x * sin(angle) + vecPnts3D[i].z * cos(angle);
-        vecPnts3D[i].x = x;
-        vecPnts3D[i].z = z;
-    }
-}
-
-void ObjModel::RotateOX(double angle)
-{
-    angle *= Pi / 180;
-    for (int i = 0; i < vecPnts3D.size(); ++i)
-    {
-        int y = vecPnts3D[i].y * cos(angle) - vecPnts3D[i].z * sin(angle);
-        int z = vecPnts3D[i].y * sin(angle) + vecPnts3D[i].z * cos(angle);
-        vecPnts3D[i].y = y;
-        vecPnts3D[i].z = z;
-    }
-}
-
-void ObjModel::Rotate(const ObjModel *baseModel, qreal angleOX, qreal angleOY)
+void SimpleFigure::Rotate(const SimpleFigure *baseModel, qreal angleOX, qreal angleOY)
 {
     if (!angleOX)
     {
@@ -201,7 +156,7 @@ void ObjModel::Rotate(const ObjModel *baseModel, qreal angleOX, qreal angleOY)
     }
 }
 
-void ObjModel::Perspective(const ObjModel *baseModel)
+void SimpleFigure::Perspective(const SimpleFigure *baseModel)
 {
     qreal fov = 500;
     qreal absZ;
