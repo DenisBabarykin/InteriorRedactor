@@ -77,23 +77,30 @@ void Figure::Rotate(const Figure *baseModel, qreal angleOX, qreal angleOY)
     angleOY *= Pi / 180;
     for (int i = 0; i < vertexCount; ++i)
     {
-        //vecPnts3D[i].x = baseModel->vecPnts3D[i].x * cos(angleOY) + baseModel->vecPnts3D[i].z * sin(angleOY);
         vertexList[i]->e[0] = baseModel->vertexList[i]->e[0] * cos(angleOY) +
                 baseModel->vertexList[i]->e[2] * sin(angleOY);
         qreal newZ = - baseModel->vertexList[i]->e[0] * sin(angleOY) +
                 baseModel->vertexList[i]->e[2] * cos(angleOY);
-        //qreal newZ = - baseModel->vecPnts3D[i].x * sin(angleOY) + baseModel->vecPnts3D[i].z * cos(angleOY);
 
         vertexList[i]->e[1] = baseModel->vertexList[i]->e[1] * cos(angleOX) - newZ * sin(angleOX);
-        //vecPnts3D[i].y = baseModel->vecPnts3D[i].y * cos(angleOX) - newZ * sin(angleOX);
         vertexList[i]->e[2] = baseModel->vertexList[i]->e[1] * sin(angleOX) + newZ * cos(angleOX);
-        //vecPnts3D[i].z = baseModel->vecPnts3D[i].y * sin(angleOX) + newZ * cos(angleOX);
     }
+    if (normalCount == 1 || normalCount == 4)
+        for (int i = 0; i < normalCount; ++i)
+        {
+            normalList[i]->e[0] = baseModel->normalList[i]->e[0] * cos(angleOY) +
+                    baseModel->normalList[i]->e[2] * sin(angleOY);
+            qreal newZ = - baseModel->normalList[i]->e[0] * sin(angleOY) +
+                    baseModel->normalList[i]->e[2] * cos(angleOY);
+
+            normalList[i]->e[1] = baseModel->normalList[i]->e[1] * cos(angleOX) - newZ * sin(angleOX);
+            normalList[i]->e[2] = baseModel->normalList[i]->e[1] * sin(angleOX) + newZ * cos(angleOX);
+        }
 }
 
 void Figure::Perspective(const Figure *baseModel)
 {
-    qreal fov = 500; // field of view - поле зрения
+    qreal fov = 700; // field of view - поле зрения
     qreal absZ;
     for (int i = 0; i < vertexCount; ++i)
     {
@@ -102,6 +109,16 @@ void Figure::Perspective(const Figure *baseModel)
         vertexList[i]->e[0] =  baseModel->vertexList[i]->e[0] / absZ * fov;
         vertexList[i]->e[1] =  baseModel->vertexList[i]->e[1] / absZ * fov;
     }
+
+    if (normalCount == 1 || normalCount == 4)
+        for (int i = 0; i < normalCount; ++i)
+        {
+            absZ = fabs(normalList[i]->e[2]);
+            //absZ = vertexList[i]->e[2];
+            normalList[i]->e[0] =  baseModel->normalList[i]->e[0] / absZ * fov;
+            normalList[i]->e[1] =  baseModel->normalList[i]->e[1] / absZ * fov;
+        }
+
 }
 
 void Figure::Shift(const Figure *baseModel, qreal dx, qreal dy, qreal dz)
@@ -463,9 +480,9 @@ Figure *Figure::CreateWalls(qreal lengthOX, qreal lengthOZ, qreal height)
     fig->normalList[2]->e[1] = 0;
     fig->normalList[2]->e[2] = 0;
 
-    fig->normalList[2]->e[0] = 0;
-    fig->normalList[2]->e[1] = 0;
-    fig->normalList[2]->e[2] = -1;
+    fig->normalList[3]->e[0] = 0;
+    fig->normalList[3]->e[1] = 0;
+    fig->normalList[3]->e[2] = -1;
 
     // Заполнение поверхностей
     fig->faceList[0]->vertex_index[0] = 0; // Вершины
