@@ -39,12 +39,12 @@ SOURCES += main.cpp\
     Command/CommandShift.cpp \
     Command/CommandSaveScene.cpp \
     Painter/Painter.cpp \
-    Painter/ZBuffer.cpp \
     Command/CommandCreatePainter.cpp \
     Painter/Skeleton.cpp \
     Figure/Figure.cpp \
     Figure/SimpleFigure.cpp \
-    Figure/MeasuredFigure.cpp
+    Figure/MeasuredFigure.cpp \
+    Painter/SimpleZBuffer.cpp
 
 HEADERS  += MainForm.h \
     LabelScene/LabelScene.h \
@@ -73,13 +73,13 @@ HEADERS  += MainForm.h \
     Command/CommandShift.h \
     Command/CommandSaveScene.h \
     Painter/Painter.h \
-    Painter/ZBuffer.h \
     Command/CommandCreatePainter.h \
     Painter/PainterType.h \
     Painter/Skeleton.h \
     Figure/Figure.h \
     Figure/SimpleFigure.h \
-    Figure/MeasuredFigure.h
+    Figure/MeasuredFigure.h \
+    Painter/SimpleZBuffer.h
 
 
 FORMS    += MainForm.ui \

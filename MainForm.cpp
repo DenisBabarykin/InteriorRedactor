@@ -25,7 +25,7 @@ MainForm::MainForm(QWidget *parent) :
     ui->setupUi(this);
 
     sceneRedactorForm = NULL;
-    painterType = PainterType::zBuffer;
+    painterType = PainterType::simplezBuffer;
 
     connect(ui->lblScene, SIGNAL(mouseMoveSignal(qreal,qreal)), this, SLOT(MouseMove(qreal,qreal)));
     connect(ui->lblScene, SIGNAL(wheelSignal(int)), this, SLOT(Wheel(int)));
@@ -185,7 +185,7 @@ void MainForm::on_menuBtnSkeletonView_triggered()
 
 void MainForm::on_menuBtnZBufView_triggered()
 {
-    painterType = PainterType::zBuffer;
+    painterType = PainterType::simplezBuffer;
     commandController.AddCommand(new CommandCreatePainter((painterType), ui->lblScene->width(), ui->lblScene->height()));
     commandController.AddCommand(new CommandDraw());
     commandController.Execute();
