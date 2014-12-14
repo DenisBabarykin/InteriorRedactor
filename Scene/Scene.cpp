@@ -50,9 +50,10 @@ void Scene::LoadScene(SceneMetaData *sceneMetaData)
         listFigOrig.push_back(objLoader);
     }
 
-    // формирование пола
-    Figure *floor = Figure::CreateFloor(sceneMetaData->GetSceneLengthOX(), sceneMetaData->GetSceneLengthOZ());
-    listFigOrig.push_back(floor);
+    // формирование пола и стен
+    listFigOrig.push_back(Figure::CreateFloor(sceneMetaData->GetSceneLengthOX(), sceneMetaData->GetSceneLengthOZ()));
+    listFigOrig.push_back(Figure::CreateWalls(sceneMetaData->GetSceneLengthOX(), sceneMetaData->GetSceneLengthOZ(),
+                                              250));
 
     // Копирование оригинала в рабочую копию
     for (int i = 0; i < listFigOrig.size(); ++i)

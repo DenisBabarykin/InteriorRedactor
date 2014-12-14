@@ -24,6 +24,7 @@ public:
     Figure *Clone();
 
     static Figure *CreateFloor(qreal lengthOX, qreal lengthOZ);
+    static Figure *CreateWalls(qreal lengthOX, qreal lengthOZ, qreal height);
 
 private:
     void Center();

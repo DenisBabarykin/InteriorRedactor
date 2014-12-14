@@ -2,8 +2,8 @@
 #include "./ObjLoader/obj_parser.h"
 #include <QtMath>
 
-const double Pi = 3.14159265;
-
+const qreal Pi = 3.14159265;
+const qreal dy = -5;
 
 int Figure::load(const char *filename)
 {
@@ -299,7 +299,6 @@ Figure *Figure::Clone()
 Figure *Figure::CreateFloor(qreal lengthOX, qreal lengthOZ)
 {
     Figure *fig = new Figure();
-    qreal dy = -5;
 
     // Выделение памяти под вершины
     fig->vertexCount = 4;
@@ -375,8 +374,177 @@ Figure *Figure::CreateFloor(qreal lengthOX, qreal lengthOZ)
     fig->faceList[1]->material_index = 0;
 
     // Заполнение материала
-    fig->materialList[0]->diff[0] = 1; // Цвет диффузного отражения
-    fig->materialList[0]->diff[1] = 0.894;
+    fig->materialList[0]->diff[0] = 0.513; // Цвет диффузного отражения
+    fig->materialList[0]->diff[1] = 0.545;
+    fig->materialList[0]->diff[2] = 0.545;
+
+    return fig;
+}
+
+Figure *Figure::CreateWalls(qreal lengthOX, qreal lengthOZ, qreal height)
+{
+    Figure *fig = new Figure();
+
+    // Выделение памяти под вершины
+    fig->vertexCount = 8;
+    fig->vertexList = (ObjVector **) malloc(fig->vertexCount * sizeof(ObjVector *));
+    for (int i = 0; i < fig->vertexCount; ++i)
+        fig->vertexList[i] = (ObjVector *) malloc(sizeof(ObjVector));
+    fig->data.vertex_list = fig->vertexList;
+    fig->data.vertex_count = fig->vertexCount;
+
+    // Выделение памяти под нормали
+    fig->normalCount = 4;
+    fig->normalList = (ObjVector **) malloc(fig->normalCount * sizeof(ObjVector *));
+    for (int i = 0; i < fig->normalCount; ++i)
+        fig->normalList[i] = (ObjVector *) malloc(sizeof(ObjVector));
+    fig->data.vertex_normal_count = fig->normalCount;
+    fig->data.vertex_normal_list = fig->normalList;
+
+    // Выделение памяти под поверхности
+    fig->faceCount = 8;
+    fig->faceList = (ObjFace **) malloc(fig->faceCount * sizeof(ObjFace *));
+    for (int i = 0; i < fig->faceCount; ++i)
+        fig->faceList[i] = (ObjFace *) malloc(sizeof(ObjFace));
+    fig->data.face_count = fig->faceCount;
+    fig->data.face_list = fig->faceList;
+
+    // Выделение памяти под материал
+    fig->materialCount = 1;
+    fig->materialList = (ObjMaterial **) malloc(fig->materialCount * sizeof(ObjMaterial *));
+    fig->materialList[0] = (ObjMaterial *) malloc(sizeof(ObjMaterial));
+    fig->data.material_count = fig->materialCount;
+    fig->data.material_list = fig->materialList;
+
+
+    // Заполнение вершин
+    fig->vertexList[0]->e[0] = - lengthOX / 2; // низ
+    fig->vertexList[0]->e[1] = dy;
+    fig->vertexList[0]->e[2] = - lengthOZ / 2;
+
+    fig->vertexList[1]->e[0] = - lengthOX / 2;
+    fig->vertexList[1]->e[1] = dy;
+    fig->vertexList[1]->e[2] = lengthOZ / 2;
+
+    fig->vertexList[2]->e[0] = lengthOX / 2;
+    fig->vertexList[2]->e[1] = dy;
+    fig->vertexList[2]->e[2] = lengthOZ / 2;
+
+    fig->vertexList[3]->e[0] = lengthOX / 2;
+    fig->vertexList[3]->e[1] = dy;
+    fig->vertexList[3]->e[2] = - lengthOZ / 2;
+
+    fig->vertexList[4]->e[0] = - lengthOX / 2; // верх
+    fig->vertexList[4]->e[1] = dy + height;
+    fig->vertexList[4]->e[2] = - lengthOZ / 2;
+
+    fig->vertexList[5]->e[0] = - lengthOX / 2;
+    fig->vertexList[5]->e[1] = dy + height;
+    fig->vertexList[5]->e[2] = lengthOZ / 2;
+
+    fig->vertexList[6]->e[0] = lengthOX / 2;
+    fig->vertexList[6]->e[1] = dy + height;
+    fig->vertexList[6]->e[2] = lengthOZ / 2;
+
+    fig->vertexList[7]->e[0] = lengthOX / 2;
+    fig->vertexList[7]->e[1] = dy + height;
+    fig->vertexList[7]->e[2] = - lengthOZ / 2;
+
+    // Заполнение нормалей
+    fig->normalList[0]->e[0] = 1;
+    fig->normalList[0]->e[1] = 0;
+    fig->normalList[0]->e[2] = 0;
+
+    fig->normalList[1]->e[0] = 0;
+    fig->normalList[1]->e[1] = 0;
+    fig->normalList[1]->e[2] = 1;
+
+    fig->normalList[2]->e[0] = -1;
+    fig->normalList[2]->e[1] = 0;
+    fig->normalList[2]->e[2] = 0;
+
+    fig->normalList[2]->e[0] = 0;
+    fig->normalList[2]->e[1] = 0;
+    fig->normalList[2]->e[2] = -1;
+
+    // Заполнение поверхностей
+    fig->faceList[0]->vertex_index[0] = 0; // Вершины
+    fig->faceList[0]->vertex_index[1] = 1;
+    fig->faceList[0]->vertex_index[2] = 5;
+
+    fig->faceList[1]->vertex_index[0] = 0;
+    fig->faceList[1]->vertex_index[1] = 4;
+    fig->faceList[1]->vertex_index[2] = 5;
+
+    fig->faceList[0]->normal_index[0] = 0; // Нормали
+    fig->faceList[0]->normal_index[1] = 0;
+    fig->faceList[0]->normal_index[2] = 0;
+
+    fig->faceList[1]->normal_index[0] = 0;
+    fig->faceList[1]->normal_index[1] = 0;
+    fig->faceList[1]->normal_index[2] = 0;
+
+    fig->faceList[2]->vertex_index[0] = 0; // Вершины
+    fig->faceList[2]->vertex_index[1] = 3;
+    fig->faceList[2]->vertex_index[2] = 7;
+
+    fig->faceList[3]->vertex_index[0] = 0;
+    fig->faceList[3]->vertex_index[1] = 4;
+    fig->faceList[3]->vertex_index[2] = 7;
+
+    fig->faceList[2]->normal_index[0] = 1; // Нормали
+    fig->faceList[2]->normal_index[1] = 1;
+    fig->faceList[2]->normal_index[2] = 1;
+
+    fig->faceList[3]->normal_index[0] = 1;
+    fig->faceList[3]->normal_index[1] = 1;
+    fig->faceList[3]->normal_index[2] = 1;
+
+    fig->faceList[4]->vertex_index[0] = 3; // Вершины
+    fig->faceList[4]->vertex_index[1] = 2;
+    fig->faceList[4]->vertex_index[2] = 6;
+
+    fig->faceList[5]->vertex_index[0] = 3;
+    fig->faceList[5]->vertex_index[1] = 7;
+    fig->faceList[5]->vertex_index[2] = 6;
+
+    fig->faceList[4]->normal_index[0] = 2; // Нормали
+    fig->faceList[4]->normal_index[1] = 2;
+    fig->faceList[4]->normal_index[2] = 2;
+
+    fig->faceList[5]->normal_index[0] = 2;
+    fig->faceList[5]->normal_index[1] = 2;
+    fig->faceList[5]->normal_index[2] = 2;
+
+    fig->faceList[6]->vertex_index[0] = 2; // Вершины
+    fig->faceList[6]->vertex_index[1] = 1;
+    fig->faceList[6]->vertex_index[2] = 6;
+
+    fig->faceList[7]->vertex_index[0] = 1;
+    fig->faceList[7]->vertex_index[1] = 5;
+    fig->faceList[7]->vertex_index[2] = 6;
+
+    fig->faceList[6]->normal_index[0] = 3; // Нормали
+    fig->faceList[6]->normal_index[1] = 3;
+    fig->faceList[6]->normal_index[2] = 3;
+
+    fig->faceList[7]->normal_index[0] = 3;
+    fig->faceList[7]->normal_index[1] = 3;
+    fig->faceList[7]->normal_index[2] = 3;
+
+
+    fig->faceList[0]->material_index = 0; // Индекс материала
+    fig->faceList[1]->material_index = 0;
+    fig->faceList[2]->material_index = 0;
+    fig->faceList[3]->material_index = 0;
+    fig->faceList[4]->material_index = 0;
+    fig->faceList[5]->material_index = 0;
+    fig->faceList[6]->material_index = 0;
+    fig->faceList[7]->material_index = 0;
+
+    // Заполнение материала
+    fig->materialList[0]->diff[0] = 0.804; // Цвет диффузного отражения
+    fig->materialList[0]->diff[1] = 0.717;
     fig->materialList[0]->diff[2] = 0.709;
 
     return fig;

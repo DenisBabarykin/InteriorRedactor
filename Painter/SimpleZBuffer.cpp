@@ -38,7 +38,7 @@ void SimpleZBuffer::Paint(Scene &scene)
 {
     Clear();
     QStringList listColors = QColor::colorNames();
-    for (int i = 0; i < GetListFig(scene)->size(); ++i)
+    for (int i = 0; i < GetListFig(scene)->size() - 1; ++i) // GetListFig(scene)->size() - 1, чтобы не рисовать стены
     {
         for (int j = 0; j < (*GetListFig(scene))[i]->faceCount; ++j)
         {
