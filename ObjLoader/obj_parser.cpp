@@ -268,9 +268,18 @@ int obj_parse_mtl_file(char *filename, list *material_list)
 		else if( strequal(current_token, "illum") && material_open)
 		{
 		}
-		else if( strequal(current_token, "map_Ka") && material_open)
+        else if( strequal(current_token, "map_Kd") && material_open)
 		{
-			strncpy(current_mtl->texture_filename, strtok(NULL, " \t"), OBJ_FILENAME_LENGTH);
+            char ending[OBJ_FILENAME_LENGTH];
+            char tex_filename[OBJ_FILENAME_LENGTH];
+
+            strncpy(ending, strtok(NULL, " \t"), OBJ_FILENAME_LENGTH);
+            strncpy(tex_filename, filename, OBJ_FILENAME_LENGTH);
+            char *ptr_to_start = strrchr(tex_filename, '/') + 1;
+            memmove(ptr_to_start, ending, strlen(ending) + 1);
+
+            //strncpy(current_mtl->texture_filename, strtok(NULL, " \t"), OBJ_FILENAME_LENGTH);
+            strncpy(current_mtl->texture_filename, tex_filename, OBJ_FILENAME_LENGTH);
 		}
 		else
 		{
@@ -387,7 +396,16 @@ int obj_parse_obj_file(obj_growable_scene_data *growable_data, const char *filen
         else if(strequal(current_token, "mtllib")) // mtllib
 		{
             //qDebug() << __LINE__;
-			strncpy(growable_data->material_filename, strtok(NULL, WHITESPACE), OBJ_FILENAME_LENGTH);
+            char ending[OBJ_FILENAME_LENGTH];
+            char mtl_filename[OBJ_FILENAME_LENGTH];
+
+            strncpy(ending, strtok(NULL, WHITESPACE), OBJ_FILENAME_LENGTH);
+            strncpy(mtl_filename, filename, OBJ_FILENAME_LENGTH);
+            char *ptr_to_start = strrchr(mtl_filename, '/') + 1;
+            strncpy(ptr_to_start, ending, OBJ_FILENAME_LENGTH);
+
+            //strncpy(growable_data->material_filename, strtok(NULL, WHITESPACE), OBJ_FILENAME_LENGTH);
+            strncpy(growable_data->material_filename, mtl_filename, OBJ_FILENAME_LENGTH);
 			obj_parse_mtl_file(growable_data->material_filename, &growable_data->material_list);
 			continue;
 		}
