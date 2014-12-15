@@ -39,13 +39,13 @@ void Scene::LoadScene(SceneMetaData *sceneMetaData)
     for (int i = 0; i < sceneMetaData->getListFig().size(); ++i)
     {
         Figure *objLoader = new Figure();
-        qDebug() << "loading " << sceneMetaData->getListFig()[i].GetFileName();
-        objLoader->load(sceneMetaData->getListFig()[i].GetFileName().toLocal8Bit().constData());
-        qDebug() << "loading completed " << sceneMetaData->getListFig()[i].GetFileName();
+        qDebug() << "loading " << sceneMetaData->getListFig()[i]->GetFileName();
+        objLoader->load(sceneMetaData->getListFig()[i]->GetFileName().toLocal8Bit().constData());
+        qDebug() << "loading completed " << sceneMetaData->getListFig()[i]->GetFileName();
 
-        objLoader->Shift(objLoader, sceneMetaData->getListFig()[i].GetPos().rx() -
+        objLoader->Shift(objLoader, sceneMetaData->getListFig()[i]->GetPos().rx() -
                         sceneMetaData->GetSceneLengthOX() / 2, 0,
-                        sceneMetaData->getListFig()[i].GetPos().ry() -
+                        sceneMetaData->getListFig()[i]->GetPos().ry() -
                         sceneMetaData->GetSceneLengthOZ() / 2);
         listFigOrig.push_back(objLoader);
     }

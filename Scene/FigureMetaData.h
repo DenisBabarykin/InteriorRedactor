@@ -25,7 +25,7 @@ public:
     FigureMetaData();
     FigureMetaData(QString name, QString category);
 
-    ~FigureMetaData() {}
+    //~FigureMetaData() {}
 
     QString GetName() const;
     void SetName(QString name);
