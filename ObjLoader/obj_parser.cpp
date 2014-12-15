@@ -273,13 +273,17 @@ int obj_parse_mtl_file(char *filename, list *material_list)
             char ending[OBJ_FILENAME_LENGTH];
             char tex_filename[OBJ_FILENAME_LENGTH];
 
-            strncpy(ending, strtok(NULL, " \t"), OBJ_FILENAME_LENGTH);
-            strncpy(tex_filename, filename, OBJ_FILENAME_LENGTH);
+            memset(ending, '\0', sizeof(ending));
+            memset(tex_filename, '\0', sizeof(tex_filename));
+            memset(current_mtl->texture_filename, '\0', sizeof(current_mtl->texture_filename));
+
+            strncpy(ending, strtok(NULL, " \t"), 200);
+            strncpy(tex_filename, filename, strlen(filename) + 1);
             char *ptr_to_start = strrchr(tex_filename, '/') + 1;
-            memmove(ptr_to_start, ending, strlen(ending) + 1);
+            strncpy(ptr_to_start, ending, strlen(ending) + 1);
 
             //strncpy(current_mtl->texture_filename, strtok(NULL, " \t"), OBJ_FILENAME_LENGTH);
-            strncpy(current_mtl->texture_filename, tex_filename, OBJ_FILENAME_LENGTH);
+            strncpy(current_mtl->texture_filename, tex_filename, strlen(tex_filename) + 1);
 		}
 		else
 		{
@@ -399,13 +403,17 @@ int obj_parse_obj_file(ObjGrowableSceneData *growable_data, const char *filename
             char ending[OBJ_FILENAME_LENGTH];
             char mtl_filename[OBJ_FILENAME_LENGTH];
 
-            strncpy(ending, strtok(NULL, WHITESPACE), OBJ_FILENAME_LENGTH);
-            strncpy(mtl_filename, filename, OBJ_FILENAME_LENGTH);
+            memset(ending, '\0', sizeof(ending));
+            memset(mtl_filename, '\0', sizeof(mtl_filename));
+            memset(growable_data->material_filename, '\0', sizeof(growable_data->material_filename));
+
+            strncpy(ending, strtok(NULL, WHITESPACE), 200);
+            strncpy(mtl_filename, filename, OBJ_FILENAME_LENGTH - 2);
             char *ptr_to_start = strrchr(mtl_filename, '/') + 1;
-            strncpy(ptr_to_start, ending, OBJ_FILENAME_LENGTH);
+            strncpy(ptr_to_start, ending, strlen(ending) + 1);
 
             //strncpy(growable_data->material_filename, strtok(NULL, WHITESPACE), OBJ_FILENAME_LENGTH);
-            strncpy(growable_data->material_filename, mtl_filename, OBJ_FILENAME_LENGTH);
+            strncpy(growable_data->material_filename, mtl_filename, strlen(mtl_filename) + 1);
 			obj_parse_mtl_file(growable_data->material_filename, &growable_data->material_list);
 			continue;
 		}
