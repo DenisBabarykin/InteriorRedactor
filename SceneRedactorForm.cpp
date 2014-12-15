@@ -3,6 +3,7 @@
 #include <QDir>
 #include "SceneRedactorGraphics/GraphicsFurnitureItem.h"
 #include <QDebug>
+#include <typeinfo>
 
 SceneRedactorForm::SceneRedactorForm(qreal width, qreal height, QWidget *parent) :
     QMainWindow(parent),
@@ -30,11 +31,15 @@ SceneRedactorForm::SceneRedactorForm(qreal width, qreal height, QWidget *parent)
 SceneRedactorForm::SceneRedactorForm(SceneMetaData sceneMetaData, QWidget *parent) :
     SceneRedactorForm(sceneMetaData.GetSceneLengthOX(), sceneMetaData.GetSceneLengthOZ(), parent)
 {
-    listExObj = sceneMetaData.getListFig();
+    for (int i = 0; i < sceneMetaData.getListFig().size(); ++i)
+    {
+        listExObj.push_back(new FigureMetaData());
+        *listExObj[i] = *sceneMetaData.getListFig()[i];
+    }
 
     for (int i = 0; i < listExObj.size(); ++i)
     {
-        GraphicsFurnitureItem *graphicsFurnitureItem = new GraphicsFurnitureItem(&listExObj[i]);
+        GraphicsFurnitureItem *graphicsFurnitureItem = new GraphicsFurnitureItem(listExObj[i]);
         graphicsFurnitureItem->setFlag(QGraphicsItem::ItemIsMovable);
         graphicsScene.addItem(graphicsFurnitureItem);
     }
@@ -53,6 +58,9 @@ void SceneRedactorForm::closeEvent(QCloseEvent *)
 
 SceneRedactorForm::~SceneRedactorForm()
 {
+    for (int i = 0; i < listExObj.size(); ++i)
+        delete listExObj[i];
+    listExObj.clear();
     delete ui;
 }
 
@@ -60,9 +68,11 @@ void SceneRedactorForm::on_trwdgCatalog_itemDoubleClicked(QTreeWidgetItem *item,
 {
     if (item->parent())
     {
-        listExObj.append(mapCatalog[item->parent()->text(0)][item->parent()->indexOfChild(item)]);
+        listExObj.push_back(new FigureMetaData());
+        *listExObj[listExObj.size()-1] = mapCatalog[item->parent()->text(0)][item->parent()->indexOfChild(item)];
+        //listExObj.append(mapCatalog[item->parent()->text(0)][item->parent()->indexOfChild(item)]);
 
-        GraphicsFurnitureItem *graphicsFurnitureItem = new GraphicsFurnitureItem(&listExObj[listExObj.size() - 1]);
+        GraphicsFurnitureItem *graphicsFurnitureItem = new GraphicsFurnitureItem(listExObj[listExObj.size() - 1]);
         graphicsFurnitureItem->setFlag(QGraphicsItem::ItemIsMovable);
         graphicsScene.clearSelection();
         graphicsFurnitureItem->setSelected(true);
@@ -150,12 +160,12 @@ void SceneRedactorForm::RefreshObjectList()
     ui->lswdgExistingObjects->clear();
     for (int i = 0; i < listExObj.size(); ++i)
     {
-        QListWidgetItem *item = new QListWidgetItem(listExObj[i].GetName(), ui->lswdgExistingObjects);
-        if (listExObj[i].HasPreview())
+        QListWidgetItem *item = new QListWidgetItem(listExObj[i]->GetName(), ui->lswdgExistingObjects);
+        if (listExObj[i]->HasPreview())
         {
-            QString experienceStr = listExObj[i].GetName();
+            QString experienceStr = listExObj[i]->GetName();
             experienceStr.replace(".obj", ".png");
-            item->setToolTip("<html><img src=\"models/" + listExObj[i].GetCategory() +
+            item->setToolTip("<html><img src=\"models/" + listExObj[i]->GetCategory() +
                               "/" + experienceStr + "\"/></html>");
         }
     }
@@ -169,12 +179,14 @@ void SceneRedactorForm::on_btnRemoveItem_clicked()
 
         QList<QGraphicsItem *> listItems = graphicsScene.items();
         for (int i = 0; i < listItems.size(); ++i)
-            if (dynamic_cast<GraphicsFurnitureItem *>(listItems[i])->isContain(&listExObj[ind]))
+            if (typeid(*(listItems[i])) == typeid(GraphicsFurnitureItem) &&
+                    dynamic_cast<GraphicsFurnitureItem *>(listItems[i])->isContain(listExObj[ind]))
             {
                 graphicsScene.removeItem(listItems[i]);
                 break;
             }
 
+        delete listExObj[ind];
         listExObj.removeAt(ind);
 
         emit vecExObjChanged();
@@ -189,7 +201,8 @@ void SceneRedactorForm::on_lswdgExistingObjects_itemClicked(QListWidgetItem *ite
 
         QList<QGraphicsItem *> listItems = graphicsScene.items();
         for (int i = 0; i < listItems.size(); ++i)
-            if (dynamic_cast<GraphicsFurnitureItem *>(listItems[i])->isContain(&listExObj[ind]))
+            if (typeid(*(listItems[i])) == typeid(GraphicsFurnitureItem) &&
+                    dynamic_cast<GraphicsFurnitureItem *>(listItems[i])->isContain(listExObj[ind]))
             {
                 //graphicsScene.removeItem(listItems[i]);
                 graphicsScene.clearSelection();
@@ -202,6 +215,12 @@ void SceneRedactorForm::on_lswdgExistingObjects_itemClicked(QListWidgetItem *ite
 
 void SceneRedactorForm::on_btnOk_clicked()
 {
+    QList<FigureMetaData *> list;
+    for (int i = 0; i < listExObj.size(); ++i)
+    {
+        list.push_back(new FigureMetaData());
+        *list[i] = *listExObj[i];
+    }
     emit sceneEditedSignal(SceneMetaData(graphicsScene.width(), graphicsScene.height(), listExObj));
     hide();
 }

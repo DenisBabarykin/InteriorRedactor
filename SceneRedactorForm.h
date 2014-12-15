@@ -19,7 +19,7 @@ class SceneRedactorForm : public QMainWindow
 
 private:
     QMap<QString, QVector<FigureMetaData> > mapCatalog;
-    QList<FigureMetaData> listExObj;
+    QList<FigureMetaData *> listExObj;
 
     QGraphicsScene graphicsScene;
 

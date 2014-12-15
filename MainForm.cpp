@@ -45,7 +45,7 @@ void MainForm::MouseMove(qreal dx, qreal dy)
 
 void MainForm::Wheel(int delta)
 {
-    commandController.AddCommand(new CommandShift(0, 0, delta));
+    commandController.AddCommand(new CommandShift(0, 0, delta / 2));
     commandController.AddCommand(new CommandDraw());
     commandController.Execute();
 }

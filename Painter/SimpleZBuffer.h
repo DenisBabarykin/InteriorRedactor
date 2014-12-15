@@ -17,7 +17,7 @@ public:
 class SimpleZBuffer : public Painter
 {
 protected:
-    double **buff;
+    qreal **buff;
     int sX, sY;	// Размер Z-Буфера
 
 public:

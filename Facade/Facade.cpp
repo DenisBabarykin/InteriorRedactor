@@ -35,7 +35,7 @@ void Facade::RotateSceneCommand(qreal angleOX, qreal angleOY)
 void Facade::ShiftSceneCommand(qreal dx, qreal dy, qreal dz)
 {
     if (!scene.IsEmpty())
-        camera.AddShift(dx, dy, (camera.GetDZ() > sceneMetaData.GetSceneLengthOZ() * 0.2 && dz > 0) ? (0) : (dz));
+        camera.AddShift(dx, dy, (camera.GetDZ() > sceneMetaData.GetSceneLengthOZ() * 0.1 && dz > 0) ? (0) : (dz));
     emit CommandDoneSignal();
 }
 
@@ -75,7 +75,7 @@ void Facade::CreatePainterCommand(PainterType::PainterType painterType, int widt
 
 void Facade::TransformAndDrawScene()
 {
-    scene.Rotate(camera.GetAngleOX(), camera.GetAngleOY());
+    scene.Rotate(camera.GetAngleOX() + 10, camera.GetAngleOY() + 10);
     scene.Shift(camera.GetDX(), camera.GetDY(), -sceneMetaData.GetSceneLengthOZ() + camera.GetDZ());
     scene.Perspective();
     painter->Paint(scene);
