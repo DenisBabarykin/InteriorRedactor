@@ -45,9 +45,9 @@ void ColorSimpleZBuffer::Paint(Scene &scene)
                     (*GetListFig(scene))[i]->vertexList[ (*GetListFig(scene))[i]->faceList[j]->vertex_index[2] ]->e[1],
                     (*GetListFig(scene))[i]->vertexList[ (*GetListFig(scene))[i]->faceList[j]->vertex_index[2] ]->e[2]);
 
-            tr.a = tr.a + Point3D(currentFrame->width() / 2, currentFrame->height() / 2, 0);
-            tr.b = tr.b + Point3D(currentFrame->width() / 2, currentFrame->height() / 2, 0);
-            tr.c = tr.c + Point3D(currentFrame->width() / 2, currentFrame->height() / 2, 0);
+            tr.a = tr.a + Point3D(currentFrame->width() / 2, currentFrame->height() / 2.25, 0);
+            tr.b = tr.b + Point3D(currentFrame->width() / 2, currentFrame->height() / 2.25, 0);
+            tr.c = tr.c + Point3D(currentFrame->width() / 2, currentFrame->height() / 2.25, 0);
 
 
             if (isFarthest(tr))
@@ -81,6 +81,11 @@ bool ColorSimpleZBuffer::isFarthest(triangle &tr)
             tr.b.x <= 0 || tr.b.x >= sX || tr.b.y <= 0 || tr.b.y >= sY ||
             tr.c.x <= 0 || tr.c.x >= sX || tr.c.y <= 0 || tr.c.y >= sY)
         return false;
+
+    const int maxLen = 30; // Максимальная длина проекции, для которой этот метод фильтрации выполняется
+    if (fabs(tr.a.x - tr.b.x) > maxLen || fabs(tr.a.x - tr.c.x) > maxLen || fabs(tr.c.x - tr.b.x) > maxLen ||
+        fabs(tr.a.y - tr.b.y) > maxLen || fabs(tr.a.y - tr.c.y) > maxLen || fabs(tr.c.y - tr.b.y) > maxLen)
+                return false;
 
     if ((tr.a.z < buff[int(tr.a.x)][int(tr.a.y)]) && (tr.b.z < buff[int(tr.b.x)][int(tr.b.y)])
             && (tr.c.z < buff[int(tr.c.x)][int(tr.c.y)]))

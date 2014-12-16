@@ -51,9 +51,9 @@ void Scene::LoadScene(SceneMetaData *sceneMetaData)
     }
 
     // формирование пола и стен
-    listFigOrig.push_back(Figure::CreateFloor(sceneMetaData->GetSceneLengthOX(), sceneMetaData->GetSceneLengthOZ()));
     listFigOrig.push_back(Figure::CreateWalls(sceneMetaData->GetSceneLengthOX(), sceneMetaData->GetSceneLengthOZ(),
                                               250));
+    listFigOrig.push_back(Figure::CreateFloor(sceneMetaData->GetSceneLengthOX(), sceneMetaData->GetSceneLengthOZ()));
 
     // Копирование оригинала в рабочую копию
     for (int i = 0; i < listFigOrig.size(); ++i)
