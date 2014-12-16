@@ -100,7 +100,7 @@ void SceneMetaData::SaveToFile(QString filename)
 
     tstream << listFig.size() << endl << endl;
     for (int i = 0; i < listFig.size(); ++i)
-        tstream << listFig[i] << endl;
+        tstream << *listFig[i] << endl;
 
     file.flush(); //переносим данные из буфера в файл
     file.close();
