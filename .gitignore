@@ -13,3 +13,4 @@ object_script.InteriorRedactor.Release
 ui_MainForm.h
 ui_SceneRedactorForm.h
 ui_SceneSizesInput.h
+models/
