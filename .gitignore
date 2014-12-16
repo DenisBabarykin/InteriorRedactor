@@ -1,7 +1,6 @@
 *.o
 *.a
 *.exe
-*.obj
 Makefile
 Makefile.*
 moc_MainForm.cpp
@@ -13,4 +12,4 @@ object_script.InteriorRedactor.Release
 ui_MainForm.h
 ui_SceneRedactorForm.h
 ui_SceneSizesInput.h
-models/
+/models
