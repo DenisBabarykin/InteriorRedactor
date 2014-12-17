@@ -52,13 +52,16 @@ void ColorSimpleZBuffer::Paint(Scene &scene)
 
             if (isFarthest(tr))
                 continue;
-
+            /*
             if (j % 2 == 0 && i > GetListFig(scene)->size() - 3)
                 if (!(hasNormals && isFront(tr, (*GetListFig(scene))[i]->normalList[ (*GetListFig(scene))[i]->faceList[j]->normal_index[0] ])))
                 {
                     wasUnfront = true;
                     continue;
                 }
+            */
+            if (!isFront(tr, (*GetListFig(scene))[i]->normalList[ (*GetListFig(scene))[i]->faceList[j]->normal_index[0] ]))
+                continue;
 
             QColor color;
             if ((*GetListFig(scene))[i]->materialCount > 0)

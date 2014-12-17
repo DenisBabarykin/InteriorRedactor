@@ -89,6 +89,7 @@ void MainForm::menuViewCheck(QAction *checkedMenuBtn)
     ui->menuBtnSkeletonView->setChecked(false);
     ui->menuBtnZBufView->setChecked(false);
     ui->menuBtnColorZBufView->setChecked(false);
+    ui->menuBtnLightZBufView->setChecked(false);
 
     checkedMenuBtn->setChecked(true);
 }
@@ -236,4 +237,13 @@ void MainForm::on_menuBtnColorZBufView_triggered()
     commandController.AddCommand(new CommandDraw());
     commandController.Execute();
     menuViewCheck(ui->menuBtnColorZBufView);
+}
+
+void MainForm::on_menuBtnLightZBufView_triggered()
+{
+    painterType = PainterType::simpleLightZBuffer;
+    commandController.AddCommand(new CommandCreatePainter((painterType), ui->lblScene->width(), ui->lblScene->height()));
+    commandController.AddCommand(new CommandDraw());
+    commandController.Execute();
+    menuViewCheck(ui->menuBtnLightZBufView);
 }

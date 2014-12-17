@@ -14,7 +14,7 @@ public:
     ~SimpleLightZBuffer();
     void Paint(Scene &scene);
     void PutTriangle(Polygon &t, QColor color);
-    inline bool isFront(triangle &tr, ObjVector *normal);
+    inline bool isFront(Polygon &tr, ObjVector *normal);
     static double GetCos(Point3D normal); // модуль косинуса угла между нормалью и вектором (0, 0, 1)
 };
 

@@ -85,17 +85,16 @@ void Figure::Rotate(const Figure *baseModel, qreal angleOX, qreal angleOY)
         vertexList[i]->e[1] = baseModel->vertexList[i]->e[1] * cos(angleOX) - newZ * sin(angleOX);
         vertexList[i]->e[2] = baseModel->vertexList[i]->e[1] * sin(angleOX) + newZ * cos(angleOX);
     }
-    if (normalCount == 1 || normalCount == 4)
-        for (int i = 0; i < normalCount; ++i)
-        {
-            normalList[i]->e[0] = baseModel->normalList[i]->e[0] * cos(angleOY) +
-                    baseModel->normalList[i]->e[2] * sin(angleOY);
-            qreal newZ = - baseModel->normalList[i]->e[0] * sin(angleOY) +
-                    baseModel->normalList[i]->e[2] * cos(angleOY);
+    for (int i = 0; i < normalCount; ++i)
+    {
+        normalList[i]->e[0] = baseModel->normalList[i]->e[0] * cos(angleOY) +
+                baseModel->normalList[i]->e[2] * sin(angleOY);
+        qreal newZ = - baseModel->normalList[i]->e[0] * sin(angleOY) +
+                baseModel->normalList[i]->e[2] * cos(angleOY);
 
-            normalList[i]->e[1] = baseModel->normalList[i]->e[1] * cos(angleOX) - newZ * sin(angleOX);
-            normalList[i]->e[2] = baseModel->normalList[i]->e[1] * sin(angleOX) + newZ * cos(angleOX);
-        }
+        normalList[i]->e[1] = baseModel->normalList[i]->e[1] * cos(angleOX) - newZ * sin(angleOX);
+        normalList[i]->e[2] = baseModel->normalList[i]->e[1] * sin(angleOX) + newZ * cos(angleOX);
+    }
 }
 
 void Figure::Perspective(const Figure *baseModel)
@@ -109,16 +108,15 @@ void Figure::Perspective(const Figure *baseModel)
         vertexList[i]->e[0] =  baseModel->vertexList[i]->e[0] / absZ * fov;
         vertexList[i]->e[1] =  baseModel->vertexList[i]->e[1] / absZ * fov;
     }
-
-    if (normalCount == 1 || normalCount == 4)
-        for (int i = 0; i < normalCount; ++i)
-        {
-            absZ = fabs(normalList[i]->e[2]);
-            //absZ = vertexList[i]->e[2];
-            normalList[i]->e[0] =  baseModel->normalList[i]->e[0] / absZ * fov;
-            normalList[i]->e[1] =  baseModel->normalList[i]->e[1] / absZ * fov;
-        }
-
+    /*
+    for (int i = 0; i < normalCount; ++i)
+    {
+        absZ = fabs(normalList[i]->e[2]);
+        //absZ = vertexList[i]->e[2];
+        normalList[i]->e[0] =  baseModel->normalList[i]->e[0] / absZ * fov;
+        normalList[i]->e[1] =  baseModel->normalList[i]->e[1] / absZ * fov;
+    }
+    */
 }
 
 void Figure::Shift(const Figure *baseModel, qreal dx, qreal dy, qreal dz)

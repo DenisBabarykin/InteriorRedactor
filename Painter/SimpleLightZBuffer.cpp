@@ -1,4 +1,6 @@
 #include "SimpleLightZBuffer.h"
+#include "math.h"
+#include <QDebug>
 
 SimpleLightZBuffer::SimpleLightZBuffer(int ax, int ay, QObject *parent) : SimpleZBuffer(ax, ay, parent)
 {
@@ -70,7 +72,7 @@ void SimpleLightZBuffer::Paint(Scene &scene)
                 color.setRgb(
                     (*GetListFig(scene))[i]->materialList[ (*GetListFig(scene))[i]->faceList[j]->material_index ]->diff[0] * 255.0,
                     (*GetListFig(scene))[i]->materialList[ (*GetListFig(scene))[i]->faceList[j]->material_index ]->diff[1] * 255.0,
-                    (*GetListFig(scene))[i]->materialList[ (*GetListFig(scene))[i]->faceList[j]->material_index ]->diff[2]* 255.0);
+                    (*GetListFig(scene))[i]->materialList[ (*GetListFig(scene))[i]->faceList[j]->material_index ]->diff[2] * 255.0);
             else
                color = QColor(listColors[(i + 3) * 3]);
 
@@ -93,8 +95,13 @@ void SimpleLightZBuffer::PutTriangle(Polygon &t, QColor color)
     x[2] = int(t.c.x), y[2] = int(t.c.y);
     z_a[0] = t.a.z, z_a[1] = t.b.z, z_a[2] = t.c.z;
 
-
-    intense[0].setRgb(color.red() * GetCos(t.na));// доделать
+    double Cos[3];
+    Cos[0] = GetCos(t.na);
+    Cos[1] = GetCos(t.nb);
+    Cos[2] = GetCos(t.nc);
+    intense[0].setRgb(color.red() * Cos[0], color.green() * Cos[0], color.blue() * Cos[0]);
+    intense[1].setRgb(color.red() * Cos[1], color.green() * Cos[1], color.blue() * Cos[1]);
+    intense[2].setRgb(color.red() * Cos[2], color.green() * Cos[2], color.blue() * Cos[2]);
     //Определяем максимальный и минимальный y
     ymax = ymin = y[0];
 
@@ -117,6 +124,7 @@ void SimpleLightZBuffer::PutTriangle(Polygon &t, QColor color)
     double x1, x2;
     int xsc1, xsc2;
     double z1, z2, tc, z;
+    double i1[3], i2[3], cur_i[3];
     //Следующий участок кода перебирает все строки сцены
     //и определяет глубину каждого пикселя
     //для соответствующего треугольника
@@ -148,11 +156,17 @@ void SimpleLightZBuffer::PutTriangle(Polygon &t, QColor color)
             {
                 x2 = x[e] +  ( tc * (x[e1] - x[e]) );
                 z2 = z_a[e] + tc * (z_a[e1] - z_a[e]);
+                i2[0] = intense[e].red() + tc * (intense[e1].red() - intense[e].red());
+                i2[1] = intense[e].green() + tc * (intense[e1].green() - intense[e].green());
+                i2[2] = intense[e].blue() + tc * (intense[e1].blue() - intense[e].blue());
             }
             else
             {
                 x1 = x[e] +  ( tc * (x[e1] - x[e]) );
                 z1 = z_a[e] + tc * (z_a[e1] - z_a[e]);
+                i1[0] = intense[e].red() + tc * (intense[e1].red() - intense[e].red());
+                i1[1] = intense[e].green() + tc * (intense[e1].green() - intense[e].green());
+                i1[2] = intense[e].blue() + tc * (intense[e1].blue() - intense[e].blue());
                 ne = 1;
             }
         }
@@ -166,6 +180,12 @@ void SimpleLightZBuffer::PutTriangle(Polygon &t, QColor color)
             tc = z1;
             z1 = z2;
             z2 = tc;
+            for (int i = 0; i < 3; ++i)
+            {
+                temp = i1[i];
+                i1[i] = i2[i];
+                i2[i] = temp;
+            }
         }
 
         xsc1 = (x1 < 0) ? 0 : x1;
@@ -174,6 +194,8 @@ void SimpleLightZBuffer::PutTriangle(Polygon &t, QColor color)
         {
             tc = double(x1 - xsc) / (x1 - x2);
             z = z1 + tc * (z2 - z1);
+            for (int i = 0; i < 3; ++i)
+                cur_i[i] = i1[i] + tc * (i2[i] - i1[i]);
             //Если полученная глубина пиксела меньше той,
             //что находится в Z-Буфере - заменяем храняшуюся на новую.
             if (z > buff[xsc][ysc])
@@ -186,13 +208,13 @@ void SimpleLightZBuffer::PutTriangle(Polygon &t, QColor color)
                 (*( buff[ ysc ] + xsc )).z = z; */
 
                 buff[xsc][ysc] = z;
-                currentFrame->setPixel(xsc, sY - ysc - 1, color);
+                currentFrame->setPixel(xsc, sY - ysc - 1, QColor(cur_i[0], cur_i[1], cur_i[2]).rgb());
             }
         }
     }
 }
 
-bool SimpleLightZBuffer::isFront(triangle &tr, ObjVector *normal)
+bool SimpleLightZBuffer::isFront(Polygon &tr, ObjVector *normal)
 {
     Point3D a(tr.b.x - tr.a.x, tr.b.y - tr.a.y, tr.b.z - tr.a.z);
         Point3D b(tr.c.x - tr.a.x, tr.c.y - tr.a.y, tr.c.z - tr.a.z);
@@ -220,5 +242,10 @@ bool SimpleLightZBuffer::isFront(triangle &tr, ObjVector *normal)
 
 double SimpleLightZBuffer::GetCos(Point3D normal)
 {
-    return fabs(normal.z / sqrt(normal.x * normal.x + normal.y * normal.y + normal.z * normal.z));
+    double zn = sqrt(normal.x * normal.x + normal.y * normal.y + normal.z * normal.z);
+    if (!zn)
+        return 1;
+    double res = fabs(normal.z / zn);
+    qDebug() << res;
+    return res;
 }
