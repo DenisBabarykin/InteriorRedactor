@@ -44,7 +44,10 @@ SOURCES += main.cpp\
     Figure/Figure.cpp \
     Figure/SimpleFigure.cpp \
     Figure/MeasuredFigure.cpp \
-    Painter/SimpleZBuffer.cpp
+    Painter/SimpleZBuffer.cpp \
+    Painter/ColorSimpleZBuffer.cpp \
+    Painter/SimpleLightZBuffer.cpp \
+    Painter/Polygon.cpp
 
 HEADERS  += MainForm.h \
     LabelScene/LabelScene.h \
@@ -59,7 +62,6 @@ HEADERS  += MainForm.h \
     Scene/SceneMetaData.h \
     Scene/FigureMetaData.h \
     Points/Points.h \
-    Scene/SimpleFigure.h \
     Exception/OpeningFileException.h \
     Facade/Facade.h \
     Facade/SingletonFacade.h \
@@ -79,7 +81,10 @@ HEADERS  += MainForm.h \
     Figure/Figure.h \
     Figure/SimpleFigure.h \
     Figure/MeasuredFigure.h \
-    Painter/SimpleZBuffer.h
+    Painter/SimpleZBuffer.h \
+    Painter/ColorSimpleZBuffer.h \
+    Painter/SimpleLightZBuffer.h \
+    Painter/Polygon.h
 
 
 FORMS    += MainForm.ui \

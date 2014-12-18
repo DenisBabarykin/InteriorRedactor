@@ -35,7 +35,7 @@ void obj_convert_to_list_index_v(int current_max, int *indices)
 		indices[i] = obj_convert_to_list_index(current_max, indices[i]);
 }
 
-void obj_set_material_defaults(obj_material *mtl)
+void obj_set_material_defaults(ObjMaterial *mtl)
 {
 	mtl->amb[0] = 0.2;
 	mtl->amb[1] = 0.2;
@@ -94,10 +94,10 @@ int obj_parse_vertex_index(int *vertex_index, int *texture_index, int *normal_in
 	return vertex_count;
 }
 
-obj_face* obj_parse_face(obj_growable_scene_data *scene)
+ObjFace* obj_parse_face(ObjGrowableSceneData *scene)
 {
 	int vertex_count;
-	obj_face *face = (obj_face*)malloc(sizeof(obj_face));
+    ObjFace *face = (ObjFace*)malloc(sizeof(ObjFace));
 	
 	vertex_count = obj_parse_vertex_index(face->vertex_index, face->texture_index, face->normal_index);
 	obj_convert_to_list_index_v(scene->vertex_list.item_count, face->vertex_index);
@@ -108,11 +108,11 @@ obj_face* obj_parse_face(obj_growable_scene_data *scene)
 	return face;
 }
 
-obj_sphere* obj_parse_sphere(obj_growable_scene_data *scene)
+ObjSphere* obj_parse_sphere(ObjGrowableSceneData *scene)
 {
 	int temp_indices[MAX_VERTEX_COUNT];
 
-	obj_sphere *obj = (obj_sphere*)malloc(sizeof(obj_sphere));
+    ObjSphere *obj = (ObjSphere*)malloc(sizeof(ObjSphere));
 	obj_parse_vertex_index(temp_indices, obj->texture_index, NULL);
 	obj_convert_to_list_index_v(scene->vertex_texture_list.item_count, obj->texture_index);
 	obj->pos_index = obj_convert_to_list_index(scene->vertex_list.item_count, temp_indices[0]);
@@ -122,11 +122,11 @@ obj_sphere* obj_parse_sphere(obj_growable_scene_data *scene)
 	return obj;
 }
 
-obj_plane* obj_parse_plane(obj_growable_scene_data *scene)
+ObjPlane* obj_parse_plane(ObjGrowableSceneData *scene)
 {
 	int temp_indices[MAX_VERTEX_COUNT];
 
-	obj_plane *obj = (obj_plane*)malloc(sizeof(obj_plane));
+    ObjPlane *obj = (ObjPlane*)malloc(sizeof(ObjPlane));
 	obj_parse_vertex_index(temp_indices, obj->texture_index, NULL);
 	obj_convert_to_list_index_v(scene->vertex_texture_list.item_count, obj->texture_index);
 	obj->pos_index = obj_convert_to_list_index(scene->vertex_list.item_count, temp_indices[0]);
@@ -136,27 +136,27 @@ obj_plane* obj_parse_plane(obj_growable_scene_data *scene)
 	return obj;
 }
 
-obj_light_point* obj_parse_light_point(obj_growable_scene_data *scene)
+ObjLightPoint* obj_parse_light_point(ObjGrowableSceneData *scene)
 {
-	obj_light_point *o= (obj_light_point*)malloc(sizeof(obj_light_point));
+    ObjLightPoint *o= (ObjLightPoint*)malloc(sizeof(ObjLightPoint));
 	o->pos_index = obj_convert_to_list_index(scene->vertex_list.item_count, atoi( strtok(NULL, WHITESPACE)) );
 	return o;
 }
 
-obj_light_quad* obj_parse_light_quad(obj_growable_scene_data *scene)
+ObjLightQuad* obj_parse_light_quad(ObjGrowableSceneData *scene)
 {
-	obj_light_quad *o = (obj_light_quad*)malloc(sizeof(obj_light_quad));
+    ObjLightQuad *o = (ObjLightQuad*)malloc(sizeof(ObjLightQuad));
 	obj_parse_vertex_index(o->vertex_index, NULL, NULL);
 	obj_convert_to_list_index_v(scene->vertex_list.item_count, o->vertex_index);
 
 	return o;
 }
 
-obj_light_disc* obj_parse_light_disc(obj_growable_scene_data *scene)
+ObjLightDisc* obj_parse_light_disc(ObjGrowableSceneData *scene)
 {
 	int temp_indices[MAX_VERTEX_COUNT];
 
-	obj_light_disc *obj = (obj_light_disc*)malloc(sizeof(obj_light_disc));
+    ObjLightDisc *obj = (ObjLightDisc*)malloc(sizeof(ObjLightDisc));
 	obj_parse_vertex_index(temp_indices, NULL, NULL);
 	obj->pos_index = obj_convert_to_list_index(scene->vertex_list.item_count, temp_indices[0]);
 	obj->normal_index = obj_convert_to_list_index(scene->vertex_normal_list.item_count, temp_indices[1]);
@@ -164,16 +164,16 @@ obj_light_disc* obj_parse_light_disc(obj_growable_scene_data *scene)
 	return obj;
 }
 
-obj_vector* obj_parse_vector()
+ObjVector* obj_parse_vector()
 {
-	obj_vector *v = (obj_vector*)malloc(sizeof(obj_vector));
+    ObjVector *v = (ObjVector*)malloc(sizeof(ObjVector));
 	v->e[0] = atof( strtok(NULL, WHITESPACE));
 	v->e[1] = atof( strtok(NULL, WHITESPACE));
 	v->e[2] = atof( strtok(NULL, WHITESPACE));
 	return v;
 }
 
-void obj_parse_camera(obj_growable_scene_data *scene, obj_camera *camera)
+void obj_parse_camera(ObjGrowableSceneData *scene, ObjCamera *camera)
 {
 	int indices[3];
 	obj_parse_vertex_index(indices, NULL, NULL);
@@ -188,7 +188,7 @@ int obj_parse_mtl_file(char *filename, list *material_list)
 	char *current_token;
 	char current_line[OBJ_LINE_SIZE];
 	char material_open = 0;
-	obj_material *current_mtl = NULL;
+    ObjMaterial *current_mtl = NULL;
 	FILE *mtl_file_stream;
 	
     // открытие сцены
@@ -214,7 +214,7 @@ int obj_parse_mtl_file(char *filename, list *material_list)
 		else if( strequal(current_token, "newmtl"))
 		{
 			material_open = 1;
-			current_mtl = (obj_material*) malloc(sizeof(obj_material));
+            current_mtl = (ObjMaterial*) malloc(sizeof(ObjMaterial));
 			obj_set_material_defaults(current_mtl);
 			
             // получение имени
@@ -268,9 +268,22 @@ int obj_parse_mtl_file(char *filename, list *material_list)
 		else if( strequal(current_token, "illum") && material_open)
 		{
 		}
-		else if( strequal(current_token, "map_Ka") && material_open)
+        else if( strequal(current_token, "map_Kd") && material_open)
 		{
-			strncpy(current_mtl->texture_filename, strtok(NULL, " \t"), OBJ_FILENAME_LENGTH);
+            char ending[OBJ_FILENAME_LENGTH];
+            char tex_filename[OBJ_FILENAME_LENGTH];
+
+            memset(ending, '\0', sizeof(ending));
+            memset(tex_filename, '\0', sizeof(tex_filename));
+            memset(current_mtl->texture_filename, '\0', sizeof(current_mtl->texture_filename));
+
+            strncpy(ending, strtok(NULL, " \t"), 200);
+            strncpy(tex_filename, filename, strlen(filename) + 1);
+            char *ptr_to_start = strrchr(tex_filename, '/') + 1;
+            strncpy(ptr_to_start, ending, strlen(ending) + 1);
+
+            //strncpy(current_mtl->texture_filename, strtok(NULL, " \t"), OBJ_FILENAME_LENGTH);
+            strncpy(current_mtl->texture_filename, tex_filename, strlen(tex_filename) + 1);
 		}
 		else
 		{
@@ -286,7 +299,7 @@ int obj_parse_mtl_file(char *filename, list *material_list)
 
 }
 
-int obj_parse_obj_file(obj_growable_scene_data *growable_data, const char *filename)
+int obj_parse_obj_file(ObjGrowableSceneData *growable_data, const char *filename)
 {
 	FILE* obj_file_stream;
 	int current_material = -1; 
@@ -331,20 +344,20 @@ int obj_parse_obj_file(obj_growable_scene_data *growable_data, const char *filen
 		{
             static unsigned int a = 0;
             //qDebug() << __LINE__ << ++a;
-			obj_face *face = obj_parse_face(growable_data);
+            ObjFace *face = obj_parse_face(growable_data);
 			face->material_index = current_material;
 			list_add_item(&growable_data->face_list, face, NULL);
 		}
         else if(strequal(current_token, "sp")) // sphere
 		{
-			obj_sphere *sphr = obj_parse_sphere(growable_data);
+            ObjSphere *sphr = obj_parse_sphere(growable_data);
 			sphr->material_index = current_material;
 			list_add_item(&growable_data->sphere_list, sphr, NULL);
 		}
         else if(strequal(current_token, "pl")) // plane
 		{
             //qDebug() << __LINE__;
-			obj_plane *pl = obj_parse_plane(growable_data);
+            ObjPlane *pl = obj_parse_plane(growable_data);
 			pl->material_index = current_material;
 			list_add_item(&growable_data->plane_list, pl, NULL);
 		}
@@ -353,28 +366,28 @@ int obj_parse_obj_file(obj_growable_scene_data *growable_data, const char *filen
 		}
         else if(strequal(current_token, "lp")) //light point source
 		{
-			obj_light_point *o = obj_parse_light_point(growable_data);
+            ObjLightPoint *o = obj_parse_light_point(growable_data);
 			o->material_index = current_material;
 			list_add_item(&growable_data->light_point_list, o, NULL);
 		}
 		
         else if(strequal(current_token, "ld")) // light disc
 		{
-			obj_light_disc *o = obj_parse_light_disc(growable_data);
+            ObjLightDisc *o = obj_parse_light_disc(growable_data);
 			o->material_index = current_material;
 			list_add_item(&growable_data->light_disc_list, o, NULL);
 		}
 		
         else if(strequal(current_token, "lq")) // light quad
 		{
-			obj_light_quad *o = obj_parse_light_quad(growable_data);
+            ObjLightQuad *o = obj_parse_light_quad(growable_data);
 			o->material_index = current_material;
 			list_add_item(&growable_data->light_quad_list, o, NULL);
 		}
 		
         else if(strequal(current_token, "c")) // camera
 		{
-			growable_data->camera = (obj_camera*) malloc(sizeof(obj_camera));
+            growable_data->camera = (ObjCamera*) malloc(sizeof(ObjCamera));
 			obj_parse_camera(growable_data, growable_data->camera);
 		}
 		
@@ -387,7 +400,20 @@ int obj_parse_obj_file(obj_growable_scene_data *growable_data, const char *filen
         else if(strequal(current_token, "mtllib")) // mtllib
 		{
             //qDebug() << __LINE__;
-			strncpy(growable_data->material_filename, strtok(NULL, WHITESPACE), OBJ_FILENAME_LENGTH);
+            char ending[OBJ_FILENAME_LENGTH];
+            char mtl_filename[OBJ_FILENAME_LENGTH];
+
+            memset(ending, '\0', sizeof(ending));
+            memset(mtl_filename, '\0', sizeof(mtl_filename));
+            memset(growable_data->material_filename, '\0', sizeof(growable_data->material_filename));
+
+            strncpy(ending, strtok(NULL, WHITESPACE), 200);
+            strncpy(mtl_filename, filename, OBJ_FILENAME_LENGTH - 2);
+            char *ptr_to_start = strrchr(mtl_filename, '/') + 1;
+            strncpy(ptr_to_start, ending, strlen(ending) + 1);
+
+            //strncpy(growable_data->material_filename, strtok(NULL, WHITESPACE), OBJ_FILENAME_LENGTH);
+            strncpy(growable_data->material_filename, mtl_filename, strlen(mtl_filename) + 1);
 			obj_parse_mtl_file(growable_data->material_filename, &growable_data->material_list);
 			continue;
 		}
@@ -422,7 +448,7 @@ int obj_parse_obj_file(obj_growable_scene_data *growable_data, const char *filen
 }
 
 
-void obj_init_temp_storage(obj_growable_scene_data *growable_data)
+void obj_init_temp_storage(ObjGrowableSceneData *growable_data)
 {
 	list_make(&growable_data->vertex_list, 10, 1);
 	list_make(&growable_data->vertex_normal_list, 10, 1);
@@ -441,7 +467,7 @@ void obj_init_temp_storage(obj_growable_scene_data *growable_data)
 	growable_data->camera = NULL;
 }
 
-void obj_free_temp_storage(obj_growable_scene_data *growable_data)
+void obj_free_temp_storage(ObjGrowableSceneData *growable_data)
 {
 	obj_free_half_list(&growable_data->vertex_list);
 	obj_free_half_list(&growable_data->vertex_normal_list);
@@ -458,7 +484,7 @@ void obj_free_temp_storage(obj_growable_scene_data *growable_data)
 	obj_free_half_list(&growable_data->material_list);
 }
 
-void delete_obj_data(obj_scene_data *data_out)
+void delete_obj_data(ObjSceneData *data_out)
 {
 	int i;
 	
@@ -499,7 +525,7 @@ void delete_obj_data(obj_scene_data *data_out)
 	free(data_out->camera);
 }
 
-void obj_copy_to_out_storage(obj_scene_data *data_out, obj_growable_scene_data *growable_data)
+void obj_copy_to_out_storage(ObjSceneData *data_out, ObjGrowableSceneData *growable_data)
 {
 	data_out->vertex_count = growable_data->vertex_list.item_count;
 	data_out->vertex_normal_count = growable_data->vertex_normal_list.item_count;
@@ -515,26 +541,26 @@ void obj_copy_to_out_storage(obj_scene_data *data_out, obj_growable_scene_data *
 
 	data_out->material_count = growable_data->material_list.item_count;
 	
-	data_out->vertex_list = (obj_vector**)growable_data->vertex_list.items;
-	data_out->vertex_normal_list = (obj_vector**)growable_data->vertex_normal_list.items;
-	data_out->vertex_texture_list = (obj_vector**)growable_data->vertex_texture_list.items;
+    data_out->vertex_list = (ObjVector**)growable_data->vertex_list.items;
+    data_out->vertex_normal_list = (ObjVector**)growable_data->vertex_normal_list.items;
+    data_out->vertex_texture_list = (ObjVector**)growable_data->vertex_texture_list.items;
 
-	data_out->face_list = (obj_face**)growable_data->face_list.items;
-	data_out->sphere_list = (obj_sphere**)growable_data->sphere_list.items;
-	data_out->plane_list = (obj_plane**)growable_data->plane_list.items;
+    data_out->face_list = (ObjFace**)growable_data->face_list.items;
+    data_out->sphere_list = (ObjSphere**)growable_data->sphere_list.items;
+    data_out->plane_list = (ObjPlane**)growable_data->plane_list.items;
 
-	data_out->light_point_list = (obj_light_point**)growable_data->light_point_list.items;
-	data_out->light_disc_list = (obj_light_disc**)growable_data->light_disc_list.items;
-	data_out->light_quad_list = (obj_light_quad**)growable_data->light_quad_list.items;
+    data_out->light_point_list = (ObjLightPoint**)growable_data->light_point_list.items;
+    data_out->light_disc_list = (ObjLightDisc**)growable_data->light_disc_list.items;
+    data_out->light_quad_list = (ObjLightQuad**)growable_data->light_quad_list.items;
 	
-	data_out->material_list = (obj_material**)growable_data->material_list.items;
+    data_out->material_list = (ObjMaterial**)growable_data->material_list.items;
 	
 	data_out->camera = growable_data->camera;
 }
 
-int parse_obj_scene(obj_scene_data *data_out, const char *filename)
+int parse_obj_scene(ObjSceneData *data_out, const char *filename)
 {
-	obj_growable_scene_data growable_data;
+    ObjGrowableSceneData growable_data;
 
 	obj_init_temp_storage(&growable_data);
 	if( obj_parse_obj_file(&growable_data, filename) == 0)

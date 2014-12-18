@@ -63,8 +63,10 @@
      <property name="title">
       <string>Метод отображения сцены</string>
      </property>
-     <addaction name="menuBtnZBufView"/>
      <addaction name="menuBtnSkeletonView"/>
+     <addaction name="menuBtnZBufView"/>
+     <addaction name="menuBtnColorZBufView"/>
+     <addaction name="menuBtnLightZBufView"/>
     </widget>
     <widget class="QMenu" name="menu_stylesheet">
      <property name="title">
@@ -104,7 +106,7 @@
     <enum>TopToolBarArea</enum>
    </attribute>
    <attribute name="toolBarBreak">
-    <bool>true</bool>
+    <bool>false</bool>
    </attribute>
    <addaction name="menuBtnCreateNewScene"/>
    <addaction name="menuBtnOpenScene"/>
@@ -252,6 +254,9 @@
    <property name="checkable">
     <bool>true</bool>
    </property>
+   <property name="checked">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>Каркасная модель</string>
    </property>
@@ -266,10 +271,10 @@
     <bool>true</bool>
    </property>
    <property name="checked">
-    <bool>true</bool>
+    <bool>false</bool>
    </property>
    <property name="text">
-    <string>Буфер глубины</string>
+    <string>Простой буфер глубины с случайными цветами</string>
    </property>
    <property name="font">
     <font>
@@ -321,6 +326,25 @@
    </property>
    <property name="shortcut">
     <string>F11</string>
+   </property>
+  </action>
+  <action name="menuBtnColorZBufView">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Простой буфер глубины с цветами из файла</string>
+   </property>
+  </action>
+  <action name="menuBtnLightZBufView">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Буфер глубины с освещением</string>
    </property>
   </action>
  </widget>

@@ -40,6 +40,8 @@ void SimpleZBuffer::Paint(Scene &scene)
     QStringList listColors = QColor::colorNames();
     for (int i = 0; i < GetListFig(scene)->size(); ++i)
     {
+        if (i == GetListFig(scene)->size() - 2)  // Чтобы не рисовать стены
+            continue;
         for (int j = 0; j < (*GetListFig(scene))[i]->faceCount; ++j)
         {
             triangle tr;
@@ -56,20 +58,18 @@ void SimpleZBuffer::Paint(Scene &scene)
                     (*GetListFig(scene))[i]->vertexList[ (*GetListFig(scene))[i]->faceList[j]->vertex_index[2] ]->e[1],
                     (*GetListFig(scene))[i]->vertexList[ (*GetListFig(scene))[i]->faceList[j]->vertex_index[2] ]->e[2]);
 
-            tr.a = tr.a + Point3D(currentFrame->width() / 2, currentFrame->height() / 2, 0);
-            tr.b = tr.b + Point3D(currentFrame->width() / 2, currentFrame->height() / 2, 0);
-            tr.c = tr.c + Point3D(currentFrame->width() / 2, currentFrame->height() / 2, 0);
+            tr.a = tr.a + Point3D(currentFrame->width() / 2, currentFrame->height() / 2.25, 0);
+            tr.b = tr.b + Point3D(currentFrame->width() / 2, currentFrame->height() / 2.25, 0);
+            tr.c = tr.c + Point3D(currentFrame->width() / 2, currentFrame->height() / 2.25, 0);
             PutTriangle(tr, QColor(listColors[(i + 3) * 3]).rgb());
         }
     }
     emit PaintingDoneSignal(currentFrame);
 }
 
-static int nAll = 0, nRewrite = 0;
-
 void SimpleZBuffer::PutTriangle(triangle &t, uint color)
 {
-    int ysc, e1, e;
+    int ysc, e1;
     double ymax,ymin;
     double x[3], y[3];
     double z_a[3];

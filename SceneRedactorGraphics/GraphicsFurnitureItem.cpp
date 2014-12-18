@@ -78,8 +78,9 @@ void GraphicsFurnitureItem::paint(QPainter *painter, const QStyleOptionGraphicsI
 
     painter->setBrush(backgroundColor);
     painter->drawRect(-GetWidth() / 2, -GetHeight() / 2, GetWidth(), GetHeight());
-    painter->drawPixmap(QRectF(-IconSize / 2 , -IconSize / 2, IconSize, IconSize),
-                        *pixmap, QRectF(0, 0, IconSize, IconSize));
+    int picSize = (GetWidth() < GetHeight()) ? (GetWidth()) : (GetHeight());
+    painter->drawPixmap(QRect(-picSize / 2 , -picSize / 2, picSize, picSize),
+                        *pixmap);
 
     if (isSelected())
         painter->restore();

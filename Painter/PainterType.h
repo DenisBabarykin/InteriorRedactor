@@ -3,7 +3,7 @@
 
 namespace PainterType
 {
-    enum PainterType { skeleton, simplezBuffer };
+    enum PainterType { skeleton, simpleZBuffer, colorSimpleZBuffer, simpleLightZBuffer };
 }
 
 

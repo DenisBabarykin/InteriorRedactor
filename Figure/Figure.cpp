@@ -2,8 +2,8 @@
 #include "./ObjLoader/obj_parser.h"
 #include <QtMath>
 
-const double Pi = 3.14159265;
-
+const qreal Pi = 3.14159265;
+const qreal dy = -5;
 
 int Figure::load(const char *filename)
 {
@@ -77,23 +77,29 @@ void Figure::Rotate(const Figure *baseModel, qreal angleOX, qreal angleOY)
     angleOY *= Pi / 180;
     for (int i = 0; i < vertexCount; ++i)
     {
-        //vecPnts3D[i].x = baseModel->vecPnts3D[i].x * cos(angleOY) + baseModel->vecPnts3D[i].z * sin(angleOY);
         vertexList[i]->e[0] = baseModel->vertexList[i]->e[0] * cos(angleOY) +
                 baseModel->vertexList[i]->e[2] * sin(angleOY);
         qreal newZ = - baseModel->vertexList[i]->e[0] * sin(angleOY) +
                 baseModel->vertexList[i]->e[2] * cos(angleOY);
-        //qreal newZ = - baseModel->vecPnts3D[i].x * sin(angleOY) + baseModel->vecPnts3D[i].z * cos(angleOY);
 
         vertexList[i]->e[1] = baseModel->vertexList[i]->e[1] * cos(angleOX) - newZ * sin(angleOX);
-        //vecPnts3D[i].y = baseModel->vecPnts3D[i].y * cos(angleOX) - newZ * sin(angleOX);
         vertexList[i]->e[2] = baseModel->vertexList[i]->e[1] * sin(angleOX) + newZ * cos(angleOX);
-        //vecPnts3D[i].z = baseModel->vecPnts3D[i].y * sin(angleOX) + newZ * cos(angleOX);
+    }
+    for (int i = 0; i < normalCount; ++i)
+    {
+        normalList[i]->e[0] = baseModel->normalList[i]->e[0] * cos(angleOY) +
+                baseModel->normalList[i]->e[2] * sin(angleOY);
+        qreal newZ = - baseModel->normalList[i]->e[0] * sin(angleOY) +
+                baseModel->normalList[i]->e[2] * cos(angleOY);
+
+        normalList[i]->e[1] = baseModel->normalList[i]->e[1] * cos(angleOX) - newZ * sin(angleOX);
+        normalList[i]->e[2] = baseModel->normalList[i]->e[1] * sin(angleOX) + newZ * cos(angleOX);
     }
 }
 
 void Figure::Perspective(const Figure *baseModel)
 {
-    qreal fov = 500; // field of view - поле зрения
+    qreal fov = 700; // field of view - поле зрения
     qreal absZ;
     for (int i = 0; i < vertexCount; ++i)
     {
@@ -102,6 +108,15 @@ void Figure::Perspective(const Figure *baseModel)
         vertexList[i]->e[0] =  baseModel->vertexList[i]->e[0] / absZ * fov;
         vertexList[i]->e[1] =  baseModel->vertexList[i]->e[1] / absZ * fov;
     }
+    /*
+    for (int i = 0; i < normalCount; ++i)
+    {
+        absZ = fabs(normalList[i]->e[2]);
+        //absZ = vertexList[i]->e[2];
+        normalList[i]->e[0] =  baseModel->normalList[i]->e[0] / absZ * fov;
+        normalList[i]->e[1] =  baseModel->normalList[i]->e[1] / absZ * fov;
+    }
+    */
 }
 
 void Figure::Shift(const Figure *baseModel, qreal dx, qreal dy, qreal dz)
@@ -159,10 +174,10 @@ Figure *Figure::Clone()
     fig->vertexCount = vertexCount;
     if (vertexCount > 0)
     {
-        fig->vertexList = (obj_vector **) malloc(vertexCount * sizeof(obj_vector *));
+        fig->vertexList = (ObjVector **) malloc(vertexCount * sizeof(ObjVector *));
         for (int i = 0; i < vertexCount; ++i)
         {
-            fig->vertexList[i] = (obj_vector *) malloc(sizeof(obj_vector));
+            fig->vertexList[i] = (ObjVector *) malloc(sizeof(ObjVector));
             *(fig->vertexList[i]) = *(vertexList[i]);
         }
     }
@@ -172,10 +187,10 @@ Figure *Figure::Clone()
     fig->normalCount = normalCount;
     if (normalCount > 0)
     {
-        fig->normalList = (obj_vector **) malloc(normalCount * sizeof(obj_vector *));
+        fig->normalList = (ObjVector **) malloc(normalCount * sizeof(ObjVector *));
         for (int i = 0; i < normalCount; ++i)
         {
-            fig->normalList[i] = (obj_vector *) malloc(sizeof(obj_vector));
+            fig->normalList[i] = (ObjVector *) malloc(sizeof(ObjVector));
             *(fig->normalList[i]) = *(normalList[i]);
         }
     }
@@ -185,10 +200,10 @@ Figure *Figure::Clone()
     fig->textureCount = textureCount;
     if (textureCount > 0)
     {
-        fig->textureList = (obj_vector **) malloc(textureCount * sizeof(obj_vector *));
+        fig->textureList = (ObjVector **) malloc(textureCount * sizeof(ObjVector *));
         for (int i = 0; i < textureCount; ++i)
         {
-            fig->textureList[i] = (obj_vector *) malloc(sizeof(obj_vector));
+            fig->textureList[i] = (ObjVector *) malloc(sizeof(ObjVector));
             *(fig->textureList[i]) = *(textureList[i]);
         }
     }
@@ -198,10 +213,10 @@ Figure *Figure::Clone()
     fig->faceCount = faceCount;
     if (faceCount > 0)
     {
-        fig->faceList = (obj_face **) malloc(faceCount * sizeof(obj_face *));
+        fig->faceList = (ObjFace **) malloc(faceCount * sizeof(ObjFace *));
         for (int i = 0; i < faceCount; ++i)
         {
-            fig->faceList[i] = (obj_face *) malloc(sizeof(obj_face));
+            fig->faceList[i] = (ObjFace *) malloc(sizeof(ObjFace));
             *(fig->faceList[i]) = *(faceList[i]);
         }
     }
@@ -211,10 +226,10 @@ Figure *Figure::Clone()
     fig->sphereCount = sphereCount;
     if (sphereCount > 0)
     {
-        fig->sphereList = (obj_sphere **) malloc(sphereCount * sizeof(obj_sphere *));
+        fig->sphereList = (ObjSphere **) malloc(sphereCount * sizeof(ObjSphere *));
         for (int i = 0; i < sphereCount; ++i)
         {
-            fig->sphereList[i] = (obj_sphere *) malloc(sizeof(obj_sphere));
+            fig->sphereList[i] = (ObjSphere *) malloc(sizeof(ObjSphere));
             *(fig->sphereList[i]) = *(sphereList[i]);
         }
     }
@@ -224,10 +239,10 @@ Figure *Figure::Clone()
     fig->planeCount = planeCount;
     if (planeCount > 0)
     {
-        fig->planeList = (obj_plane **) malloc(planeCount * sizeof(obj_plane *));
+        fig->planeList = (ObjPlane **) malloc(planeCount * sizeof(ObjPlane *));
         for (int i = 0; i < planeCount; ++i)
         {
-            fig->planeList[i] = (obj_plane *) malloc(sizeof(obj_plane));
+            fig->planeList[i] = (ObjPlane *) malloc(sizeof(ObjPlane));
             *(fig->planeList[i]) = *(planeList[i]);
         }
     }
@@ -237,10 +252,10 @@ Figure *Figure::Clone()
     fig->lightPointCount = lightPointCount;
     if (lightPointCount > 0)
     {
-        fig->lightPointList = (obj_light_point **) malloc(lightPointCount * sizeof(obj_light_point *));
+        fig->lightPointList = (ObjLightPoint **) malloc(lightPointCount * sizeof(ObjLightPoint *));
         for (int i = 0; i < lightPointCount; ++i)
         {
-            fig->lightPointList[i] = (obj_light_point *) malloc(sizeof(obj_light_point));
+            fig->lightPointList[i] = (ObjLightPoint *) malloc(sizeof(ObjLightPoint));
             *(fig->lightPointList[i]) = *(lightPointList[i]);
         }
     }
@@ -250,10 +265,10 @@ Figure *Figure::Clone()
     fig->lightQuadCount = lightQuadCount;
     if (lightQuadCount > 0)
     {
-        fig->lightQuadList = (obj_light_quad **) malloc(lightQuadCount * sizeof(obj_light_quad *));
+        fig->lightQuadList = (ObjLightQuad **) malloc(lightQuadCount * sizeof(ObjLightQuad *));
         for (int i = 0; i < lightQuadCount; ++i)
         {
-            fig->lightQuadList[i] = (obj_light_quad *) malloc(sizeof(obj_light_quad));
+            fig->lightQuadList[i] = (ObjLightQuad *) malloc(sizeof(ObjLightQuad));
             *(fig->lightQuadList[i]) = *(lightQuadList[i]);
         }
     }
@@ -263,10 +278,10 @@ Figure *Figure::Clone()
     fig->lightDiscCount = lightDiscCount;
     if (lightDiscCount > 0)
     {
-        fig->lightDiscList = (obj_light_disc **) malloc(lightDiscCount * sizeof(obj_light_disc *));
+        fig->lightDiscList = (ObjLightDisc **) malloc(lightDiscCount * sizeof(ObjLightDisc *));
         for (int i = 0; i < lightDiscCount; ++i)
         {
-            fig->lightDiscList[i] = (obj_light_disc *) malloc(sizeof(obj_light_disc));
+            fig->lightDiscList[i] = (ObjLightDisc *) malloc(sizeof(ObjLightDisc));
             *(fig->lightDiscList[i]) = *(lightDiscList[i]);
         }
     }
@@ -276,10 +291,10 @@ Figure *Figure::Clone()
     fig->materialCount = materialCount;
     if (materialCount > 0)
     {
-        fig->materialList = (obj_material **) malloc(materialCount * sizeof(obj_material *));
+        fig->materialList = (ObjMaterial **) malloc(materialCount * sizeof(ObjMaterial *));
         for (int i = 0; i < materialCount; ++i)
         {
-            fig->materialList[i] = (obj_material *) malloc(sizeof(obj_material));
+            fig->materialList[i] = (ObjMaterial *) malloc(sizeof(ObjMaterial));
             *(fig->materialList[i]) = *(materialList[i]);
         }
     }
@@ -288,7 +303,7 @@ Figure *Figure::Clone()
 
     if (camera)
     {
-        fig->camera = (obj_camera *) malloc(sizeof(obj_camera));
+        fig->camera = (ObjCamera *) malloc(sizeof(ObjCamera));
         *(fig->camera) = *camera;
     }
     fig->data.camera = fig->camera;
@@ -299,35 +314,34 @@ Figure *Figure::Clone()
 Figure *Figure::CreateFloor(qreal lengthOX, qreal lengthOZ)
 {
     Figure *fig = new Figure();
-    qreal dy = -5;
 
     // Выделение памяти под вершины
     fig->vertexCount = 4;
-    fig->vertexList = (obj_vector **) malloc(fig->vertexCount * sizeof(obj_vector *));
+    fig->vertexList = (ObjVector **) malloc(fig->vertexCount * sizeof(ObjVector *));
     for (int i = 0; i < fig->vertexCount; ++i)
-        fig->vertexList[i] = (obj_vector *) malloc(sizeof(obj_vector));
+        fig->vertexList[i] = (ObjVector *) malloc(sizeof(ObjVector));
     fig->data.vertex_list = fig->vertexList;
     fig->data.vertex_count = fig->vertexCount;
 
     // Выделение памяти под нормаль
     fig->normalCount = 1;
-    fig->normalList = (obj_vector **) malloc(fig->normalCount * sizeof(obj_vector *));
-    fig->normalList[0] = (obj_vector *) malloc(sizeof(obj_vector));
+    fig->normalList = (ObjVector **) malloc(fig->normalCount * sizeof(ObjVector *));
+    fig->normalList[0] = (ObjVector *) malloc(sizeof(ObjVector));
     fig->data.vertex_normal_count = fig->normalCount;
     fig->data.vertex_normal_list = fig->normalList;
 
     // Выделение памяти под поверхности
     fig->faceCount = 2;
-    fig->faceList = (obj_face **) malloc(fig->faceCount * sizeof(obj_face *));
+    fig->faceList = (ObjFace **) malloc(fig->faceCount * sizeof(ObjFace *));
     for (int i = 0; i < fig->faceCount; ++i)
-        fig->faceList[i] = (obj_face *) malloc(sizeof(obj_face));
+        fig->faceList[i] = (ObjFace *) malloc(sizeof(ObjFace));
     fig->data.face_count = fig->faceCount;
     fig->data.face_list = fig->faceList;
 
     // Выделение памяти под материал
     fig->materialCount = 1;
-    fig->materialList = (obj_material **) malloc(fig->materialCount * sizeof(obj_material *));
-    fig->materialList[0] = (obj_material *) malloc(sizeof(obj_material));
+    fig->materialList = (ObjMaterial **) malloc(fig->materialCount * sizeof(ObjMaterial *));
+    fig->materialList[0] = (ObjMaterial *) malloc(sizeof(ObjMaterial));
     fig->data.material_count = fig->materialCount;
     fig->data.material_list = fig->materialList;
 
@@ -371,10 +385,182 @@ Figure *Figure::CreateFloor(qreal lengthOX, qreal lengthOZ)
     fig->faceList[1]->normal_index[1] = 0;
     fig->faceList[1]->normal_index[2] = 0;
 
+    fig->faceList[0]->material_index = 0; // Индекс материала
+    fig->faceList[1]->material_index = 0;
+
     // Заполнение материала
-    fig->materialList[0]->diff[0] = 255; // Цвет диффузного отражения
-    fig->materialList[0]->diff[1] = 228;
-    fig->materialList[0]->diff[2] = 281;
+    fig->materialList[0]->diff[0] = 0.513; // Цвет диффузного отражения
+    fig->materialList[0]->diff[1] = 0.545;
+    fig->materialList[0]->diff[2] = 0.545;
+
+    return fig;
+}
+
+Figure *Figure::CreateWalls(qreal lengthOX, qreal lengthOZ, qreal height)
+{
+    Figure *fig = new Figure();
+
+    // Выделение памяти под вершины
+    fig->vertexCount = 8;
+    fig->vertexList = (ObjVector **) malloc(fig->vertexCount * sizeof(ObjVector *));
+    for (int i = 0; i < fig->vertexCount; ++i)
+        fig->vertexList[i] = (ObjVector *) malloc(sizeof(ObjVector));
+    fig->data.vertex_list = fig->vertexList;
+    fig->data.vertex_count = fig->vertexCount;
+
+    // Выделение памяти под нормали
+    fig->normalCount = 4;
+    fig->normalList = (ObjVector **) malloc(fig->normalCount * sizeof(ObjVector *));
+    for (int i = 0; i < fig->normalCount; ++i)
+        fig->normalList[i] = (ObjVector *) malloc(sizeof(ObjVector));
+    fig->data.vertex_normal_count = fig->normalCount;
+    fig->data.vertex_normal_list = fig->normalList;
+
+    // Выделение памяти под поверхности
+    fig->faceCount = 8;
+    fig->faceList = (ObjFace **) malloc(fig->faceCount * sizeof(ObjFace *));
+    for (int i = 0; i < fig->faceCount; ++i)
+        fig->faceList[i] = (ObjFace *) malloc(sizeof(ObjFace));
+    fig->data.face_count = fig->faceCount;
+    fig->data.face_list = fig->faceList;
+
+    // Выделение памяти под материал
+    fig->materialCount = 1;
+    fig->materialList = (ObjMaterial **) malloc(fig->materialCount * sizeof(ObjMaterial *));
+    fig->materialList[0] = (ObjMaterial *) malloc(sizeof(ObjMaterial));
+    fig->data.material_count = fig->materialCount;
+    fig->data.material_list = fig->materialList;
+
+
+    // Заполнение вершин
+    fig->vertexList[0]->e[0] = - lengthOX / 2; // низ
+    fig->vertexList[0]->e[1] = dy;
+    fig->vertexList[0]->e[2] = - lengthOZ / 2;
+
+    fig->vertexList[1]->e[0] = - lengthOX / 2;
+    fig->vertexList[1]->e[1] = dy;
+    fig->vertexList[1]->e[2] = lengthOZ / 2;
+
+    fig->vertexList[2]->e[0] = lengthOX / 2;
+    fig->vertexList[2]->e[1] = dy;
+    fig->vertexList[2]->e[2] = lengthOZ / 2;
+
+    fig->vertexList[3]->e[0] = lengthOX / 2;
+    fig->vertexList[3]->e[1] = dy;
+    fig->vertexList[3]->e[2] = - lengthOZ / 2;
+
+    fig->vertexList[4]->e[0] = - lengthOX / 2; // верх
+    fig->vertexList[4]->e[1] = dy + height;
+    fig->vertexList[4]->e[2] = - lengthOZ / 2;
+
+    fig->vertexList[5]->e[0] = - lengthOX / 2;
+    fig->vertexList[5]->e[1] = dy + height;
+    fig->vertexList[5]->e[2] = lengthOZ / 2;
+
+    fig->vertexList[6]->e[0] = lengthOX / 2;
+    fig->vertexList[6]->e[1] = dy + height;
+    fig->vertexList[6]->e[2] = lengthOZ / 2;
+
+    fig->vertexList[7]->e[0] = lengthOX / 2;
+    fig->vertexList[7]->e[1] = dy + height;
+    fig->vertexList[7]->e[2] = - lengthOZ / 2;
+
+    // Заполнение нормалей
+    fig->normalList[0]->e[0] = 1;
+    fig->normalList[0]->e[1] = 0;
+    fig->normalList[0]->e[2] = 0;
+
+    fig->normalList[1]->e[0] = 0;
+    fig->normalList[1]->e[1] = 0;
+    fig->normalList[1]->e[2] = 1;
+
+    fig->normalList[2]->e[0] = -1;
+    fig->normalList[2]->e[1] = 0;
+    fig->normalList[2]->e[2] = 0;
+
+    fig->normalList[3]->e[0] = 0;
+    fig->normalList[3]->e[1] = 0;
+    fig->normalList[3]->e[2] = -1;
+
+    // Заполнение поверхностей
+    fig->faceList[0]->vertex_index[0] = 0; // Вершины
+    fig->faceList[0]->vertex_index[1] = 1;
+    fig->faceList[0]->vertex_index[2] = 5;
+
+    fig->faceList[1]->vertex_index[0] = 0;
+    fig->faceList[1]->vertex_index[1] = 4;
+    fig->faceList[1]->vertex_index[2] = 5;
+
+    fig->faceList[0]->normal_index[0] = 0; // Нормали
+    fig->faceList[0]->normal_index[1] = 0;
+    fig->faceList[0]->normal_index[2] = 0;
+
+    fig->faceList[1]->normal_index[0] = 0;
+    fig->faceList[1]->normal_index[1] = 0;
+    fig->faceList[1]->normal_index[2] = 0;
+
+    fig->faceList[2]->vertex_index[0] = 0; // Вершины
+    fig->faceList[2]->vertex_index[1] = 3;
+    fig->faceList[2]->vertex_index[2] = 7;
+
+    fig->faceList[3]->vertex_index[0] = 0;
+    fig->faceList[3]->vertex_index[1] = 4;
+    fig->faceList[3]->vertex_index[2] = 7;
+
+    fig->faceList[2]->normal_index[0] = 1; // Нормали
+    fig->faceList[2]->normal_index[1] = 1;
+    fig->faceList[2]->normal_index[2] = 1;
+
+    fig->faceList[3]->normal_index[0] = 1;
+    fig->faceList[3]->normal_index[1] = 1;
+    fig->faceList[3]->normal_index[2] = 1;
+
+    fig->faceList[4]->vertex_index[0] = 3; // Вершины
+    fig->faceList[4]->vertex_index[1] = 2;
+    fig->faceList[4]->vertex_index[2] = 6;
+
+    fig->faceList[5]->vertex_index[0] = 3;
+    fig->faceList[5]->vertex_index[1] = 7;
+    fig->faceList[5]->vertex_index[2] = 6;
+
+    fig->faceList[4]->normal_index[0] = 2; // Нормали
+    fig->faceList[4]->normal_index[1] = 2;
+    fig->faceList[4]->normal_index[2] = 2;
+
+    fig->faceList[5]->normal_index[0] = 2;
+    fig->faceList[5]->normal_index[1] = 2;
+    fig->faceList[5]->normal_index[2] = 2;
+
+    fig->faceList[6]->vertex_index[0] = 2; // Вершины
+    fig->faceList[6]->vertex_index[1] = 1;
+    fig->faceList[6]->vertex_index[2] = 6;
+
+    fig->faceList[7]->vertex_index[0] = 1;
+    fig->faceList[7]->vertex_index[1] = 5;
+    fig->faceList[7]->vertex_index[2] = 6;
+
+    fig->faceList[6]->normal_index[0] = 3; // Нормали
+    fig->faceList[6]->normal_index[1] = 3;
+    fig->faceList[6]->normal_index[2] = 3;
+
+    fig->faceList[7]->normal_index[0] = 3;
+    fig->faceList[7]->normal_index[1] = 3;
+    fig->faceList[7]->normal_index[2] = 3;
+
+
+    fig->faceList[0]->material_index = 0; // Индекс материала
+    fig->faceList[1]->material_index = 0;
+    fig->faceList[2]->material_index = 0;
+    fig->faceList[3]->material_index = 0;
+    fig->faceList[4]->material_index = 0;
+    fig->faceList[5]->material_index = 0;
+    fig->faceList[6]->material_index = 0;
+    fig->faceList[7]->material_index = 0;
+
+    // Заполнение материала
+    fig->materialList[0]->diff[0] = 0.804; // Цвет диффузного отражения
+    fig->materialList[0]->diff[1] = 0.717;
+    fig->materialList[0]->diff[2] = 0.709;
 
     return fig;
 }

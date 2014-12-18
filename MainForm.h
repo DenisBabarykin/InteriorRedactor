@@ -55,6 +55,8 @@ private slots:
     void on_menuBtnNormalStylesheet_triggered();
     void on_menuBtnQdarkstylesheet_triggered();
     void on_menuBtnFullscreen_triggered();
+    void on_menuBtnColorZBufView_triggered();
+    void on_menuBtnLightZBufView_triggered();
 };
 
 #endif // MAINFORM_H

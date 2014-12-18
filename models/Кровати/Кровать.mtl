@@ -1,0 +1,40 @@
+newmtl Кровать:Brushed_and_chromed
+illum 4
+Kd 0.31 0.32 0.33
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+Ni 1.00
+Ks 0.60 0.60 0.60
+Ns 90.00
+newmtl Кровать:Painted_Wood
+illum 4
+Kd 0.86 0.83 0.83
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+Ni 1.00
+Ks 0.60 0.60 0.60
+Ns 90.00
+newmtl Кровать:blanket
+illum 4
+Kd 1.00 0.92 0.52
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+Ni 1.00
+Ks 0.00 0.00 0.00
+Ns 0.06
+newmtl Кровать:mattressblue
+illum 4
+Kd 0.75 0.85 1.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+Ni 1.00
+Ks 0.00 0.00 0.00
+Ns 0.06
+newmtl Кровать:whitewood
+illum 4
+Kd 0.95 0.91 0.91
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+Ni 1.00
+Ks 0.00 0.00 0.00
+Ns 0.06

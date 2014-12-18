@@ -24,25 +24,26 @@ public:
     Figure *Clone();
 
     static Figure *CreateFloor(qreal lengthOX, qreal lengthOZ);
+    static Figure *CreateWalls(qreal lengthOX, qreal lengthOZ, qreal height);
 
 private:
     void Center();
 
 public:
 
-	obj_vector **vertexList;
-	obj_vector **normalList;
-	obj_vector **textureList;
+    ObjVector **vertexList;
+    ObjVector **normalList;
+    ObjVector **textureList;
 	
-	obj_face **faceList;
-	obj_sphere **sphereList;
-	obj_plane **planeList;
+    ObjFace **faceList;
+    ObjSphere **sphereList;
+    ObjPlane **planeList;
 	
-	obj_light_point **lightPointList;
-	obj_light_quad **lightQuadList;
-	obj_light_disc **lightDiscList;
+    ObjLightPoint **lightPointList;
+    ObjLightQuad **lightQuadList;
+    ObjLightDisc **lightDiscList;
 	
-	obj_material **materialList;
+    ObjMaterial **materialList;
 	
 	int vertexCount;
 	int normalCount;
@@ -58,10 +59,10 @@ public:
 
 	int materialCount;
 
-	obj_camera *camera;
+    ObjCamera *camera;
 
 private:
-	obj_scene_data data;
+    ObjSceneData data;
 
 };
 

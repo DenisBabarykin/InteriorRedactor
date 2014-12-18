@@ -1,7 +1,9 @@
 #include "Facade.h"
 #include <QtConcurrent/QtConcurrent>
-#include "Painter/SimpleZBuffer.h"
-#include "Painter/Skeleton.h"
+#include "./Painter/SimpleZBuffer.h"
+#include "./Painter/Skeleton.h"
+#include "./Painter/ColorSimpleZBuffer.h"
+#include "./Painter/SimpleLightZBuffer.h"
 
 Facade::Facade(QObject *parent) :
     QObject(parent)
@@ -34,7 +36,7 @@ void Facade::RotateSceneCommand(qreal angleOX, qreal angleOY)
 void Facade::ShiftSceneCommand(qreal dx, qreal dy, qreal dz)
 {
     if (!scene.IsEmpty())
-        camera.AddShift(dx, dy, (camera.GetDZ() > sceneMetaData.GetSceneLengthOZ() * 0.2 && dz > 0) ? (0) : (dz));
+        camera.AddShift(dx, dy, (camera.GetDZ() > sceneMetaData.GetSceneLengthOZ() * 0.1 && dz > 0) ? (0) : (dz));
     emit CommandDoneSignal();
 }
 
@@ -53,12 +55,20 @@ void Facade::CreatePainterCommand(PainterType::PainterType painterType, int widt
 
     switch(painterType)
     {
-        case PainterType::simplezBuffer:
+        case PainterType::simpleZBuffer:
             painter = new SimpleZBuffer(width, height);
             break;
 
         case PainterType::skeleton:
             painter = new Skeleton(width, height);
+            break;
+
+        case PainterType::colorSimpleZBuffer:
+            painter = new ColorSimpleZBuffer(width, height);
+            break;
+
+        case PainterType::simpleLightZBuffer:
+            painter = new SimpleLightZBuffer(width, height);
             break;
 
         default:
@@ -70,7 +80,7 @@ void Facade::CreatePainterCommand(PainterType::PainterType painterType, int widt
 
 void Facade::TransformAndDrawScene()
 {
-    scene.Rotate(camera.GetAngleOX(), camera.GetAngleOY());
+    scene.Rotate(camera.GetAngleOX() + 10, camera.GetAngleOY() + 10);
     scene.Shift(camera.GetDX(), camera.GetDY(), -sceneMetaData.GetSceneLengthOZ() + camera.GetDZ());
     scene.Perspective();
     painter->Paint(scene);
