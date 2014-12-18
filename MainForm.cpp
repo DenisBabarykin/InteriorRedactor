@@ -25,7 +25,7 @@ MainForm::MainForm(QWidget *parent) :
     ui->setupUi(this);
 
     sceneRedactorForm = NULL;
-    painterType = PainterType::simpleLightZBuffer;
+    painterType = PainterType::LightZBuffer;
 
     connect(ui->lblScene, SIGNAL(mouseMoveSignal(qreal,qreal)), this, SLOT(MouseMove(qreal,qreal)));
     connect(ui->lblScene, SIGNAL(wheelSignal(int)), this, SLOT(Wheel(int)));
@@ -90,6 +90,7 @@ void MainForm::menuViewCheck(QAction *checkedMenuBtn)
     ui->menuBtnZBufView->setChecked(false);
     ui->menuBtnColorZBufView->setChecked(false);
     ui->menuBtnLightZBufView->setChecked(false);
+    ui->menuBtnLightFilterZBufView->setChecked(false);
 
     checkedMenuBtn->setChecked(true);
 }
@@ -246,4 +247,13 @@ void MainForm::on_menuBtnLightZBufView_triggered()
     commandController.AddCommand(new CommandDraw());
     commandController.Execute();
     menuViewCheck(ui->menuBtnLightZBufView);
+}
+
+void MainForm::on_menuBtnLightFilterZBufView_triggered()
+{
+    painterType = PainterType::LightZBuffer;
+    commandController.AddCommand(new CommandCreatePainter((painterType), ui->lblScene->width(), ui->lblScene->height()));
+    commandController.AddCommand(new CommandDraw());
+    commandController.Execute();
+    menuViewCheck(ui->menuBtnLightFilterZBufView);
 }

@@ -7,14 +7,15 @@
 
 class ColorSimpleZBuffer : public SimpleZBuffer
 {
-private:
+protected:
+    inline bool isFarthest(triangle &tr);
+    inline bool isFront(triangle &tr, ObjVector *normal);
 
 public:
     ColorSimpleZBuffer(int ax, int ay, QObject *parent = 0);
     ~ColorSimpleZBuffer();
     void Paint(Scene &scene);
-    inline bool isFarthest(triangle &tr);
-    inline bool isFront(triangle &tr, ObjVector *normal);
+
 };
 
 #endif // COLORSIMPLEZBUFFER_H

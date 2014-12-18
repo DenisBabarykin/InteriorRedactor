@@ -19,11 +19,11 @@ class SimpleZBuffer : public Painter
 protected:
     qreal **buff;
     int sX, sY;	// Размер Z-Буфера
+    void PutTriangle(triangle &t, uint color);
 
 public:
     SimpleZBuffer(int ax, int ay, QObject *parent = 0);
     virtual ~SimpleZBuffer();
-    void PutTriangle(triangle &t, uint color);
     void Clear();
     void Paint(Scene &scene);
 };

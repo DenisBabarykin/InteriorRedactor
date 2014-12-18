@@ -61,7 +61,17 @@ void SimpleZBuffer::Paint(Scene &scene)
             tr.a = tr.a + Point3D(currentFrame->width() / 2, currentFrame->height() / 2.25, 0);
             tr.b = tr.b + Point3D(currentFrame->width() / 2, currentFrame->height() / 2.25, 0);
             tr.c = tr.c + Point3D(currentFrame->width() / 2, currentFrame->height() / 2.25, 0);
-            PutTriangle(tr, QColor(listColors[(i + 3) * 3]).rgb());
+
+            QColor color;
+            if ((*GetListFig(scene))[i]->materialCount > 0)
+                color.setRgb(
+                    (*GetListFig(scene))[i]->materialList[ (*GetListFig(scene))[i]->faceList[j]->material_index ]->diff[0] * 255.0,
+                    (*GetListFig(scene))[i]->materialList[ (*GetListFig(scene))[i]->faceList[j]->material_index ]->diff[1] * 255.0,
+                    (*GetListFig(scene))[i]->materialList[ (*GetListFig(scene))[i]->faceList[j]->material_index ]->diff[2]* 255.0);
+            else
+               color = QColor(listColors[(i + 3) * 3]);
+
+            PutTriangle(tr, color.rgb());
         }
     }
     emit PaintingDoneSignal(currentFrame);
