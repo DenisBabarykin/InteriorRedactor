@@ -3,6 +3,7 @@
 #include "./Painter/SimpleZBuffer.h"
 #include "./Painter/Skeleton.h"
 #include "./Painter/ColorSimpleZBuffer.h"
+#include "./Painter/SimpleLightZBuffer.h"
 
 Facade::Facade(QObject *parent) :
     QObject(parent)
@@ -64,6 +65,10 @@ void Facade::CreatePainterCommand(PainterType::PainterType painterType, int widt
 
         case PainterType::colorSimpleZBuffer:
             painter = new ColorSimpleZBuffer(width, height);
+            break;
+
+        case PainterType::simpleLightZBuffer:
+            painter = new SimpleLightZBuffer(width, height);
             break;
 
         default:

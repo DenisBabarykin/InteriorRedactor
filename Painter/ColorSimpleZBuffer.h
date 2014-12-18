@@ -8,7 +8,6 @@
 class ColorSimpleZBuffer : public SimpleZBuffer
 {
 private:
-    bool wasUnfront;
 
 public:
     ColorSimpleZBuffer(int ax, int ay, QObject *parent = 0);

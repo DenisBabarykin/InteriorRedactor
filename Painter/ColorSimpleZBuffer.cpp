@@ -6,7 +6,6 @@
 
 ColorSimpleZBuffer::ColorSimpleZBuffer(int ax, int ay, QObject *parent) : SimpleZBuffer(ax, ay, parent)
 {
-    wasUnfront = false;
 }
 
 ColorSimpleZBuffer::~ColorSimpleZBuffer()
@@ -20,17 +19,9 @@ void ColorSimpleZBuffer::Paint(Scene &scene)
     QStringList listColors = QColor::colorNames();
     for (int i = 0; i < GetListFig(scene)->size(); ++i)
     {
-        wasUnfront = false;
         bool hasNormals = ((*GetListFig(scene))[i]->normalCount > 0) ? (true) : (false);
         for (int j = 0; j < (*GetListFig(scene))[i]->faceCount; ++j)
         {
-            if (wasUnfront)
-            {
-                wasUnfront = false;
-                continue;
-            }
-            wasUnfront = false;
-
             triangle tr;
 
             tr.a = Point3D((*GetListFig(scene))[i]->vertexList[ (*GetListFig(scene))[i]->faceList[j]->vertex_index[0] ]->e[0],
@@ -52,13 +43,16 @@ void ColorSimpleZBuffer::Paint(Scene &scene)
 
             if (isFarthest(tr))
                 continue;
-
+            /*
             if (j % 2 == 0 && i > GetListFig(scene)->size() - 3)
                 if (!(hasNormals && isFront(tr, (*GetListFig(scene))[i]->normalList[ (*GetListFig(scene))[i]->faceList[j]->normal_index[0] ])))
                 {
                     wasUnfront = true;
                     continue;
                 }
+            */
+            if (hasNormals && !isFront(tr, (*GetListFig(scene))[i]->normalList[ (*GetListFig(scene))[i]->faceList[j]->normal_index[0] ]))
+                continue;
 
             QColor color;
             if ((*GetListFig(scene))[i]->materialCount > 0)
