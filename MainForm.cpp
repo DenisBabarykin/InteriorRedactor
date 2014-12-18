@@ -25,7 +25,7 @@ MainForm::MainForm(QWidget *parent) :
     ui->setupUi(this);
 
     sceneRedactorForm = NULL;
-    painterType = PainterType::simpleZBuffer;
+    painterType = PainterType::simpleLightZBuffer;
 
     connect(ui->lblScene, SIGNAL(mouseMoveSignal(qreal,qreal)), this, SLOT(MouseMove(qreal,qreal)));
     connect(ui->lblScene, SIGNAL(wheelSignal(int)), this, SLOT(Wheel(int)));
