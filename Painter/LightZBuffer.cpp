@@ -1,29 +1,24 @@
-#include "ColorSimpleZBuffer.h"
-#include <math.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <QDebug>
+#include "LightZBuffer.h"
+#include "math.h"
 
-ColorSimpleZBuffer::ColorSimpleZBuffer(int ax, int ay, QObject *parent) : SimpleZBuffer(ax, ay, parent)
+LightZBuffer::LightZBuffer(int ax, int ay, QObject *parent) : SimpleLightZBuffer(ax, ay, parent)
 {
 }
 
-ColorSimpleZBuffer::~ColorSimpleZBuffer()
+LightZBuffer::~LightZBuffer()
 {
-
 }
 
-void ColorSimpleZBuffer::Paint(Scene &scene)
+void LightZBuffer::Paint(Scene &scene)
 {
     Clear();
     QStringList listColors = QColor::colorNames();
     for (int i = 0; i < GetListFig(scene)->size(); ++i)
     {
-        bool hasNormals = ((*GetListFig(scene))[i]->normalCount > 0) ? (true) : (false);
         for (int j = 0; j < (*GetListFig(scene))[i]->faceCount; ++j)
         {
-            triangle tr;
-
+            Polygon tr;
+            bool hasNormals = ((*GetListFig(scene))[i]->normalCount > 0) ? (true) : (false);
             tr.a = Point3D((*GetListFig(scene))[i]->vertexList[ (*GetListFig(scene))[i]->faceList[j]->vertex_index[0] ]->e[0],
                     (*GetListFig(scene))[i]->vertexList[ (*GetListFig(scene))[i]->faceList[j]->vertex_index[0] ]->e[1],
                     (*GetListFig(scene))[i]->vertexList[ (*GetListFig(scene))[i]->faceList[j]->vertex_index[0] ]->e[2]);
@@ -41,6 +36,18 @@ void ColorSimpleZBuffer::Paint(Scene &scene)
             tr.c = tr.c + Point3D(currentFrame->width() / 2, currentFrame->height() / 2.25, 0);
 
 
+            tr.na = Point3D((*GetListFig(scene))[i]->normalList[ (*GetListFig(scene))[i]->faceList[j]->normal_index[0] ]->e[0],
+                    (*GetListFig(scene))[i]->normalList[ (*GetListFig(scene))[i]->faceList[j]->normal_index[0] ]->e[1],
+                    (*GetListFig(scene))[i]->normalList[ (*GetListFig(scene))[i]->faceList[j]->normal_index[0] ]->e[2]);
+
+            tr.nb = Point3D((*GetListFig(scene))[i]->normalList[ (*GetListFig(scene))[i]->faceList[j]->normal_index[1] ]->e[0],
+                    (*GetListFig(scene))[i]->normalList[ (*GetListFig(scene))[i]->faceList[j]->normal_index[1] ]->e[1],
+                    (*GetListFig(scene))[i]->normalList[ (*GetListFig(scene))[i]->faceList[j]->normal_index[1] ]->e[2]);
+
+            tr.nc = Point3D((*GetListFig(scene))[i]->normalList[ (*GetListFig(scene))[i]->faceList[j]->normal_index[2] ]->e[0],
+                    (*GetListFig(scene))[i]->normalList[ (*GetListFig(scene))[i]->faceList[j]->normal_index[2] ]->e[1],
+                    (*GetListFig(scene))[i]->normalList[ (*GetListFig(scene))[i]->faceList[j]->normal_index[2] ]->e[2]);
+
             if (isFarthest(tr))
                 continue;
 
@@ -49,20 +56,40 @@ void ColorSimpleZBuffer::Paint(Scene &scene)
 
             QColor color;
             if ((*GetListFig(scene))[i]->materialCount > 0)
-                color.setRgb(
-                    (*GetListFig(scene))[i]->materialList[ (*GetListFig(scene))[i]->faceList[j]->material_index ]->diff[0] * 255.0,
-                    (*GetListFig(scene))[i]->materialList[ (*GetListFig(scene))[i]->faceList[j]->material_index ]->diff[1] * 255.0,
-                    (*GetListFig(scene))[i]->materialList[ (*GetListFig(scene))[i]->faceList[j]->material_index ]->diff[2]* 255.0);
+                color.setRgbF(
+                    (*GetListFig(scene))[i]->materialList[ (*GetListFig(scene))[i]->faceList[j]->material_index ]->diff[0],
+                    (*GetListFig(scene))[i]->materialList[ (*GetListFig(scene))[i]->faceList[j]->material_index ]->diff[1],
+                    (*GetListFig(scene))[i]->materialList[ (*GetListFig(scene))[i]->faceList[j]->material_index ]->diff[2]);
             else
                color = QColor(listColors[(i + 3) * 3]);
 
-            PutTriangle(tr, color.rgb());
+            PutTriangle(tr, color);
         }
     }
     emit PaintingDoneSignal(currentFrame);
 }
 
-bool ColorSimpleZBuffer::isFarthest(triangle &tr)
+bool LightZBuffer::isFront(Polygon &tr, ObjVector *normal)
+{
+    Point3D a(tr.b.x - tr.a.x, tr.b.y - tr.a.y, tr.b.z - tr.a.z);
+        Point3D b(tr.c.x - tr.a.x, tr.c.y - tr.a.y, tr.c.z - tr.a.z);
+
+        ObjVector mult;
+        mult.e[0] = a.y * b.z - a.z * b.y;
+        mult.e[1] = a.z * b.x - a.x * b.z;
+        mult.e[2] = a.x * b.y - a.y * b.x;
+
+        qreal multScalar = mult.e[0] * normal->e[0] + mult.e[1] * normal->e[1] + mult.e[2] * normal->e[2];
+        if (multScalar < 0)
+            mult.e[2] = - mult.e[2]; // нужно только это
+
+        if (mult.e[2] > 0)
+            return true;
+        else
+            return false;
+}
+
+bool LightZBuffer::isFarthest(Polygon &tr)
 {
     if (tr.a.x <= 0 || tr.a.x >= sX || tr.a.y <= 0 || tr.a.y >= sY ||
             tr.b.x <= 0 || tr.b.x >= sX || tr.b.y <= 0 || tr.b.y >= sY ||
@@ -76,32 +103,6 @@ bool ColorSimpleZBuffer::isFarthest(triangle &tr)
 
     if ((tr.a.z < buff[int(tr.a.x)][int(tr.a.y)]) && (tr.b.z < buff[int(tr.b.x)][int(tr.b.y)])
             && (tr.c.z < buff[int(tr.c.x)][int(tr.c.y)]))
-        return true;
-    else
-        return false;
-}
-
-bool ColorSimpleZBuffer::isFront(triangle &tr, ObjVector *normal)
-{
-    Point3D a(tr.b.x - tr.a.x, tr.b.y - tr.a.y, tr.b.z - tr.a.z);
-    Point3D b(tr.c.x - tr.a.x, tr.c.y - tr.a.y, tr.c.z - tr.a.z);
-
-    ObjVector mult;
-    mult.e[0] = a.y * b.z - a.z * b.y;
-    mult.e[1] = a.z * b.x - a.x * b.z;
-    mult.e[2] = a.x * b.y - a.y * b.x;
-
-    qreal multScalar = mult.e[0] * normal->e[0] + mult.e[1] * normal->e[1] + mult.e[2] * normal->e[2];
-    if (multScalar < 0)
-    {
-        /*
-        mult.e[0] = - mult.e[0];
-        mult.e[1] = - mult.e[1];
-        */
-        mult.e[2] = - mult.e[2]; // нужно только это
-    }
-
-    if (mult.e[2] > 0)
         return true;
     else
         return false;

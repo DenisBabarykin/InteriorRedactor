@@ -64,9 +64,12 @@
       <string>Метод отображения сцены</string>
      </property>
      <addaction name="menuBtnSkeletonView"/>
+     <addaction name="separator"/>
      <addaction name="menuBtnZBufView"/>
      <addaction name="menuBtnColorZBufView"/>
+     <addaction name="separator"/>
      <addaction name="menuBtnLightZBufView"/>
+     <addaction name="menuBtnLightFilterZBufView"/>
     </widget>
     <widget class="QMenu" name="menu_stylesheet">
      <property name="title">
@@ -274,7 +277,7 @@
     <bool>false</bool>
    </property>
    <property name="text">
-    <string>Простой буфер глубины с случайными цветами</string>
+    <string>Буфер глубины</string>
    </property>
    <property name="font">
     <font>
@@ -333,7 +336,7 @@
     <bool>true</bool>
    </property>
    <property name="text">
-    <string>Простой буфер глубины с цветами из файла</string>
+    <string>Буфер глубины с фильтрацией заносимых граней</string>
    </property>
   </action>
   <action name="menuBtnLightZBufView">
@@ -341,10 +344,21 @@
     <bool>true</bool>
    </property>
    <property name="checked">
-    <bool>true</bool>
+    <bool>false</bool>
    </property>
    <property name="text">
     <string>Буфер глубины с освещением</string>
+   </property>
+  </action>
+  <action name="menuBtnLightFilterZBufView">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Буфер глубины с освещением и фильтрацией заносимых граней</string>
    </property>
   </action>
  </widget>

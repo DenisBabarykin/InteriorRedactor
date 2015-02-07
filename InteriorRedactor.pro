@@ -47,7 +47,8 @@ SOURCES += main.cpp\
     Painter/SimpleZBuffer.cpp \
     Painter/ColorSimpleZBuffer.cpp \
     Painter/SimpleLightZBuffer.cpp \
-    Painter/Polygon.cpp
+    Painter/Polygon.cpp \
+    Painter/LightZBuffer.cpp
 
 HEADERS  += MainForm.h \
     LabelScene/LabelScene.h \
@@ -84,7 +85,8 @@ HEADERS  += MainForm.h \
     Painter/SimpleZBuffer.h \
     Painter/ColorSimpleZBuffer.h \
     Painter/SimpleLightZBuffer.h \
-    Painter/Polygon.h
+    Painter/Polygon.h \
+    Painter/LightZBuffer.h
 
 
 FORMS    += MainForm.ui \
