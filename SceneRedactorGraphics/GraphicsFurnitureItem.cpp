@@ -3,6 +3,7 @@
 #include <QDebug>
 #include <QGraphicsScene>
 #include <QColor>
+#include <QPen>
 
 const double IconSize = 64;
 
@@ -70,10 +71,11 @@ void GraphicsFurnitureItem::paint(QPainter *painter, const QStyleOptionGraphicsI
     {
         painter->save();
 
-        QPen selPen(QColor(Qt::red));
-        selPen.setWidth(3);
-        painter->setPen(selPen);
+        QPen *selPen = new QPen(QColor(Qt::red));
+        selPen->setWidth(3);
+        painter->setPen(*selPen);
         painter->drawRect(-GetWidth() / 2 , -GetHeight() / 2, GetWidth(), GetHeight());
+        delete selPen;
     }
 
     painter->setBrush(backgroundColor);
