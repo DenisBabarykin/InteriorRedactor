@@ -88,12 +88,13 @@ void Scene::Shift(qreal dx, qreal dy, qreal dz)
     {
         int nExtraThreads = (CORES_COUNT - 1 < listFigOrig.size()) ?
                     (CORES_COUNT - 2) : (listFigOrig.size() - 1);
-        QFuture<void> future[nExtraThreads];
+        QList<QFuture<void> > future;
+        //QFuture<void> future[nExtraThreads];
         int nModelsForThread = listFigOrig.size() / (nExtraThreads + 1);
 
         for (int i = 0; i < nExtraThreads; ++i)
-            future[i] = QtConcurrent::run(this, &Scene::ShiftPartly,
-                  i * nModelsForThread, (i + 1) * nModelsForThread - 1, dx, dy, dz);
+            future.append(QtConcurrent::run(this, &Scene::ShiftPartly,
+                  i * nModelsForThread, (i + 1) * nModelsForThread - 1, dx, dy, dz));
 
         ShiftPartly(nExtraThreads * nModelsForThread, listFigOrig.size() - 1, dx, dy, dz);
 
@@ -112,12 +113,13 @@ void Scene::Rotate(qreal angleOX, qreal angleOY)
     {
         int nExtraThreads = (CORES_COUNT - 1 < listFigOrig.size()) ?
                     (CORES_COUNT - 2) : (listFigOrig.size() - 1);
-        QFuture<void> future[nExtraThreads];
+        //QFuture<void> future[nExtraThreads];
+        QList<QFuture<void> > future;
         int nModelsForThread = listFigOrig.size() / (nExtraThreads + 1);
 
         for (int i = 0; i < nExtraThreads; ++i)
-            future[i] = QtConcurrent::run(this, &Scene::RotatePartly,
-                  i * nModelsForThread, (i + 1) * nModelsForThread - 1, angleOX, angleOY);
+            future.append(QtConcurrent::run(this, &Scene::RotatePartly,
+                  i * nModelsForThread, (i + 1) * nModelsForThread - 1, angleOX, angleOY));
 
         RotatePartly(nExtraThreads * nModelsForThread, listFigOrig.size() - 1, angleOX, angleOY);
 
@@ -136,12 +138,13 @@ void Scene::Perspective()
     {
         int nExtraThreads = (CORES_COUNT - 1 < listFigOrig.size()) ?
                     (CORES_COUNT - 2) : (listFigOrig.size() - 1);
-        QFuture<void> future[nExtraThreads];
+        //QFuture<void> future[nExtraThreads];
+        QList<QFuture<void> > future;
         int nModelsForThread = listFigOrig.size() / (nExtraThreads + 1);
 
         for (int i = 0; i < nExtraThreads; ++i)
-            future[i] = QtConcurrent::run(this, &Scene::PerspectivePartly,
-                  i * nModelsForThread, (i + 1) * nModelsForThread - 1);
+            future.append(QtConcurrent::run(this, &Scene::PerspectivePartly,
+                  i * nModelsForThread, (i + 1) * nModelsForThread - 1));
 
         PerspectivePartly(nExtraThreads * nModelsForThread, listFigOrig.size() - 1);
 
