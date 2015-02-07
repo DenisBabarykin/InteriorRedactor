@@ -17,7 +17,7 @@
    </size>
   </property>
   <property name="windowTitle">
-   <string>Редактор интерьера</string>
+   <string>Interior redactor</string>
   </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QGridLayout" name="gridLayout">
@@ -44,7 +44,7 @@
    </property>
    <widget class="QMenu" name="menu">
     <property name="title">
-     <string>Файл</string>
+     <string>File</string>
     </property>
     <addaction name="menuBtnCreateNewScene"/>
     <addaction name="menuBtnOpenScene"/>
@@ -57,11 +57,11 @@
    </widget>
    <widget class="QMenu" name="menu_view">
     <property name="title">
-     <string>Вид</string>
+     <string>View</string>
     </property>
     <widget class="QMenu" name="menu_view_method">
      <property name="title">
-      <string>Метод отображения сцены</string>
+      <string>Drawing method</string>
      </property>
      <addaction name="menuBtnSkeletonView"/>
      <addaction name="separator"/>
@@ -73,7 +73,7 @@
     </widget>
     <widget class="QMenu" name="menu_stylesheet">
      <property name="title">
-      <string>Визуальный стиль приложения</string>
+      <string>Interface style</string>
      </property>
      <addaction name="menuBtnNormalStylesheet"/>
      <addaction name="menuBtnQdarkstylesheet"/>
@@ -130,10 +130,10 @@
      <normaloff>:/menu_icons/images/new.png</normaloff>:/menu_icons/images/new.png</iconset>
    </property>
    <property name="text">
-    <string>Создать сцену</string>
+    <string>New scene</string>
    </property>
    <property name="toolTip">
-    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Создать новую сцену с помощью редактора сцены.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Create new scene with scene redactor.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
    <property name="font">
     <font>
@@ -150,10 +150,10 @@
      <normaloff>:/menu_icons/images/open_file.png</normaloff>:/menu_icons/images/open_file.png</iconset>
    </property>
    <property name="text">
-    <string>Открыть сцену</string>
+    <string>Open scene</string>
    </property>
    <property name="toolTip">
-    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Открыть готовую сцену, загрузив её из файла.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Open existing scene.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
    <property name="font">
     <font>
@@ -173,10 +173,10 @@
      <normaloff>:/menu_icons/images/save.png</normaloff>:/menu_icons/images/save.png</iconset>
    </property>
    <property name="text">
-    <string>Сохранить</string>
+    <string>Save</string>
    </property>
    <property name="toolTip">
-    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Сохранить текущую сцену в файл.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Save current scene to file.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
    <property name="font">
     <font>
@@ -196,10 +196,10 @@
      <normaloff>:/menu_icons/images/save_as.png</normaloff>:/menu_icons/images/save_as.png</iconset>
    </property>
    <property name="text">
-    <string>Сохранить как...</string>
+    <string>Save as</string>
    </property>
    <property name="toolTip">
-    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Сохранить текущую сцену в новый файл.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Save current scene to new file.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
    <property name="font">
     <font>
@@ -216,10 +216,10 @@
      <normaloff>:/menu_icons/images/close.png</normaloff>:/menu_icons/images/close.png</iconset>
    </property>
    <property name="text">
-    <string>Выход</string>
+    <string>Exit</string>
    </property>
    <property name="toolTip">
-    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Выйти из приложения.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Close the application.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
    <property name="font">
     <font>
@@ -239,10 +239,10 @@
      <normaloff>:/menu_icons/images/edit.png</normaloff>:/menu_icons/images/edit.png</iconset>
    </property>
    <property name="text">
-    <string>Редактировать сцену</string>
+    <string>Edit scene</string>
    </property>
    <property name="toolTip">
-    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Редактировать текущую сцену с помощью редактора сцены.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Edit current scene with scene redactor.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
    <property name="font">
     <font>
@@ -261,7 +261,7 @@
     <bool>false</bool>
    </property>
    <property name="text">
-    <string>Каркасная модель</string>
+    <string>Skeleton model</string>
    </property>
    <property name="font">
     <font>
@@ -277,7 +277,7 @@
     <bool>false</bool>
    </property>
    <property name="text">
-    <string>Буфер глубины</string>
+    <string>Depth buffer</string>
    </property>
    <property name="font">
     <font>
@@ -293,7 +293,7 @@
     <bool>true</bool>
    </property>
    <property name="text">
-    <string>Стандартный</string>
+    <string>Native</string>
    </property>
    <property name="font">
     <font>
@@ -309,7 +309,7 @@
     <bool>true</bool>
    </property>
    <property name="text">
-    <string>Тёмный</string>
+    <string>Black</string>
    </property>
    <property name="font">
     <font>
@@ -325,7 +325,7 @@
     <bool>true</bool>
    </property>
    <property name="text">
-    <string>Полноэкранный режим</string>
+    <string>Full screen</string>
    </property>
    <property name="shortcut">
     <string>F11</string>
@@ -336,7 +336,7 @@
     <bool>true</bool>
    </property>
    <property name="text">
-    <string>Буфер глубины с фильтрацией заносимых граней</string>
+    <string>Depth buffer with clever polygon choosing</string>
    </property>
   </action>
   <action name="menuBtnLightZBufView">
@@ -347,7 +347,7 @@
     <bool>false</bool>
    </property>
    <property name="text">
-    <string>Буфер глубины с освещением</string>
+    <string>Depth buffer with light</string>
    </property>
   </action>
   <action name="menuBtnLightFilterZBufView">
@@ -358,7 +358,7 @@
     <bool>true</bool>
    </property>
    <property name="text">
-    <string>Буфер глубины с освещением и фильтрацией заносимых граней</string>
+    <string>Depth buffer with light and clever polygon choosing</string>
    </property>
   </action>
  </widget>

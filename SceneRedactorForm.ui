@@ -17,7 +17,7 @@
    </size>
   </property>
   <property name="windowTitle">
-   <string>Редактор сцены</string>
+   <string>Scene redactor</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout">
@@ -46,126 +46,126 @@
       </property>
       <column>
        <property name="text">
-        <string notr="true">Каталог</string>
+        <string notr="true">Catalog</string>
        </property>
       </column>
       <item>
        <property name="text">
-        <string>Шкафы</string>
+        <string>Wardrobes</string>
        </property>
        <item>
         <property name="text">
-         <string>Шкаф_1</string>
+         <string>Wardrobe_1</string>
         </property>
        </item>
        <item>
         <property name="text">
-         <string>Шкаф_2</string>
+         <string>Wardrobe_2</string>
         </property>
        </item>
        <item>
         <property name="text">
-         <string>Шкаф_3</string>
+         <string>Wardrobe_3</string>
         </property>
        </item>
       </item>
       <item>
        <property name="text">
-        <string>Кровати</string>
+        <string>Beds</string>
        </property>
        <item>
         <property name="text">
-         <string>Кровать_1</string>
+         <string>Bed_1</string>
         </property>
        </item>
        <item>
         <property name="text">
-         <string>Кровать_2</string>
+         <string>Bed_2</string>
         </property>
        </item>
        <item>
         <property name="text">
-         <string>Кровать_3</string>
+         <string>Bed_3</string>
         </property>
        </item>
        <item>
         <property name="text">
-         <string>Кровать_4</string>
+         <string>Bed_4</string>
         </property>
        </item>
        <item>
         <property name="text">
-         <string>Кровать_5</string>
+         <string>Bed_5</string>
         </property>
        </item>
       </item>
       <item>
        <property name="text">
-        <string>Журнальные столики</string>
+        <string>Magazine tables</string>
        </property>
        <item>
         <property name="text">
-         <string>Журнальный столик 1</string>
+         <string>Magazine_table_1</string>
         </property>
        </item>
        <item>
         <property name="text">
-         <string>Журнальный столик 2</string>
+         <string>Magazine_table_2</string>
         </property>
        </item>
        <item>
         <property name="text">
-         <string>Журнальный столик 3</string>
+         <string>Magazine_table_3</string>
         </property>
        </item>
       </item>
       <item>
        <property name="text">
-        <string>Обеденные столы</string>
+        <string>Kitchen tables</string>
        </property>
        <item>
         <property name="text">
-         <string>Обеденный стол 1</string>
+         <string>Kitchen_table_1</string>
         </property>
        </item>
        <item>
         <property name="text">
-         <string>Обеденный стол 2</string>
+         <string>Kitchen_table_2</string>
         </property>
        </item>
       </item>
       <item>
        <property name="text">
-        <string>Стулья</string>
+        <string>Chairs</string>
        </property>
        <item>
         <property name="text">
-         <string>Стул_1</string>
+         <string>Chair_1</string>
         </property>
        </item>
        <item>
         <property name="text">
-         <string>Стул_2</string>
+         <string>Chair_2</string>
         </property>
        </item>
        <item>
         <property name="text">
-         <string>Стул_3</string>
+         <string>Chair_3</string>
         </property>
        </item>
        <item>
         <property name="text">
-         <string>Стул_4</string>
+         <string>Chair_4</string>
         </property>
        </item>
        <item>
         <property name="text">
-         <string>Стул_5</string>
+         <string>Chair_5</string>
         </property>
        </item>
        <item>
         <property name="text">
-         <string>Стул_6</string>
+         <string>Chair_6</string>
         </property>
        </item>
       </item>
@@ -177,7 +177,7 @@
     <item row="1" column="0">
      <widget class="QLabel" name="lblObjList">
       <property name="text">
-       <string>Объекты на сцене</string>
+       <string>Scene's objects</string>
       </property>
      </widget>
     </item>
@@ -212,7 +212,7 @@
        </sizepolicy>
       </property>
       <property name="text">
-       <string>Удалить объект на сцене</string>
+       <string>Delete scene's object</string>
       </property>
      </widget>
     </item>
