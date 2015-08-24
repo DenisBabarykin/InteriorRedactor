@@ -49,7 +49,6 @@ public:
 
 signals:
     void SceneActionDoneSignal();
-
 };
 
 #endif // SCENE_H

@@ -7,20 +7,61 @@ const int CORES_COUNT = QThread::idealThreadCount();
 
 void Scene::ShiftPartly(int downBorder, int upBorder, qreal dx, qreal dy, qreal dz)
 {
-    for (int i = downBorder; i <= upBorder; ++i)
-        listFigWork[i]->Shift(listFigWork[i], dx, dy, dz);
+    int vertexUpBorder = (upBorder <= vertices.size() - 1) ? (upBorder) : (vertices.size() - 1);
+    int normalUpBorder = (upBorder <= normals.size() - 1) ? (upBorder) : (normals.size() - 1);
+
+    for (int i = downBorder; i <= vertexUpBorder; ++i)
+    {
+        vertices[i].e[0] += dx;
+        vertices[i].e[1] += dy;
+        vertices[i].e[2] += dz;
+    }
 }
 
 void Scene::RotatePartly(int downBorder, int upBorder, qreal angleOX, qreal angleOY)
 {
-    for (int i = downBorder; i <= upBorder; ++i)
-        listFigWork[i]->Rotate(listFigOrig[i], angleOX, angleOY);
+    int vertexUpBorder = (upBorder > vertices.size() - 1) ? (upBorder) : (vertices.size() - 1);
+    int normalUpBorder = (upBorder > normals.size() - 1) ? (upBorder) : (normals.size() - 1);
+
+    angleOX *= Pi / 180;
+    angleOY *= Pi / 180;
+
+    for (int i = downBorder; i <= vertexUpBorder; ++i)
+    {
+        vertices[i].e[0] = originalVertices[i].e[0] * cos(angleOY) +
+                originalVertices[i].e[2] * sin(angleOY);
+
+        qreal newZ = - originalVertices[i].e[0] * sin(angleOY) +
+                originalVertices[i].e[2] * cos(angleOY);
+
+        vertices[i].e[1] = originalVertices[i].e[1] * cos(angleOX) - newZ * sin(angleOX);
+        vertices[i].e[2] = originalVertices[i].e[1] * sin(angleOX) + newZ * cos(angleOX);
+    }
+
+    for (int i = downBorder; i <= normalUpBorder; ++i)
+    {
+        normals[i].e[0] = originalNormals[i].e[0] * cos(angleOY) +
+                originalNormals[i].e[2] * sin(angleOY);
+        qreal newZ = - originalNormals[i].e[0] * sin(angleOY) +
+                originalNormals[i].e[2] * cos(angleOY);
+
+        normals[i].e[1] = originalNormals[i].e[1] * cos(angleOX) - newZ * sin(angleOX);
+        normals[i].e[2] = originalNormals[i].e[1] * sin(angleOX) + newZ * cos(angleOX);
+    }
 }
 
 void Scene::PerspectivePartly(int downBorder, int upBorder)
 {
-    for (int i = downBorder; i <= upBorder; ++i)
-        listFigWork[i]->Perspective(listFigWork[i]);
+    int vertexUpBorder = (upBorder > vertices.size() - 1) ? (upBorder) : (vertices.size() - 1);
+
+    qreal fov = 700; // field of view - поле зрения
+    qreal absZ;
+    for (int i = downBorder; i <= vertexUpBorder; ++i)
+    {
+        absZ = fabs(vertices[i].e[2]);
+        vertices[i].e[0] =  originalVertices[i].e[0] / absZ * fov;
+        vertices[i].e[1] =  originalVertices[i].e[1] / absZ * fov;
+    }
 }
 
 Scene::Scene()
@@ -65,9 +106,9 @@ void Scene::LoadScene(SceneMetaData *sceneMetaData)
     for (int i = 0; i < sceneMetaData->getListFig().size(); ++i)
     {
         Figure *objLoader = new Figure();
-        qDebug() << "loading " << sceneMetaData->getListFig()[i]->GetFileName();
+        //qDebug() << "loading " << sceneMetaData->getListFig()[i]->GetFileName();
         objLoader->load(sceneMetaData->getListFig()[i]->GetFileName().toLocal8Bit().constData());
-        qDebug() << "loading completed " << sceneMetaData->getListFig()[i]->GetFileName();
+        //qDebug() << "loading completed " << sceneMetaData->getListFig()[i]->GetFileName();
 
         objLoader->Shift(objLoader, sceneMetaData->getListFig()[i]->GetPos().rx() -
                         sceneMetaData->GetSceneLengthOX() / 2, 0,
@@ -82,8 +123,8 @@ void Scene::LoadScene(SceneMetaData *sceneMetaData)
     listFigOrig.push_back(Figure::CreateFloor(sceneMetaData->GetSceneLengthOX(), sceneMetaData->GetSceneLengthOZ()));
 
     // Копирование оригинала в рабочую копию
-    for (int i = 0; i < listFigOrig.size(); ++i)
-        listFigWork.push_back((*listFigOrig[i]).Clone());
+//    for (int i = 0; i < listFigOrig.size(); ++i)
+//        listFigWork.push_back((*listFigOrig[i]).Clone());
 
     //----------------
     int surfacesCount = 0;
@@ -126,24 +167,24 @@ void Scene::Clear()
 }
 
 void Scene::Shift(qreal dx, qreal dy, qreal dz)
-{
+{   
+    int maximalVec = (vertices.size() > normals.size()) ? (vertices.size()) : (normals.size());
     if (CORES_COUNT < 3)
     {
-        ShiftPartly(0, listFigOrig.size() - 1, dx, dy, dz);
+        ShiftPartly(0, maximalVec - 1, dx, dy, dz);
     }
     else
     {
-        int nExtraThreads = (CORES_COUNT - 1 < listFigOrig.size()) ?
-                    (CORES_COUNT - 2) : (listFigOrig.size() - 1);
+        int nExtraThreads = (CORES_COUNT - 1 < maximalVec) ?
+                    (CORES_COUNT - 2) : (maximalVec - 1);
         QList<QFuture<void> > future;
-        //QFuture<void> future[nExtraThreads];
-        int nModelsForThread = listFigOrig.size() / (nExtraThreads + 1);
+        int nModelsForThread = maximalVec / (nExtraThreads + 1);
 
         for (int i = 0; i < nExtraThreads; ++i)
             future.append(QtConcurrent::run(this, &Scene::ShiftPartly,
                   i * nModelsForThread, (i + 1) * nModelsForThread - 1, dx, dy, dz));
 
-        ShiftPartly(nExtraThreads * nModelsForThread, listFigOrig.size() - 1, dx, dy, dz);
+        ShiftPartly(nExtraThreads * nModelsForThread, maximalVec - 1, dx, dy, dz);
 
         for (int i = 0; i < nExtraThreads; ++i)
             future[i].waitForFinished();
@@ -152,23 +193,23 @@ void Scene::Shift(qreal dx, qreal dy, qreal dz)
 
 void Scene::Rotate(qreal angleOX, qreal angleOY)
 {
+    int maximalVec = (vertices.size() > normals.size()) ? (vertices.size()) : (normals.size());
     if (CORES_COUNT < 3)
     {
-        RotatePartly(0, listFigOrig.size() - 1, angleOX, angleOY);
+        RotatePartly(0, maximalVec - 1, angleOX, angleOY);
     }
     else
     {
-        int nExtraThreads = (CORES_COUNT - 1 < listFigOrig.size()) ?
-                    (CORES_COUNT - 2) : (listFigOrig.size() - 1);
-        //QFuture<void> future[nExtraThreads];
+        int nExtraThreads = (CORES_COUNT - 1 < maximalVec) ?
+                    (CORES_COUNT - 2) : (maximalVec - 1);
         QList<QFuture<void> > future;
-        int nModelsForThread = listFigOrig.size() / (nExtraThreads + 1);
+        int nModelsForThread = maximalVec / (nExtraThreads + 1);
 
         for (int i = 0; i < nExtraThreads; ++i)
             future.append(QtConcurrent::run(this, &Scene::RotatePartly,
                   i * nModelsForThread, (i + 1) * nModelsForThread - 1, angleOX, angleOY));
 
-        RotatePartly(nExtraThreads * nModelsForThread, listFigOrig.size() - 1, angleOX, angleOY);
+        RotatePartly(nExtraThreads * nModelsForThread, maximalVec - 1, angleOX, angleOY);
 
         for (int i = 0; i < nExtraThreads; ++i)
             future[i].waitForFinished();
@@ -177,23 +218,23 @@ void Scene::Rotate(qreal angleOX, qreal angleOY)
 
 void Scene::Perspective()
 {
+    int maximalVec = (vertices.size() > normals.size()) ? (vertices.size()) : (normals.size());
     if (CORES_COUNT < 3)
     {
-        PerspectivePartly(0, listFigOrig.size() - 1);
+        PerspectivePartly(0, maximalVec - 1);
     }
     else
     {
-        int nExtraThreads = (CORES_COUNT - 1 < listFigOrig.size()) ?
-                    (CORES_COUNT - 2) : (listFigOrig.size() - 1);
-        //QFuture<void> future[nExtraThreads];
+        int nExtraThreads = (CORES_COUNT - 1 < maximalVec) ?
+                    (CORES_COUNT - 2) : (maximalVec - 1);
         QList<QFuture<void> > future;
-        int nModelsForThread = listFigOrig.size() / (nExtraThreads + 1);
+        int nModelsForThread = maximalVec / (nExtraThreads + 1);
 
         for (int i = 0; i < nExtraThreads; ++i)
             future.append(QtConcurrent::run(this, &Scene::PerspectivePartly,
                   i * nModelsForThread, (i + 1) * nModelsForThread - 1));
 
-        PerspectivePartly(nExtraThreads * nModelsForThread, listFigOrig.size() - 1);
+        PerspectivePartly(nExtraThreads * nModelsForThread, maximalVec - 1);
 
         for (int i = 0; i < nExtraThreads; ++i)
             future[i].waitForFinished();
