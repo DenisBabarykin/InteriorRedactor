@@ -32,6 +32,32 @@ Scene::~Scene()
     Clear();
 }
 
+void Scene::ContainersFill()
+{
+    for (int i = 0, k = 0, a = 0, b = 0, c = 0; i < listFigOrig.size(); ++i)
+    {
+        for (int j = 0; j < listFigOrig[i]->faceCount; ++j)
+        {
+            for (int v = 0; v < 3; ++v)
+                surfaces[c].vertexIndexes[v] = listFigOrig[i]->faceList[j]->vertex_index[v] + k;
+
+            for (int v = 0; v < 3; ++v)
+                surfaces[c].normalIndexes[v] = listFigOrig[i]->faceList[j]->normal_index[v] + a;
+
+            surfaces[c].materialIndex = listFigOrig[i]->faceList[j]->material_index + b;
+        }
+
+        for (int j = 0; j < listFigOrig[i]->vertexCount; ++j)
+            originalVertices[k++] = *(listFigOrig[i]->vertexList[j]);
+
+        for (int j = 0; j < listFigOrig[i]->normalCount; ++j)
+            originalNormals[a++] = *(listFigOrig[i]->normalList[j]);
+
+        for (int j = 0; j < listFigOrig[i]->materialCount; ++j)
+            materials[b++] = *(listFigOrig[i]->materialList[j]);
+    }
+}
+
 void Scene::LoadScene(SceneMetaData *sceneMetaData)
 {
     Clear();
@@ -58,6 +84,27 @@ void Scene::LoadScene(SceneMetaData *sceneMetaData)
     // Копирование оригинала в рабочую копию
     for (int i = 0; i < listFigOrig.size(); ++i)
         listFigWork.push_back((*listFigOrig[i]).Clone());
+
+    //----------------
+    int surfacesCount = 0;
+    int verticesCount = 0;
+    int normalsCount = 0;
+    int materialsCount = 0;
+    for (int i = 0; i < listFigOrig.size(); ++i)
+    {
+        surfacesCount += listFigOrig[i]->faceCount;
+        verticesCount += listFigOrig[i]->vertexCount;
+        normalsCount += listFigOrig[i]->normalCount;
+        materialsCount += listFigOrig[i]->materialCount;
+    }
+    surfaces.resize(surfacesCount);
+    originalVertices.resize(verticesCount);
+    vertices.resize((verticesCount));
+    originalNormals.resize(normalsCount);
+    normals.resize((normalsCount));
+    materials.resize(materialsCount);
+
+    ContainersFill();
 
     emit SceneActionDoneSignal();
 }

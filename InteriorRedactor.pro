@@ -86,7 +86,8 @@ HEADERS  += MainForm.h \
     Painter/ColorSimpleZBuffer.h \
     Painter/SimpleLightZBuffer.h \
     Painter/Polygon.h \
-    Painter/LightZBuffer.h
+    Painter/LightZBuffer.h \
+    Painter/Surface.h
 
 
 FORMS    += MainForm.ui \

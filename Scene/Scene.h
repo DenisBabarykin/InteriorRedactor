@@ -4,6 +4,10 @@
 #include <QObject>
 #include "./Figure/Figure.h"
 #include "SceneMetaData.h"
+#include "./Painter/Surface.h"
+#include <vector>
+
+using namespace std;
 
 class Painter;
 
@@ -16,10 +20,19 @@ private:
     QList<Figure *> listFigOrig; // Оригинал
     QList<Figure *> listFigWork; // Рабочая копия
 
+    vector<Surface> surfaces;
+    vector<ObjVector> vertices;
+    vector<ObjVector> originalVertices;
+    vector<ObjVector> normals;
+    vector<ObjVector> originalNormals;
+    vector<ObjMaterial> materials;
+
 private:
     void ShiftPartly(int downBorder, int upBorder, qreal dx, qreal dy, qreal dz); // изменения включительно с границами
     void RotatePartly(int downBorder, int upBorder, qreal angleOX, qreal angleOY);
     void PerspectivePartly(int downBorder, int upBorder);
+
+    void ContainersFill();
 
 public:
     Scene();

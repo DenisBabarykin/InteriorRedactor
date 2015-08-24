@@ -215,12 +215,12 @@ void SceneRedactorForm::on_lswdgExistingObjects_itemClicked(QListWidgetItem *ite
 
 void SceneRedactorForm::on_btnOk_clicked()
 {
-    QList<FigureMetaData *> list;
-    for (int i = 0; i < listExObj.size(); ++i)
-    {
-        list.push_back(new FigureMetaData());
-        *list[i] = *listExObj[i];
-    }
+//    QList<FigureMetaData *> list;
+//    for (int i = 0; i < listExObj.size(); ++i)
+//    {
+//        list.push_back(new FigureMetaData());
+//        *list[i] = *listExObj[i];
+//    }
     emit sceneEditedSignal(SceneMetaData(graphicsScene.width(), graphicsScene.height(), listExObj));
     hide();
 }
