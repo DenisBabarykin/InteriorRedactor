@@ -16,6 +16,7 @@ class Scene : public QObject
     Q_OBJECT
 private:
     friend class Painter;
+    friend class
 
     QList<Figure *> listFigOrig; // Оригинал
     QList<Figure *> listFigWork; // Рабочая копия

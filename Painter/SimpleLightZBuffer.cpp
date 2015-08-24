@@ -69,7 +69,7 @@ void SimpleLightZBuffer::Paint(Scene &scene)
 void SimpleLightZBuffer::PutTriangle(Polygon &t, QColor color)
 {
     int ysc, e1;
-    double ymax,ymin;
+    double ymax, ymin;
     double x[3], y[3];
     double z_a[3];
     QColor intense[3];
